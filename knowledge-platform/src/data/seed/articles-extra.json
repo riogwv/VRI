@@ -1,0 +1,1369 @@
+[
+  {
+    "id": "art-moores-law",
+    "title": "Hukum Moore dan Batas Skala Semikonduktor",
+    "summary": "Gordon Moore memperkirakan jumlah transistor ganda setiap ~2 tahun; prediksi ini menginspirasi industri chip meski batas fisika makin dekat.",
+    "category": "technology",
+    "tags": [
+      "chip",
+      "sejarah",
+      "semikonduktor"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Asal prediksi"
+      },
+      {
+        "type": "p",
+        "text": "Pada 1965, Gordon Moore (Intel) menulis bahwa jumlah komponen per chip terintegrasi cenderung berlipat ganda kira-kira setiap tahun. Tahun 1975 prediksi disesuaikan menjadi kira-kira dua tahun. Observasi ini kemudian populer sebagai \"Hukum Moore\" — bukan hukum fisika, melainkan tren industri yang didorong R&D dan ekonomi skala."
+      },
+      {
+        "type": "h2",
+        "text": "Dampak praktis"
+      },
+      {
+        "type": "p",
+        "text": "Selama puluhan tahun, peningkatan kepadatan transistor membuat prosesor lebih cepat dan hemat daya per operasi, sehingga laptop, ponsel, dan cloud computing bisa berkembang pesat. Para perancang chip mengandalkan node proses yang lebih kecil (nm) dan arsitektur baru."
+      },
+      {
+        "type": "h2",
+        "text": "Mengapa melambat"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Efek kuantum dan kebocoran arus makin signifikan pada skala sangat kecil.",
+          "Biaya fabrikasi fab ultra-canggih melonjak drastis.",
+          "Peningkatan performa tunggal core CPU tidak lagi se-linear; optimasi paralel dan akselerator (GPU, TPU) makin penting."
+        ]
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Ringkasan sejarah dan interpretasi Hukum Moore: artikel dan dokumentasi Intel; literatur teknik semikonduktor (IEEE)."
+      }
+    ],
+    "related": [
+      "art-cpu-basics",
+      "art-ram-basics"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-dns-basics",
+    "title": "DNS: Buku Telepon Internet",
+    "summary": "DNS menerjemahkan nama domain seperti example.com menjadi alamat IP agar browser menemukan server yang benar.",
+    "category": "technology",
+    "tags": [
+      "networking",
+      "dns",
+      "internet"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Masalah yang diselesaikan DNS"
+      },
+      {
+        "type": "p",
+        "text": "Manusia lebih mudah mengingat nama domain daripada angka IP (IPv4/IPv6). DNS (Domain Name System) adalah sistem terdistribusi yang menyimpan catatan: nama → alamat IP, mail server, dan data lain."
+      },
+      {
+        "type": "h2",
+        "text": "Alur singkat saat Anda membuka situs"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Browser bertanya ke resolver (biasanya dari ISP atau DNS publik).",
+          "Resolver menanyakan hierarki: root → TLD (.com) → authoritative nameserver domain.",
+          "Jawaban di-cache sesuai TTL untuk mengurangi latensi."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Keamanan"
+      },
+      {
+        "type": "p",
+        "text": "DNSSEC menambahkan tanda tangan kriptografi agar respons DNS lebih sulit dipalsukan. DNS over HTTPS (DoH) mengenkripsi query agar tidak mudah dibaca di jaringan lokal."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Spesifikasi dan penjelasan DNS: RFC 1034/1035; dokumentasi ICANN dan registrars."
+      }
+    ],
+    "related": [
+      "art-https-basics",
+      "art-cpu-basics"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-git-basics",
+    "title": "Git dan Kontrol Versi untuk Pemula",
+    "summary": "Git melacak perubahan kode, memungkinkan kolaborasi tim, cabang fitur, dan rollback yang aman.",
+    "category": "technology",
+    "tags": [
+      "git",
+      "devops",
+      "kolaborasi"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Mengapa kontrol versi"
+      },
+      {
+        "type": "p",
+        "text": "Tanpa kontrol versi, tim mudah saling menimpa file. Git menyimpan snapshot (commit) beserta metadata: siapa, kapan, dan pesan perubahan. Setiap commit merujuk commit sebelumnya sehingga terbentuk riwayat."
+      },
+      {
+        "type": "h2",
+        "text": "Konsep inti"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Repository — folder proyek + database riwayat Git.",
+          "Branch — garis pengembangan paralel (mis. fitur login).",
+          "Merge — menggabungkan branch kembali ke main.",
+          "Remote — salinan di server (GitHub, GitLab, dll.)."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Alur kerja umum"
+      },
+      {
+        "type": "p",
+        "text": "Clone → buat branch → edit → git add → git commit → push → buka pull request → review → merge. Conflict terjadi jika dua branch mengubah baris sama; diselesaikan manual lalu commit."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Dokumentasi resmi Git (git-scm.com) dan Pro Git (Scott Chacon)."
+      }
+    ],
+    "related": [
+      "art-https-basics",
+      "art-dns-basics"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-api-rest",
+    "title": "API REST: Cara Aplikasi Saling Berbicara",
+    "summary": "REST memanfaatkan HTTP (GET, POST, PUT, DELETE) dan URL sumber daya untuk pertukaran data antar layanan.",
+    "category": "technology",
+    "tags": [
+      "api",
+      "web",
+      "backend"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Apa itu API"
+      },
+      {
+        "type": "p",
+        "text": "Application Programming Interface adalah kontrak antar program. REST (Representational State Transfer) adalah gaya arsitektur populer di web: setiap URL mengidentifikasi sumber daya, dan verb HTTP menunjukkan operasi."
+      },
+      {
+        "type": "h2",
+        "text": "Prinsip praktis"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "GET — baca data tanpa mengubah server (idempotent).",
+          "POST — buat sumber daya baru.",
+          "PUT/PATCH — perbarui sebagian atau seluruh.",
+          "DELETE — hapus.",
+          "Gunakan kode status HTTP (200, 201, 404, 422) dengan konsisten."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "JSON dan dokumentasi"
+      },
+      {
+        "type": "p",
+        "text": "Payload umumnya JSON. OpenAPI/Swagger membantu mendokumentasikan endpoint agar frontend dan partner integrasi selaras."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Fielding dissertation (2000) tentang REST; spesifikasi HTTP (IETF RFC 9110)."
+      }
+    ],
+    "related": [
+      "art-git-basics",
+      "art-https-basics"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-storage-basics",
+    "title": "Penyimpanan Data: HDD, SSD, dan Cloud",
+    "summary": "Perbedaan media penyimpanan lokal dan cloud mempengaruhi kecepatan, biaya, dan keandalan aplikasi.",
+    "category": "technology",
+    "tags": [
+      "storage",
+      "ssd",
+      "cloud"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "HDD vs SSD"
+      },
+      {
+        "type": "p",
+        "text": "Hard Disk Drive (HDD) memakai piringan magnetik mekanik — kapasitas besar dengan biaya per GB rendah. Solid State Drive (SSD) memakai flash NAND tanpa bagian bergerak: jauh lebih cepat untuk boot OS dan load aplikasi, tetapi harga per GB lebih tinggi."
+      },
+      {
+        "type": "h2",
+        "text": "Cloud object storage"
+      },
+      {
+        "type": "p",
+        "text": "Layanan seperti S3-compatible storage menyimpan file sebagai objek dengan metadata. Cocok untuk backup, media statis, dan data lake; latensi jaringan perlu diperhitungkan."
+      },
+      {
+        "type": "h2",
+        "text": "Tips praktis"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "OS dan aplikasi utama di SSD; arsip besar di HDD atau cloud.",
+          "Selalu punya backup terpisah (3-2-1 rule: 3 salinan, 2 media, 1 offsite)."
+        ]
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Panduan produsen storage dan dokumentasi cloud provider (AWS, GCP, Azure)."
+      }
+    ],
+    "related": [
+      "art-ram-basics",
+      "art-cpu-basics"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-tls-handshake",
+    "title": "TLS Handshake: Pertukuan Kunci Aman",
+    "summary": "Sebelum data HTTPS terenkripsi, klien dan server sepakat versi TLS, cipher suite, dan kunci sesi.",
+    "category": "technology",
+    "tags": [
+      "keamanan",
+      "tls",
+      "https"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Tujuan handshake"
+      },
+      {
+        "type": "p",
+        "text": "TLS memastikan kerahasiaan (enkripsi), integritas (deteksi manipulasi), dan autentikasi server (sertifikat). Handshake awal bisa 1-RTT (TLS 1.3) atau lebih pada versi lama."
+      },
+      {
+        "type": "h2",
+        "text": "Peran sertifikat"
+      },
+      {
+        "type": "p",
+        "text": "Server present sertifikat X.509 yang ditandatangani Certificate Authority (CA). Browser memverifikasi rantai ke trust store. Sertifikat self-signed hanya cocok untuk development lokal."
+      },
+      {
+        "type": "h2",
+        "text": "TLS 1.3"
+      },
+      {
+        "type": "p",
+        "text": "Versi modern menghapus cipher lemah dan memperpendek handshake, mengurangi latensi sekaligus meningkatkan keamanan default."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "RFC 8446 (TLS 1.3); dokumentasi Mozilla SSL Configuration Generator."
+      }
+    ],
+    "related": [
+      "art-https-basics",
+      "art-dns-basics"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-photosynthesis",
+    "title": "Fotosintesis: Mengubah Cahaya Menjadi Energi Kimia",
+    "summary": "Tumbuhan, alga, dan sebagian bakteri mengubah CO₂ dan air menjadi glukosa dengan bantuan klorofil dan cahaya.",
+    "category": "science",
+    "tags": [
+      "biologi",
+      "tumbuhan",
+      "energi"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Reaksi keseluruhan (disederhanakan)"
+      },
+      {
+        "type": "p",
+        "text": "6 CO₂ + 6 H₂O + cahaya → C₆H₁₂O₆ + 6 O₂. Oksigen yang kita hirup adalah produk samping penting fotosintesis."
+      },
+      {
+        "type": "h2",
+        "text": "Dua tahap utama"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Reaksi terang — di tilakoid kloroplast; energi foton memecah air, menghasilkan ATP, NADPH, dan O₂.",
+          "Siklus Calvin — di stroma; CO₂ difiksasi menjadi gula dengan ATP dan NADPH."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Mengapa penting bagi ekosistem"
+      },
+      {
+        "type": "p",
+        "text": "Fotosintesis menjadi basis rantai makanan dan menyerap karbon dioksida atmosfer. Perubahan iklim mempengaruhi laju fotosintesis global melalui suhu, CO₂, dan kekeringan."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Buku teks biologi sel (Alberts dkk.); NASA Earth Observatory tentang siklus karbon."
+      }
+    ],
+    "related": [
+      "art-gravity-basics",
+      "art-dna-intro"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-gravity-basics",
+    "title": "Gravitasi: Gaya Tarik Massa",
+    "summary": "Newton menjelaskan gravitasi sebagai gaya proporsional massa dan berbanding terbalik kuadrat jarak; Einstein memperluas dengan kelengkungan ruang-waktu.",
+    "category": "science",
+    "tags": [
+      "fisika",
+      "gravitasi",
+      "newton"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Hukum Newton"
+      },
+      {
+        "type": "p",
+        "text": "F = G·m₁·m₂ / r². Semua massa saling tarik; gaya lemah untuk benda kecil, dominan untuk planet dan bintang."
+      },
+      {
+        "type": "h2",
+        "text": "Efek sehari-hari"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Berat badan ≈ massa × percepatan gravitasi lokal (≈9,8 m/s² di permukaan Bumi).",
+          "Orbit satelit dan bulan adalah keseimbangan gravitasi dan kecepatan tangensial."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Relativitas umum (garis besar)"
+      },
+      {
+        "type": "p",
+        "text": "Einstein memodelkan gravitasi bukan sebagai gaya jarak jauh, melainkan kelengkungan ruang-waktu oleh massa-energi. Prediksi seperti presepsi orbit Merkurius dan lensa gravitasi telah teruji observasi."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "NASA Science — Gravity; teks fisika universitas tentang mekanika klasik dan relativitas."
+      }
+    ],
+    "related": [
+      "art-photosynthesis",
+      "art-periodic-table"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-dna-intro",
+    "title": "DNA: Molekul Instruksi Hidup",
+    "summary": "DNA menyimpan informasi genetik dalam urutan basa A, T, C, G yang disalin saat sel membelah.",
+    "category": "science",
+    "tags": [
+      "biologi",
+      "genetika",
+      "dna"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Struktur double helix"
+      },
+      {
+        "type": "p",
+        "text": "Watson, Crick, Franklin, dan Wilkins mengungkap heliks ganda (1953): dua untai komplementer dengan pasangan basa A–T dan C–G, stabil oleh ikatan hidrogen."
+      },
+      {
+        "type": "h2",
+        "text": "Dari gen ke protein"
+      },
+      {
+        "type": "p",
+        "text": "Transkripsi menghasilkan RNA messenger; ribosom menerjemahkan kodon menjadi rangkaian asam amino (protein). Mutasi perubahan urutan dapat netral, menguntungkan, atau merugikan."
+      },
+      {
+        "type": "h2",
+        "text": "Aplikasi modern"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Diagnostik medis dan skrining genetik.",
+          "Forensik dan identifikasi.",
+          "Biologi sintetis — desain sekuens dengan prinsip etika ketat."
+        ]
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "NIH Genetics Home Reference; Nature Education Scitable — DNA structure."
+      }
+    ],
+    "related": [
+      "art-photosynthesis",
+      "art-climate-basics"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-periodic-table",
+    "title": "Tabel Periodik: Peta Elemen",
+    "summary": "Susunan periodik Mendeleev mengelompokkan elemen menurut nomor atom dan sifat berulang (periodisitas).",
+    "category": "science",
+    "tags": [
+      "kimia",
+      "elemen",
+      "mendeleev"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Nomor atom dan massa"
+      },
+      {
+        "type": "p",
+        "text": "Nomor atom (Z) = jumlah proton; menentukan identitas elemen. Isotop memiliki neutron berbeda; massa atom rata-rata tercermin pada massa periodik."
+      },
+      {
+        "type": "h2",
+        "text": "Golongan dan periode"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Golongan (kolom) — valensi elektron serupa (mis. gas mulia, halogen).",
+          "Periode (baris) — lapis elektron bertambah.",
+          "Logam, metalloid, dan nonlogam terletak di area berbeda."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Elemen sintetis"
+      },
+      {
+        "type": "p",
+        "text": "Elemen transuranium (atom >92) umumnya tidak stabil radioaktif; diciptakan di reaktor atau akselerator partikel."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "IUPAC Periodic Table of Elements; Royal Society of Chemistry education resources."
+      }
+    ],
+    "related": [
+      "art-gravity-basics",
+      "art-climate-basics"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-climate-basics",
+    "title": "Perubahan Iklim: Evidensi dan Mekanisme",
+    "summary": "Peningkatan gas rumah kaca dari aktivitas manusia memanaskan atmosfer; konsensus ilmiah didukung data multi-decade.",
+    "category": "science",
+    "tags": [
+      "iklim",
+      "lingkungan",
+      "co2"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Bukti observasi"
+      },
+      {
+        "type": "p",
+        "text": "Rekor suhu permukaan, pencairan es kutub, kenaikan permukaan laut, dan perubahan pola cuaca ekstrem konsisten dengan model fisika atmosfer. Badan seperti IPCC mensintesis ribuan studi."
+      },
+      {
+        "type": "h2",
+        "text": "Mekanisme utama"
+      },
+      {
+        "type": "p",
+        "text": "CO₂, CH₄, dan N₂O menahan radiasi inframerah. Membakar bahan bakar fosil, deforestasi, dan industri semen/pertanian meningkatkan konsentrasi atmosfer."
+      },
+      {
+        "type": "h2",
+        "text": "Mitigasi dan adaptasi"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Transisi energi terbarukan dan efisiensi.",
+          "Carbon capture (dengan trade-off biaya).",
+          "Adaptasi infrastruktur pesisir dan pertanian."
+        ]
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Laporan IPCC Assessment Reports; NOAA Global Climate Dashboard."
+      }
+    ],
+    "related": [
+      "art-photosynthesis",
+      "art-dna-intro"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-vaccines-immune",
+    "title": "Vaksin dan Sistem Imun",
+    "summary": "Vaksin melatih imunitas adaptif mengenali patogen tanpa penyakit penuh, melalui antigen mati/lemah atau platform mRNA.",
+    "category": "science",
+    "tags": [
+      "kesehatan",
+      "imunologi",
+      "vaksin"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Imunitas innate vs adaptif"
+      },
+      {
+        "type": "p",
+        "text": "Imunitas bawaan merespons cepat secara umum. Imunitas adaptif (sel B dan T) membentuk memori spesifik antigen — dasar efek vaksin."
+      },
+      {
+        "type": "h2",
+        "text": "Jenis vaksin"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Inactivated/attenuated — virus dibunuh atau dilemahkan.",
+          "Subunit/rekombinan — protein spesifik saja.",
+          "mRNA — sel host memproduksi protein antigen sementara."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Keamanan dan efektivitas"
+      },
+      {
+        "type": "p",
+        "text": "Vaksin melewati uji klinis fase I–III sebelum disetujui regulator (FDA, EMA, BPOM). Efek samping umum ringan (demam, nyeri injeksi); monitoring berkelanjutan via pharmacovigilance."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "WHO Vaccines explainer; CDC Immunization guidelines."
+      }
+    ],
+    "related": [
+      "art-dna-intro",
+      "art-climate-basics"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-chess-opening",
+    "title": "Pembukaan Catur: Prinsip Dasar",
+    "summary": "Kontrol pusat, kembangkan pieza ringan, amankan raja — prinsip yang mendasari pembukaan klasik.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "pembukaan",
+      "strategi"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Tujuan pembukaan"
+      },
+      {
+        "type": "p",
+        "text": "Pembukaan bukan hafalan langkah, melainkan rencana: tempati kotak sentral (e4, d4, e5, d5), kembangkan kuda dan gajah, rokade cepat, hindari gerak pieza yang sama berulang tanpa alasan."
+      },
+      {
+        "type": "h2",
+        "text": "Contoh populer"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Italian Game — 1.e4 e5 2.Nf3 Nc6 3.Bc4 fokus pusat dan serangan cepat.",
+          "Queen's Gambit — 1.d4 d5 2.c4 menawarkan pion untuk kontrol pusat.",
+          "Sicilian Defense — 1.e4 c5 asymetris hitam."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Kesalahan pemula"
+      },
+      {
+        "type": "p",
+        "text": "Menggerakkan ratu terlalu awal, mengabaikan rokade, atau membuka diagonal terhadap raja sendiri sering dihukum taktik lawan."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Buku pembukaan resmi FIDE; Lichess opening explorer (database partai)."
+      }
+    ],
+    "related": [
+      "art-chess-fork",
+      "art-chess-endgame"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-chess-endgame",
+    "title": "Endgame Catur: Raja Aktif dan Promosi",
+    "summary": "Saat pieza berkurang, raja menjadi kuat; promosi pion sering menentukan hasil.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "endgame",
+      "pion"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Prinsip endgame"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Aktifkan raja — maju ke pusat, jangan tinggal di pojok.",
+          "Pion lewat (passed pawn) harus didorong dengan dukungan raja.",
+          "Opposisi dan zugzwang dapat memaksa lawan gerak merugikan."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Raja dan pion vs raja"
+      },
+      {
+        "type": "p",
+        "text": "Pion di baris ke-7 dengan raja mendukung biasanya menang jika kotak promosi dapat dijaga. Pelajari \"kotak promosi\" dan trik stalemate agar tidak remis kehilangan menang."
+      },
+      {
+        "type": "h2",
+        "text": "Latihan"
+      },
+      {
+        "type": "p",
+        "text": "Gunakan puzzle endgame di Lichess atau platform lokal; pahami Lucena dan Philidor pada rook endgame klasik."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Silman — Complete Endgame Course; tablebase online untuk posisi ≤7 piece."
+      }
+    ],
+    "related": [
+      "art-chess-opening",
+      "art-chess-fork"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-chess-skewer",
+    "title": "Taktik Catur: Skewer (Tusuk)",
+    "summary": "Skewer menyerang pieza berharga di depan sehingga pieza di belakangnya dapat ditangkap setelah yang depan minggat.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "taktik",
+      "skewer"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Skewer vs pin"
+      },
+      {
+        "type": "p",
+        "text": "Pin menahan pieza depan karena pieza berharga di belakang. Skewer kebalikannya: pieza depan (sering raja atau ratu) terpaksa minggat, memperlihatkan pieza di belakang."
+      },
+      {
+        "type": "h2",
+        "text": "Contoh bidak"
+      },
+      {
+        "type": "p",
+        "text": "Bidak putih di diagonal mengecek raja hitam; raja minggat, bidak menangkap ratu di belakangnya. Skewer absolut dengan raja sangat kuat karena raja harus gerak."
+      },
+      {
+        "type": "h2",
+        "text": "Tips"
+      },
+      {
+        "type": "p",
+        "text": "Periksa garis bidak dan rook setiap langkah; perhatikan urutan cek yang membuka skewer."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Chess.com / Lichess tactics trainer — tema skewer."
+      }
+    ],
+    "related": [
+      "art-chess-pin",
+      "art-chess-fork"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-chess-notation",
+    "title": "Notasi Catur Algebraik",
+    "summary": "Notasi SAN/algebraik standar (e4, Nf3, O-O) memudahkan rekam partai dan baca buku catur.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "notasi",
+      "pembelajaran"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Kolom dan baris"
+      },
+      {
+        "type": "p",
+        "text": "Kolom a–h dari kiri (sisi putih) ke kanan; baris 1–8 dari dekat putih ke hitam. e4 berarti pion ke e4."
+      },
+      {
+        "type": "h2",
+        "text": "Simbol pieza"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "K raja",
+          "Q ratu",
+          "R benteng",
+          "B gajah",
+          "N kuda",
+          "Pion tanpa huruf"
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Rokade dan simbol lain"
+      },
+      {
+        "type": "p",
+        "text": "O-O rokade sayap menteri; O-O-O sayap ratu. + cek, # mat, x tangkap, !? langkah menarik."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "FIDE Laws of Chess — appendix notation."
+      }
+    ],
+    "related": [
+      "art-chess-opening",
+      "art-chess-fork"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-chess-blitz",
+    "title": "Blitz dan Rapid: Catur Bertempo",
+    "summary": "Kontrol waktu mengubah gaya: blitz (≤3 menit) menuntut intuisi taktik; rapid memberi ruang perhitungan.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "waktu",
+      "blitz"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Klasifikasi FIDE"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Classical — lebih dari 60 menit per pemain.",
+          "Rapid — lebih dari 10, kurang dari 60 menit.",
+          "Blitz — 10 menit atau kurang (termasuk increment kecil)."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Increment (Fischer)"
+      },
+      {
+        "type": "p",
+        "text": "Setiap langkah menambah detik (mis. +2 detik) sehingga partai tidak selalu habis di time scramble murni."
+      },
+      {
+        "type": "h2",
+        "text": "Online vs OTB"
+      },
+      {
+        "type": "p",
+        "text": "Lichess/Chess.com menggunakan server clock; over-the-board memakai jam fisik dengan tombol lever."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "FIDE handbook — time controls; Lichess FAQ waktu."
+      }
+    ],
+    "related": [
+      "art-chess-notation",
+      "art-chess-endgame"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-anime-studio-ghibli",
+    "title": "Studio Ghibli: Animasi dengan Jiwa Ekologi",
+    "summary": "Ghibli dipimpin Miyazaki dan Takahata, dikenal karya seperti Totoro, Mononoke, dan Spirited Away.",
+    "category": "anime",
+    "tags": [
+      "anime",
+      "ghibli",
+      "miyazaki"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Sejarah singkat"
+      },
+      {
+        "type": "p",
+        "text": "Didirikan 1985 setelah sukses Nausicaä. Nama dari Libyan Arabic \"ghibli\" (angin panas Sahara). Film-film Ghibli sering menonjolkan alam, pacifisme, dan heroine muda."
+      },
+      {
+        "type": "h2",
+        "text": "Karya landmark"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "My Neighbor Totoro (1988) — ikon budaya pop Jepang.",
+          "Princess Mononoke (1997) — tema industri vs hutan.",
+          "Spirited Away (2001) — Oscar Best Animated Feature."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Gaya produksi"
+      },
+      {
+        "type": "p",
+        "text": "Banyak adegan animasi tradisional; latar detail hand-painted. Musik sering oleh Joe Hisaishi. (Informasi canon dari rilis resmi dan wawancara sutradara.)"
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Situs resmi Studio Ghibli; data film di MyAnimeList/ANN untuk tanggal rilis."
+      }
+    ],
+    "related": [
+      "art-anime-otaku",
+      "art-anime-manga-diff"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-anime-manga-diff",
+    "title": "Perbedaan Anime dan Manga",
+    "summary": "Manga adalah komik Jepang cetak/digital; anime adalah adaptasi animasi (atau karya orisinal animasi).",
+    "category": "anime",
+    "tags": [
+      "anime",
+      "manga",
+      "budaya"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Manga"
+      },
+      {
+        "type": "p",
+        "text": "Dibaca kanan-ke-kiri dalam edisi Jepang; genre sangat luas (shonen, seinen, josei, slice of life). Banyak anime adalah adaptasi manga, light novel, atau game."
+      },
+      {
+        "type": "h2",
+        "text": "Anime"
+      },
+      {
+        "type": "p",
+        "text": "Produksi kolaboratif studio, sutradara, seiyuu, dan komposer. Episode TV ~24 menit; film layar lebar durasi lebih panjang. Adaptasi bisa faithful atau divergen (Canon vs filler — cek daftar episode resmi)."
+      },
+      {
+        "type": "h2",
+        "text": "Di mana memulai"
+      },
+      {
+        "type": "p",
+        "text": "Pilih satu judul populer sesuai selera; verifikasi rating usia dan content warning di database resmi distributor."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "ANN encyclopedia; Shonen Jump / publisher sites untuk manga serial."
+      }
+    ],
+    "related": [
+      "art-anime-studio-ghibli",
+      "art-anime-otaku"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-anime-seiyuu",
+    "title": "Seiyuu: Pengisi Suara di Industri Anime",
+    "summary": "Seiyuu (voice actor) Jepang sering juga bernyanyi tema OP/ED dan tampil di event fan.",
+    "category": "anime",
+    "tags": [
+      "anime",
+      "seiyuu",
+      "industri"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Peran seiyuu"
+      },
+      {
+        "type": "p",
+        "text": "Mengisi dialog karakter, narasi, dan kadang dubbing game. Casting dipengaruhi timbre suara, chemistry antar pemeran, dan popularitas idola seiyuu."
+      },
+      {
+        "type": "h2",
+        "text": "Latihan dan industri"
+      },
+      {
+        "type": "p",
+        "text": "Banyak lulus sekolah seiyuu; kompetisi ketat. Kontrak bisa per judul atau agency. (Spesifik gaji bervariasi; angka pasti jarang publik.)"
+      },
+      {
+        "type": "h2",
+        "text": "Fan culture"
+      },
+      {
+        "type": "p",
+        "text": "Event AnimeJapan, Comiket, dan live concert tema anime mempererat hubungan seiyuu-fans; hormati batas privasi artis."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Agency profiles resmi; interview di Animage/Newtype (sumber sekunder industri)."
+      }
+    ],
+    "related": [
+      "art-anime-manga-diff",
+      "art-anime-otaku"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-anime-shonen",
+    "title": "Genre Shonen: Aksi, Persahabatan, Pertumbuhan",
+    "summary": "Shonen ditujukan remaja laki-laki (bukan exclusif); tema umum: latihan, rival, melindungi teman.",
+    "category": "anime",
+    "tags": [
+      "anime",
+      "shonen",
+      "genre"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Ciri umum"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Protagonis underdog yang berkembang kuat.",
+          "Grup teman (nakama) dan mentor.",
+          "Arc turnamen atau pertarungan bergelombang."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Contoh populer (canon publikasi)"
+      },
+      {
+        "type": "p",
+        "text": "One Piece (Oda), Naruto (Kishimoto), Dragon Ball (Toriyama), My Hero Academia (Horikoshi) — masing-masing punya manga serial resmi di Weekly Shonen Jump atau majalah sejenis."
+      },
+      {
+        "type": "h2",
+        "text": "Kritik sehat"
+      },
+      {
+        "type": "p",
+        "text": "Beberapa shonen panjang punya pacing lambat atau filler anime; cek panduan episode filler komunitas resmi atau database episode."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Viz Media / MANGA Plus untuk rilis legal manga; Shonen Jump catalog."
+      }
+    ],
+    "related": [
+      "art-anime-manga-diff",
+      "art-anime-isekai"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-anime-isekai",
+    "title": "Isekai: Ketika Protagonis Pindah Dunia",
+    "summary": "Subgenre isekai menempatkan karakter dari dunia modern ke fantasi; populer di 2010-an via light novel dan anime adaptasi.",
+    "category": "anime",
+    "tags": [
+      "anime",
+      "isekai",
+      "light-novel"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Tropes umum"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Truck-kun (celaka lalu reinkarnasi) — meme fan, bukan aturan canon.",
+          "Sistem level/status seperti RPG.",
+          "Kekuatan unik (cheat skill) dari reinkarnasi."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Contoh terkenal"
+      },
+      {
+        "type": "p",
+        "text": "Re:Zero, Konosuba, Mushoku Tensei — masing-masing tone berbeda (gelap vs komedi vs coming-of-age). Spesifik plot mengacu pada light novel/anime resmi."
+      },
+      {
+        "type": "h2",
+        "text": "Teori vs canon"
+      },
+      {
+        "type": "p",
+        "text": "Interpretasi fan tentang multiverse atau power scaling adalah spekulasi unless disebut eksplisit di sumber resmi."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "MyAnimeList tags; publisher Kadokawa/Square Enix untuk LN orisinal."
+      }
+    ],
+    "related": [
+      "art-anime-shonen",
+      "art-anime-manga-diff"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-anime-production",
+    "title": "Pipeline Produksi Anime TV",
+    "summary": "Dari treatment hingga sakuga: produksi anime melibatkan studio, outsourcing, dan jadwal ketat per episode.",
+    "category": "anime",
+    "tags": [
+      "anime",
+      "produksi",
+      "industri"
+    ],
+    "content": [
+      {
+        "type": "h2",
+        "text": "Tahap pra-produksi"
+      },
+      {
+        "type": "p",
+        "text": "Committee (sponsor) → scenario → character design → storyboard. Director (kantoku) mengarahkan visi; series composer mengatur alur episodik."
+      },
+      {
+        "type": "h2",
+        "text": "Produksi"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Layout → key animation → in-between → coloring (digital cel).",
+          "Banyak studio outsource ke studio kecil (animasi jarak jauh).",
+          "Crunch sebelum on-air — isu tenaga kerja sering dilaporkan media industri."
+        ]
+      },
+      {
+        "type": "h2",
+        "text": "Distribusi"
+      },
+      {
+        "type": "p",
+        "text": "Siaran TV Jepang, streaming global (Crunchyroll, Netflix, dll.), home video, dan merchandise."
+      },
+      {
+        "type": "h3",
+        "text": "Referensi"
+      },
+      {
+        "type": "p",
+        "text": "Sakuga Blog; ANN industry news; laporan Association of Japanese Animations."
+      }
+    ],
+    "related": [
+      "art-anime-seiyuu",
+      "art-anime-studio-ghibli"
+    ],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-04-01",
+    "updatedAt": "2026-04-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  }
+]

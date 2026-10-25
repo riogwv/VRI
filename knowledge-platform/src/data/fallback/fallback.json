@@ -1,0 +1,20 @@
+{
+  "news": [
+    {
+      "id": "fallback-news-1",
+      "title": "Perkembangan AI dalam Komputasi Awan",
+      "summary": "Konten ini adalah data cadangan lokal. Berita aktual tersedia melalui GNews (mengatur kunci API di Edge Function).",
+      "source": "Lokal (cadangan)",
+      "url": "#",
+      "publishedAt": "2026-01-01T00:00:00Z",
+      "image": null,
+      "category": "teknologi",
+      "isFallback": true
+    }
+  ],
+  "articles": [],
+  "funFacts": [],
+  "trivia": [],
+  "anime": [],
+  "chess": []
+}

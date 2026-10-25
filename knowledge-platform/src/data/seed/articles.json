@@ -1,0 +1,142 @@
+[
+  {
+    "id": "art-cpu-basics",
+    "title": "CPU (Central Processing Unit): Otak Komputer",
+    "summary": "CPU adalah komponen utama komputer yang mengeksekusi instruksi program melalui siklus ambil-dekode-eksekusi.",
+    "category": "technology",
+    "tags": ["hardware", "cpu", "komputer"],
+    "content": [
+      { "type": "h2", "text": "Apa itu CPU?" },
+      { "type": "p", "text": "CPU (Central Processing Unit) sering disebut sebagai \"otak\" komputer. Ini adalah komponen elektronik utama dalam sebuah komputer yang mengeksekusi instruksi dari perangkat lunak dengan melakukan operasi aritmatika, logika, kontrol, dan input/output (I/O) yang ditentukan oleh instruksi tersebut." },
+      { "type": "h2", "text": "Komponen Utama CPU" },
+      { "type": "ul", "items": ["Unit Aritmatika Logika (ALU) — melakukan operasi aritmatika dan logika.", "Unit Kontrol (CU) — mengarahkan aliran data dalam CPU.", "Register — penyimpanan sangat cepat untuk data yang sedang diproses.", "Cache — memori kecil dan cepat untuk data yang sering diakses."] },
+      { "type": "h2", "text": "Siklus Fetch-Decode-Execute" },
+      { "type": "p", "text": "CPU bekerja dalam siklus berulang: mengambil instruksi dari memori (fetch), mencari tahu instruksi apa yang harus dilakukan (decode), lalu mengeksekusinya (execute)." },
+      { "type": "h3", "text": "Referensi" },
+      { "type": "p", "text": "Pelajari lebih lanjut pada sumber terpercaya tentang arsitektur komputer dan organisasi CPU." }
+    ],
+    "related": ["art-ram-basics", "art-moores-law"],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-01-10",
+    "updatedAt": "2026-01-10",
+    "readTime": 4,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-ram-basics",
+    "title": "RAM (Random Access Memory): Memori Sementara",
+    "summary": "RAM adalah memori volatil yang menyimpan data yang sedang digunakan oleh CPU untuk akses cepat.",
+    "category": "technology",
+    "tags": ["hardware", "ram", "memori"],
+    "content": [
+      { "type": "h2", "text": "Apa itu RAM?" },
+      { "type": "p", "text": "RAM adalah memori komputer yang dapat dibaca dan ditulis secara acak. Data yang disimpan di RAM hilang ketika komputer dimatikan (volatil). RAM memungkinkan CPU mengakses data yang sedang digunakan aplikasi dengan kecepatan tinggi." },
+      { "type": "h2", "text": "DRAM vs SRAM" },
+      { "type": "ul", "items": ["DRAM (Dynamic RAM) — lebih murah, digunakan sebagai memori utama, perlu direfresh berkala.", "SRAM (Static RAM) — lebih cepat dan mahal, digunakan sebagai cache CPU."] },
+      { "type": "h2", "text": "Mengapa RAM Penting?" },
+      { "type": "p", "text": "Semakin besar RAM, semakin banyak aplikasi yang dapat berjalan bersamaan tanpa memperlambat komputer." }
+    ],
+    "related": ["art-cpu-basics", "art-storage-basics"],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-01-12",
+    "updatedAt": "2026-01-12",
+    "readTime": 3,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-chess-fork",
+    "title": "Taktik Catur: Fork (Cabangan)",
+    "summary": "Fork adalah taktik catur di mana satu pieza menyerang dua atau lebih pieza lawan secara bersamaan.",
+    "category": "chess",
+    "tags": ["catur", "taktik", "fork"],
+    "content": [
+      { "type": "h2", "text": "Apa itu Fork?" },
+      { "type": "p", "text": "Fork (atau cabangan) terjadi ketika satu pieza dari sisi Anda menyerang dua atau lebih pieza lawan pada satu waktu. Lawan hanya bisa menyelamatkan satu pieza, sehingga yang lain akan ditangkap." },
+      { "type": "h2", "text": "Kuda (Knight) dalam Fork" },
+      { "type": "p", "text": "Kuda adalah pieza yang paling efektif untuk fork karena gerakannya yang unik (L-shape), yang dapat menyerang dua pieza tanpa itself terancam." },
+      { "type": "h3", "text": "Contoh" },
+      { "type": "p", "text": "Kuda di d5 dapat menyerang raja di c6 dan ratu di e4 sekaligus. Hitam harus gerakkan raja, kemudian kuda menangkap ratu." }
+    ],
+    "related": ["art-chess-pin", "art-chess-skewer"],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-02-01",
+    "updatedAt": "2026-02-01",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-chess-pin",
+    "title": "Taktik Catur: Pin (Semat)",
+    "summary": "Pin adalah taktik di mana sebuah pieza tidak bisa bergerak karena akan mengekspos pieza lebih berharga di belakangnya kepada serangan.",
+    "category": "chess",
+    "tags": ["catur", "taktik", "pin"],
+    "content": [
+      { "type": "h2", "text": "Apa itu Pin?" },
+      { "type": "p", "text": "Pin terjadi ketika sebuah pieza menyerang pieza lawan yang tidak bisa bergerak karena jika bergerak, akan membuka jalan serangan terhadap pieza lebih berharga di belakangnya (biasanya raja atau ratu)." },
+      { "type": "h2", "text": "Jenis Pin" },
+      { "type": "ul", "items": ["Pin absolut — piece di belakangnya adalah raja, tidak boleh gerak sama sekali (haram meniadakan catur).", "Pin relatif — piece di belakangnya adalah ratu atau rook, boleh gerak tetapi akan kehilangan material."] },
+      { "type": "h3", "text": "Contoh" },
+      { "type": "p", "text": "Bishop putih di g5 memin pin kuda hitam di f6 terhadap ratu hitam di e7. Kuda tidak bisa bergerak tanpa kehilangan ratu." }
+    ],
+    "related": ["art-chess-fork", "art-chess-skewer"],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-02-05",
+    "updatedAt": "2026-02-05",
+    "readTime": 5,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-anime-otaku",
+    "title": "Sejarah Singkat Anime: Dari Masa Silam hingga Kini",
+    "summary": "Anime adalah animasi Jepang yang berkembang dari eksperimen awal pada awal abad ke-20 menjadi fenomena global saat ini.",
+    "category": "anime",
+    "tags": ["anime", "sejarah", "industri"],
+    "content": [
+      { "type": "h2", "text": "Awal Mula" },
+      { "type": "p", "text": "Anime Jepang bermula pada awal abad ke-20 dengan eksperimen animasi pendek. Salah satu pionir adalah Osamu Tezuka yang menciptakan Astro Boy (Tetsuwan Atom) pada 1963, yang menjadi dasar banyak konvensi anime modern." },
+      { "type": "h2", "text": "Era Emas (1980-an)" },
+      { "type": "p", "text": "Dilahirkan kelasik seperti Mobile Suit Gundam, Macross, dan Dragon Ball. Studio Ghibli didirikan dan menghasilkan karya masterpiece seperti My Neighbor Totoro." },
+      { "type": "h2", "text": "Globalisasi" },
+      { "type": "p", "text": "Pada 1990-an dan 2000-an, anime seperti Sailor Moon, Pokémon, dan Naruto mencapai audiens internasional. Streaming saat ini membuat anime lebih mudah diakses di seluruh dunia." }
+    ],
+    "related": ["art-anime-studio-ghibli"],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-03-01",
+    "updatedAt": "2026-03-01",
+    "readTime": 6,
+    "level": "pemula",
+    "verified": true
+  },
+  {
+    "id": "art-https-basics",
+    "title": "HTTPS: Enkripsi untuk Web yang Aman",
+    "summary": "HTTPS adalah versi aman dari HTTP yang menggunakan TLS/SSL untuk mengenkripsi data antara browser dan server.",
+    "category": "technology",
+    "tags": ["networking", "keamanan", "https", "tls"],
+    "content": [
+      { "type": "h2", "text": "Apa itu HTTPS?" },
+      { "type": "p", "text": "HTTPS (Hypertext Transfer Protocol Secure) adalah protokol komunikasi aman di World Wide Web. Ini adalah versi enkripsi dari HTTP yang menggunakan Transport Layer Security (TLS) atau sebelumnya Secure Sockets Layer (SSL)." },
+      { "type": "h2", "text": "Mengapa Penting?" },
+      { "type": "ul", "items": ["Mengenkripsi data agar tidak dapat disadap (eavesdropping).", "Memverifikasi identitas situs web melalui sertifikat SSL/TLS.", "Mencegah modifikasi data selama transmisi."] },
+      { "type": "h2", "text": "Cara Kerja Singkat" },
+      { "type": "p", "text": "Browser dan server melakukan TLS handshake untuk sepakel kunci enkripsi, lalu semua data yang dikirim dienkripsi." }
+    ],
+    "related": ["art-dns-basics", "art-tls-handshake"],
+    "source": "internal",
+    "author": "Tim Redaksi Knowledge Hub",
+    "publishedAt": "2026-03-10",
+    "updatedAt": "2026-03-10",
+    "readTime": 4,
+    "level": "pemula",
+    "verified": true
+  }
+]

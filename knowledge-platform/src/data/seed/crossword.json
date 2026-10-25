@@ -1,0 +1,24 @@
+{
+  "id": "cw-tech-01",
+  "title": "Teka-Teki Silang: Istilah Teknologi",
+  "category": "technology",
+  "size": { "cols": 7, "rows": 7 },
+  "grid": [
+    [".", ".", ".", ".", ".", ".", "."],
+    [".", "S", "E", "T", ".", ".", "."],
+    [".", "A", ".", "A", ".", ".", "."],
+    [".", "T", ".", "P", ".", ".", "."],
+    [".", ".", ".", "I", ".", ".", "."],
+    [".", "R", "A", "M", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", "."]
+  ],
+  "across": [
+    { "num": 1, "clue": "Menyiapkan atau mengatur (3)", "answer": "SET", "row": 1, "col": 1, "dir": "across" },
+    { "num": 4, "clue": "Memori utama komputer (3)", "answer": "RAM", "row": 5, "col": 1, "dir": "across" }
+  ],
+  "down": [
+    { "num": 1, "clue": "Minuman buah (3)", "answer": "SAT", "row": 1, "col": 1, "dir": "down" },
+    { "num": 2, "clue": "Konjungsi \"namun\" dalam bahasa Indonesia (4)", "answer": "TAPI", "row": 1, "col": 3, "dir": "down" }
+  ],
+  "note": "Setiap persilangan huruf mendatar dan menurun konsisten."
+}

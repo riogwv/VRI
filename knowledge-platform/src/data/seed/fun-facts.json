@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ff-cpu-first",
+    "statement": "CPU komersial pertama, Intel 4004, dirilis pada 1971 dan hanya berjalan sekitar 740 kHz.",
+    "explanation": "Dibuat untuk kalkulator Busicom, Intel 4004 adalah mikroprosesor komersial pertama yang dapat diprogram. Kecepatan 740 kHz terlihat sangat lambat dibandingkan prosesor modern yang berjalan berapa GHz.",
+    "category": "technology",
+    "tags": ["cpu", "sejarah", "intel"],
+    "source": "Sejarah Komputer",
+    "verified": true,
+    "publishedAt": "2026-01-15"
+  },
+  {
+    "id": "ff-chess-longest",
+    "statement": "Partai catur terpanjang dalam sejarah berlangsung 269 langkah dan berakhir remis.",
+    "explanation": "Partai antara Ivan Nikolic dan Goran Arsovic di Belgrade, 1989, berlangsung lebih dari 20 jam dan berakhir remis karena aturan 50 langkah. Ini adalah partai profesional terpanjang yang tercatat.",
+    "category": "chess",
+    "tags": ["catur", "rekor", "sejarah"],
+    "source": "Sejarah Catur",
+    "verified": true,
+    "publishedAt": "2026-01-20"
+  },
+  {
+    "id": "ff-anime-first",
+    "statement": "Anime komersial pertama yang ditayangkan di Jepang adalah \"Namakura Gatana\" pada 1917.",
+    "explanation": "Dibuat oleh Junichi Kouchi, Namakura Gatana (An Obtuse Sword) adalah film animasi pendek Jepang paling awal yang masih tersisa hingga saat ini, durasinya sekitar 4 menit.",
+    "category": "anime",
+    "tags": ["anime", "sejarah", "1917"],
+    "source": "Sejarah Anime",
+    "verified": true,
+    "publishedAt": "2026-01-25"
+  },
+  {
+    "id": "ff-ram-first",
+    "statement": "RAM komputer awal menggunakan tabung katoda (Williams tube) yang menyimpan data di layar CRT.",
+    "explanation": "Sebelum memori semikonduktor, komputer awal menggunakan Williams tube yang menyimpan bit sebagai titik-titik cahaya pada layar tabung catoda. Setiap titik mewakili satu bit data.",
+    "category": "technology",
+    "tags": ["ram", "sejarah", "hardware"],
+    "source": "Sejarah Komputer",
+    "verified": true,
+    "publishedAt": "2026-02-01"
+  },
+  {
+    "id": "ff-chess-blindfold",
+    "statement": "Pemain catur terbaik dapat bermain catur buta terhadap banyak lawan sekaligus.",
+    "explanation": "Pemain grandmaster seperti Timur Gareyev telah bermain catur buta terhadap lebih dari 40 lawan sekaligus, mengingat semua gerakan dan posisi tanpa melihat papan.",
+    "category": "chess",
+    "tags": ["catur", "buta", "rekor"],
+    "source": "Prestasi Catur",
+    "verified": true,
+    "publishedAt": "2026-02-10"
+  },
+  {
+    "id": "ff-anime-episodes",
+    "statement": "Sazae-san adalah anime TV dengan jumlah episode terbanyak di dunia, lebih dari 2.500 episode.",
+    "explanation": "Sazae-san tayang pertama kali pada 1969 dan masih terus producen episode baru, menjadikannya animasi TV yang paling lama di dunia menurut Guinness World Records.",
+    "category": "anime",
+    "tags": ["anime", "rekor", "sazae-san"],
+    "source": "Guinness World Records",
+    "verified": true,
+    "publishedAt": "2026-02-15"
+  }
+]

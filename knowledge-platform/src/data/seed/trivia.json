@@ -1,0 +1,79 @@
+[
+  {
+    "id": "tri-tech-01",
+    "question": "Apa singkatan dari CPU dalam komputer?",
+    "options": ["Central Processing Unit", "Computer Personal Unit", "Central Power Unit", "Control Processing Unit"],
+    "answer": 0,
+    "explanation": "CPU singkatan dari Central Processing Unit, komponen utama yang mengeksekusi instruksi program dalam komputer.",
+    "category": "technology",
+    "tags": ["cpu", "hardware"],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-tech-02",
+    "question": "Protokolo apa yang digunakan untuk menterjemahkan nama domain menjadi alamat IP?",
+    "options": ["HTTP", "DNS", "FTP", "SMTP"],
+    "answer": 1,
+    "explanation": "DNS (Domain Name System) menerjemahkan nama domain yang dapat dibaca manusia menjadi alamat IP yang dimengerti komputer.",
+    "category": "technology",
+    "tags": ["networking", "dns"],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-chess-01",
+    "question": "Pieza catur mana yang bergerak dengan pola \"L\"?",
+    "options": ["Raja", "Raja Muda", "Kuda", "Bidak"],
+    "answer": 2,
+    "explanation": "Kuda (knight) adalah pieza catur yang bergerak dengan pola L (dua kotak ke satu arah lalu satu kotak ke sisi).",
+    "category": "chess",
+    "tags": ["catur", "aturan", "kuda"],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-chess-02",
+    "question": "Apa istilah taktik catur ketika satu pieza menyerang dua pieza lawan sekaligus?",
+    "options": ["Pin", "Skewer", "Fork", "Discovered Attack"],
+    "answer": 2,
+    "explanation": "Fork (cabangan) adalah taktik di mana satu pieza menyerang dua atau lebih pieza lawan pada waktu yang sama.",
+    "category": "chess",
+    "tags": ["catur", "taktik", "fork"],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-anime-01",
+    "question": "Studio anime yang membantu memopulerkan genre mecha dengan Mobile Suit Gundam?",
+    "options": ["Studio Ghibli", "Sunrise", "Toei Animation", "Madhouse"],
+    "answer": 1,
+    "explanation": "Sunrise adalah studio yang memproduksi Mobile Suit Gundam (1979), yang memulai franchise Gundam dan memopulerkan genre mecha (robot raksasa).",
+    "category": "anime",
+    "tags": ["anime", "studio", "gundam"],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-anime-02",
+    "question": "Apa nama tokoh utama dalam Spirited Away (Sen to Chihiro no Kamikakushi)?",
+    "options": ["Chihiro", "Kiki", "San", "Sophie"],
+    "answer": 0,
+    "explanation": "Tokoh utama Spirited Away (2001, Studio Ghibli) adalah Chihiro, seorang gadis yang terjebak di dunia roh.",
+    "category": "anime",
+    "tags": ["anime", "studio-ghibli", "film"],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-games-01",
+    "question": "Berapa jumlah kotak di papan Sudoku standar?",
+    "options": ["64", "81", "100", "144"],
+    "answer": 1,
+    "explanation": "Papan Sudoku standar berukuran 9×9, sehingga ada 81 kotak (9 × 9 = 81).",
+    "category": "games",
+    "tags": ["sudoku", "permainan"],
+    "difficulty": "mudah",
+    "source": "internal"
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "cp-mate-rook-01",
+    "title": "Mat dengan Benteng",
+    "fen": "6k1/5ppp/8/8/8/8/8/R6K w - - 0 1",
+    "moves": ["a1a8"],
+    "prompt": "Putih bermain dan mat dalam satu langkah.",
+    "rating": 800,
+    "themes": ["mate", "backRank"],
+    "explanation": "Benteng a1–a8 mengecek raja hitam di g8; tidak ada ruang evakuasi karena pion f7–h7.",
+    "category": "chess",
+    "source": "internal",
+    "verified": true
+  },
+  {
+    "id": "cp-mate-queen-01",
+    "title": "Mat Ratu Sederhana",
+    "fen": "6k1/6p1/8/8/8/8/8/5Q1K w - - 0 1",
+    "moves": ["g1g7"],
+    "prompt": "Putih mat hitam dalam satu langkah.",
+    "rating": 700,
+    "themes": ["mate"],
+    "explanation": "Qg7# mengecek raja di g8; pion g7 menghalangi pelarian lateral.",
+    "category": "chess",
+    "source": "internal",
+    "verified": true
+  },
+  {
+    "id": "cp-skewer-rook-02",
+    "title": "Menang Benteng",
+    "fen": "4r1k1/8/8/8/8/8/8/4R2K w - - 0 1",
+    "moves": ["e1e8"],
+    "prompt": "Putih menang material dengan skewer/check.",
+    "rating": 950,
+    "themes": ["skewer"],
+    "explanation": "Rxe8+ menangkap benteng hitam sambil mengecek raja; setelah raja minggat, material unggul.",
+    "category": "chess",
+    "source": "internal",
+    "verified": true
+  },
+  {
+    "id": "cp-pin-skewer-01",
+    "title": "Skewer Benteng",
+    "fen": "4r1k1/8/8/8/8/8/8/4R1K1 w - - 0 1",
+    "moves": ["e1e8"],
+    "prompt": "Putih menang material dengan skewer.",
+    "rating": 1000,
+    "themes": ["skewer"],
+    "explanation": "Re8+ mengecek raja; setelah raja minggat, benteng hitam di e8 tertangkap (skewer absolut).",
+    "category": "chess",
+    "source": "internal",
+    "verified": true
+  }
+]

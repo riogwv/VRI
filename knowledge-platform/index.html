@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Platform pengetahuan interaktif: ensiklopedia, feed sosial, berita teknologi, trivia, dan permainan asah otak (Teknologi, Catur, Anime)." />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Knowledge Platform — Teknologi, Catur & Anime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles/tokens.css" />
+  <link rel="stylesheet" href="/src/styles/reset.css" />
+  <link rel="stylesheet" href="/src/styles/global.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Langsung ke konten utama</a>
+
+  <header class="site-header" id="site-header">
+    <div class="header-inner container">
+      <button class="nav-toggle" aria-label="Buka navigasi" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+      <a href="#" class="brand" aria-label="Beranda Knowledge Platform">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="28" height="28" x="2" y="2" rx="8" stroke="currentColor" stroke-width="2" />
+          <path d="M8 12h16M10 16h12M10 20h12M16 8v16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span class="brand-text">Knowledge<span class="brand-accent">Hub</span></span>
+      </a>
+      <form class="search-bar" role="search" aria-label="Pencarian global">
+        <label class="visually-hidden" for="global-search">Cari artikel, fakta, berita, trivia, permainan</label>
+        <input type="search" id="global-search" name="q" placeholder="Cari konten…" autocomplete="off" />
+        <button type="submit" class="search-submit" aria-label="Telusuri">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="8" cy="8" r="8" />
+            <path d="M16 12l4 4" />
+          </svg>
+        </button>
+      </form>
+      <div class="header-actions">
+        <a href="#/saved" class="btn btn-icon" aria-label="Simpan / Koleksi">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M5 3a2 2 0 0 1 2 2v10l-5-5 5 5v-10a2 2 0 0 1 2-2" />
+          </svg>
+        </a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Ganti mode gelap/terang">
+          <svg class="sun" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="10" cy="10" r="6" />
+            <path d="M12 10v4M10 12h4M14.317 14.317l-2.828 2.828M5.657 5.657l2.828 2.828M16 10l-2.828-2.828M4 10l2.828-2.828" />
+          </svg>
+          <svg class="moon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="display:none">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79" />
+          </svg>
+        </button>
+        <button class="btn btn-primary" id="auth-btn" aria-label="Masuk / Daftar">Masuk</button>
+      </div>
+    </div>
+    <nav class="main-nav" id="main-nav">
+      <ul class="nav-list" role="navigation" aria-label="Navigasi utama">
+        <li><a href="#" class="nav-link active" data-route="home">Beranda</a></li>
+        <li><a href="#/explore" class="nav-link" data-route="explore">Eksplorasi</a></li>
+        <li><a href="#/category/technology" class="nav-link" data-route="category-technology">Teknologi</a></li>
+        <li><a href="#/category/chess" class="nav-link" data-route="category-chess">Catur</a></li>
+        <li><a href="#/category/anime" class="nav-link" data-route="category-anime">Anime</a></li>
+        <li><a href="#/games" class="nav-link" data-route="games">Permainan Otak</a></li>
+        <li><a href="#/saved" class="nav-link" data-route="saved">Disimpan</a></li>
+        <li><a href="#/profile" class="nav-link" data-route="profile">Profil</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main"></main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="28" height="28" x="2" y="2" rx="8" stroke="currentColor" stroke-width="2" />
+          <path d="M8 12h16M10 16h12M10 20h12M16 8v16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span>Knowledge Hub</span>
+      </div>
+      <p class="footer-note">Konten edukasi untuk kategori Teknologi, Catur, dan Anime. Sumber eksternal dihormati dengan atribusi yang jelas.</p>
+      <div class="footer-links">
+        <a href="#/about">Tentang</a>
+        <a href="#/sources">Sumber Data</a>
+        <a href="#/privacy">Kebijakan Privasi</a>
+        <a href="#/terms">Syarat Layanan</a>
+        <a href="#/moderation">Laporan & Moderasi</a>
+      </div>
+      <div class="footer-attribution">
+        Anime: Jikan API (MyAnimeList) • Berita: GNews • Ensiklopedia: Wikidata • Catur: Lichess • Sudoku: sudoku.js
+      </div>
+    </div>
+  </footer>
+
+  <template id="route-not-found">
+    <section class="page">
+      <div class="container">
+        <h1>Halaman tidak ditemukan</h1>
+        <p>Konten yang Anda cari tidak tersedia.</p>
+        <a href="#" class="btn btn-primary">Kembali ke Beranda</a>
+      </div>
+    </section>
+  </template>
+
+  <script type="module" src="/src/scripts/main.js"></script>
+</body>
+</html>

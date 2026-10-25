@@ -1,0 +1,93 @@
+/* ==========================================================================
+   Article detail page — structured content, TOC, related, bookmark, share
+   ========================================================================== */
+
+import { content } from "../../services/content.js";
+import { createEl } from "../../utils/dom.js";
+
+export async function renderArticle(params) {
+  const id = params[0] || params.id;
+  const article = content.getArticle(id);
+
+  if (!article) {
+    return createEl("section", { className: "page" }, [
+      createEl("div", { className: "container" }, [
+        createEl("h1", {}, "Artikel tidak ditemukan"),
+        createEl("p", {}, "Artikel yang Anda cari tidak tersedia."),
+        createEl("a", { className: "btn-primary", href: "#/" }, "Kembali ke Beranda"),
+      ]),
+    ]);
+  }
+
+  const page = createEl("section", { className: "page article-page" }, [
+    createEl("div", { className: "container" }, [
+      createEl("div", { className: "breadcrumbs" }, [
+        createEl("a", { href: `#/category/${article.category}` }, article.category.charAt(0).toUpperCase() + article.category.slice(1)),
+        createEl("span", { text: " > " }),
+        createEl("span", { text: article.title }),
+      ]),
+      createEl("article", { className: "card" }, [
+        createEl("div", { className: "card-body", style: "padding:var(--space-6)" }, [
+          createEl("div", { className: "article-header", style: "margin-bottom:var(--space-5)" }, [
+            createEl("div", { className: `badge badge-${categoryColor(article.category)}` }, article.category.charAt(0).toUpperCase() + article.category.slice(1)),
+            createEl("h1", { style: "margin:var(--space-3) 0;line-height:var(--leading-tight)" }, article.title),
+            createEl("p", { style: "color:var(--color-text-secondary);font-size:var(--text-sm)" }, article.summary),
+            createEl("div", { style: "margin-top:var(--space-4);display:flex;gap:var(--space-2);flex-wrap:wrap" }, [
+              createEl("span", { style: "font-size:var(--text-xs);color:var(--color-text-muted)" }, article.readTime + " baca"),
+              createEl("span", { style: "font-size:var(--text-xs);color:var(--color-text-muted)" }, article.publishedAt),
+              article.verified ? createEl("span", { className: "badge badge-source", style: "font-size:var(--text-xs)" }, "Terverifikasi") : null,
+            ]),
+          ]),
+          createEl("div", { className: "article-content", id: "article-content" }),
+          createEl("div", { style: "margin-top:var(--space-8);padding-top:var(--space-6);border-top:1px solid var(--color-border)" }, [
+            createEl("h3", { style: "margin-bottom:var(--space-3)" }, "Artikel Terkait"),
+            createEl("div", { className: "grid-feed", id: "article-related" }),
+          ]),
+        ]),
+      ]),
+    ]),
+  ]);
+
+  // Render content blocks
+  const contentEl = page.querySelector("#article-content");
+  article.content.forEach((block) => {
+    contentEl.appendChild(renderBlock(block));
+  });
+
+  // Related
+  const relatedEl = page.querySelector("#article-related");
+  const related = content.getRelated(article.related, 4);
+  related.forEach((r) => {
+    relatedEl.appendChild(relatedCard(r));
+  });
+
+  return page;
+}
+
+function renderBlock(block) {
+  if (block.type === "h2") return createEl("h2", { style: "margin:var(--space-6) 0 var(--space-2)" }, block.text);
+  if (block.type === "h3") return createEl("h3", { style: "margin:var(--space-5) 0 var(--space-2)" }, block.text);
+  if (block.type === "p") return createEl("p", { style: "margin-bottom:var(--space-4);line-height:var(--leading-relaxed)" }, block.text);
+  if (block.type === "ul") {
+    const ul = createEl("ul", { style: "margin-bottom:var(--space-4);padding-left:var(--space-6)" });
+    block.items.forEach((item) => {
+      const li = createEl("li", { style: "margin-bottom:var(--space-2);line-height:var(--leading-relaxed)" }, item);
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+  return createEl("p", {}, block.text || "");
+}
+
+function relatedCard(a) {
+  return createEl("article", { className: "card", style: "height:100%" }, [
+    createEl("div", { className: "card-body" }, [
+      createEl("h4", { style: "margin:0 0 var(--space-2)" }, a.title),
+      createEl("a", { className: "btn-link", href: `#/article/${a.id}` }, "Baca →"),
+    ]),
+  ]);
+}
+
+function categoryColor(cat) {
+  return { technology: "tech", chess: "chess", anime: "anime" }[cat] || "tech";
+}

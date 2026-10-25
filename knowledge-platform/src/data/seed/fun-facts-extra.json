@@ -1,0 +1,704 @@
+[
+  {
+    "id": "ff-light-speed",
+    "statement": "Cahaya di vakum bergerak sekitar 299.792 km/detik — batas kecepatan informasi menurut relativitas khusus.",
+    "explanation": "Konstanta c muncul di E=mc² dan GPS harus koreksi relativitas agar akurat.",
+    "category": "science",
+    "tags": [
+      "fisika",
+      "cahaya"
+    ],
+    "source": "NIST / CODATA",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-water-expansion",
+    "statement": "Air mencapai kepadatan maksimum sekitar 4°C; saat membeku air memuai ~9%.",
+    "explanation": "Memuainya es menjelaskan mengapa pipa pecah dan esbergs mengapung.",
+    "category": "science",
+    "tags": [
+      "kimia",
+      "air"
+    ],
+    "source": "USGS Water Science",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-human-bones",
+    "statement": "Tubuh manusia dewasa memiliki 206 tulang; bayi lahir dengan lebih banyak tulang rawan yang menyatu seiring tumbuh.",
+    "explanation": "Perbedaan jumlah tulang bayi vs dewasa sering di kutip dalam anatomi dasar.",
+    "category": "science",
+    "tags": [
+      "biologi",
+      "anatomi"
+    ],
+    "source": "Teks anatomi standar",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-brain-energy",
+    "statement": "Otak manusia memakai sekitar 20% energi tubuh meski hanya ~2% massa badan.",
+    "explanation": "Menunjukkan betapa mahalnya proses saraf secara metabolik.",
+    "category": "science",
+    "tags": [
+      "biologi",
+      "otak"
+    ],
+    "source": "Harvard Medical School — brain energy",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-plate-tectonics",
+    "statement": "Lempeng tektonik bergerak beberapa sentimeter per tahun — sekitar secepat pertumbuhan kuku.",
+    "explanation": "Gerakan ini menjelaskan gempa, gunung api, dan distribusi fosil.",
+    "category": "science",
+    "tags": [
+      "geologi",
+      "bumi"
+    ],
+    "source": "USGS Plate Tectonics",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-vaccine-history",
+    "statement": "Vaksinasi modern dimulai dengan cacar variola; WHO menyatakan eradikasi cacar pada 1980.",
+    "explanation": "Satu-satunya penyakit manusia yang dinyatakan eradicated global.",
+    "category": "science",
+    "tags": [
+      "kesehatan",
+      "sejarah"
+    ],
+    "source": "WHO Smallpox fact sheet",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-binary",
+    "statement": "Sistem biner (basis-2) dipakai komputer karena sinyal listrik mudah dibedakan dua keadaan: on/off.",
+    "explanation": "Setiap bit 0 atau 1; 8 bit = 1 byte.",
+    "category": "technology",
+    "tags": [
+      "binary",
+      "digital"
+    ],
+    "source": "Computer science textbooks",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-first-computer-bug",
+    "statement": "Istilah \"bug\" komputer populer setelah Grace Hopper menemukan ngengat di relay Mark II (1947).",
+    "explanation": "Catatan log ngengat masih disimpan di Smithsonian.",
+    "category": "technology",
+    "tags": [
+      "sejarah",
+      "bug"
+    ],
+    "source": "Smithsonian / Navy history",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-open-source",
+    "statement": "Linux kernel dirilis 1991 oleh Linus Torvalds sebagai proyek open source.",
+    "explanation": "Memicu ekosistem server, Android, dan cloud modern.",
+    "category": "technology",
+    "tags": [
+      "linux",
+      "open-source"
+    ],
+    "source": "kernel.org history",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-unicode",
+    "statement": "Unicode mencakup lebih dari 150.000 karakter untuk hampir semua sistem tulisan dunia.",
+    "explanation": "Emoji juga distandarkan Unicode Consortium.",
+    "category": "technology",
+    "tags": [
+      "unicode",
+      "teks"
+    ],
+    "source": "unicode.org FAQ",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-wifi-name",
+    "statement": "Wi-Fi bukan singkatan resmi; merek dipopulerkan Wi-Fi Alliance (dulu Wireless Ethernet Compatibility Alliance).",
+    "explanation": "802.11 adalah standar IEEE teknis di balik Wi-Fi.",
+    "category": "technology",
+    "tags": [
+      "wifi",
+      "jaringan"
+    ],
+    "source": "Wi-Fi Alliance / IEEE 802.11",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-qubit",
+    "statement": "Qubit dapat berada superposisi 0 dan 1; komputer kuantum mengeksploitasi interferensi untuk algoritma tertentu.",
+    "explanation": "Belum menggantikan PC klasik untuk semua tugas sehari-hari.",
+    "category": "technology",
+    "tags": [
+      "kuantum",
+      "komputasi"
+    ],
+    "source": "IBM Quantum / NIST post-quantum crypto",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-en-passant",
+    "statement": "Aturan en passant di catur memungkinkan tangkap pion lawan yang baru maju dua kotak melewati pion Anda.",
+    "explanation": "Satu-satunya tangkapan di mana pieza tidak berakhir di kotak pieza yang ditangkap.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "aturan"
+    ],
+    "source": "FIDE Laws of Chess",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-chess-960",
+    "statement": "Chess960 (Fischer Random) menempatkan piece back-rank acak dengan aturan castling disesuaikan.",
+    "explanation": "Mengurangi ketergantungan hafalan pembukaan.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "960"
+    ],
+    "source": "Lichess Chess960 rules",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-youngest-gm",
+    "statement": "Abhimanyu Mishra menjadi Grandmaster termuda (2021) pada usia 12 tahun 4 bulan 25 hari.",
+    "explanation": "Rekor Guinness; usia GM terus turun seiring kompetisi online.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "rekor"
+    ],
+    "source": "Guinness World Records / FIDE",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-stalemate",
+    "statement": "Stalemate (pat) adalah remis: pemain yang giliran gerak tidak in check tetapi tidak punya legal move.",
+    "explanation": "Sering jadi penyelamat underdog di endgame.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "remis"
+    ],
+    "source": "FIDE Laws",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-checkmate-persian",
+    "statement": "Kata \"checkmate\" dari frase Persia \"shah mat\" (raja mati/terjebak).",
+    "explanation": "Menunjukkan sejarah catur dari India-Persia ke Eropa.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "etimologi"
+    ],
+    "source": "Oxford English Dictionary etymology",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-mangaka-deadline",
+    "statement": "Mangaka serial mingguan sering deadline ketat; hiatus kesehatan kadang diumumkan resmi majalah.",
+    "explanation": "Jangan asumsikan semua hiatus tanpa pengumuman publisher.",
+    "category": "anime",
+    "tags": [
+      "manga",
+      "industri"
+    ],
+    "source": "Publisher announcements (Jump+)",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-one-piece-length",
+    "statement": "Manga One Piece (Eiichiro Oda) memecahkan rekor panjang serial populer; jumlah chapter terus bertambah.",
+    "explanation": "Cek jumlah chapter terkini di publisher resmi, bukan angka fan.",
+    "category": "anime",
+    "tags": [
+      "one-piece",
+      "manga"
+    ],
+    "source": "Shueisha / MANGA Plus",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-anime-film-box",
+    "statement": "Spirited Away pernah menjadi film animasi highest-grossing di Jepang sebelum Demon Slayer Mugen Train (2020).",
+    "explanation": "Angka box office dari Motion Picture Producers Association of Japan.",
+    "category": "anime",
+    "tags": [
+      "box-office",
+      "ghibli"
+    ],
+    "source": "MPAJ statistics",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-sakuga",
+    "statement": "Istilah \"sakuga\" merujuk momen animasi berkualitas tinggi, sering diisolasi fan di clip.",
+    "explanation": "Bukan rating resmi; apresiasi estetika animasi.",
+    "category": "anime",
+    "tags": [
+      "sakuga",
+      "animasi"
+    ],
+    "source": "Sakuga Blog glossary",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-crunchyroll",
+    "statement": "Crunchyroll (Sony) adalah salah satu distributor streaming anime legal global terbesar.",
+    "explanation": "Mendukung simulcast dengan subtitle resmi.",
+    "category": "anime",
+    "tags": [
+      "streaming",
+      "legal"
+    ],
+    "source": "Crunchyroll corporate site",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-ocean-salinity",
+    "statement": "Lautan mengandung rata-rata ~35 g garam per liter air laut.",
+    "explanation": "Salinitas mempengaruhi densitas dan sirkulasi termohalin.",
+    "category": "science",
+    "tags": [
+      "laut",
+      "salinitas"
+    ],
+    "source": "NOAA Ocean Service",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-iss-speed",
+    "statement": "Stasiun Luar Angkasa Internasional orbit ~7,66 km/detik (~90 menit per orbit).",
+    "explanation": "Astronaut mengalami microgravity karena free-fall orbit, bukan \"zero gravity\" absolut.",
+    "category": "science",
+    "tags": [
+      "luar angkasa",
+      "iss"
+    ],
+    "source": "NASA ISS facts",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-python-name",
+    "statement": "Bahasa Python dinamai dari Monty Python, bukan ular.",
+    "explanation": "Guido van Rossum merilis Python 1991.",
+    "category": "technology",
+    "tags": [
+      "python",
+      "sejarah"
+    ],
+    "source": "python.org history",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-https-padlock",
+    "statement": "Ikon gembok browser menandakan koneksi terenkripsi TLS; bukan jaminan situs jujur secara bisnis.",
+    "explanation": "Phishing juga bisa memakai HTTPS.",
+    "category": "technology",
+    "tags": [
+      "https",
+      "phishing"
+    ],
+    "source": "EFF HTTPS Everywhere FAQ",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-chess-computers",
+    "statement": "Deep Blue mengalahkan Kasparov 1997 dalam match regulasi; kontroversi strategi tim IBM.",
+    "explanation": "Tonggak sejarah AI/game tree search.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "ai"
+    ],
+    "source": "IBM Deep Blue archives",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-anime-cels",
+    "statement": "Produksi anime tradisional memakai cel acetat; digital paint menggantikan sebagian besar cel fisik 2000-an.",
+    "explanation": "Museum anime kadang memamerkan cel asli.",
+    "category": "anime",
+    "tags": [
+      "produksi",
+      "cel"
+    ],
+    "source": "Tokyo Anime Center / studio tours",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-moon-distance",
+    "statement": "Jarak rata-rata Bumi-Bulan ~384.400 km — sekitar 30 diameter Bumi.",
+    "explanation": "Orbit elips sehingga jarak bervariasi (perige vs apoge).",
+    "category": "science",
+    "tags": [
+      "astronomi",
+      "bulan"
+    ],
+    "source": "NASA Moon fact sheet",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-rust-lang",
+    "statement": "Rust dirancang Mozilla dengan fokus memory safety tanpa garbage collector.",
+    "explanation": "Digunakan di sistem, WebAssembly, dan infrastruktur modern.",
+    "category": "technology",
+    "tags": [
+      "rust",
+      "bahasa"
+    ],
+    "source": "rust-lang.org",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-lichess-oss",
+    "statement": "Lichess.org adalah platform catur gratis open source tanpa iklan.",
+    "explanation": "Didanai donasi; API puzzle publik dengan rate limit.",
+    "category": "chess",
+    "tags": [
+      "lichess",
+      "online"
+    ],
+    "source": "lichess.org about",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-anime-cour",
+    "statement": "Satu \"cour\" anime TV biasanya 12–13 episode (satu kuartal siaran).",
+    "explanation": "Split cour membagi season dengan jeda beberapa bulan.",
+    "category": "anime",
+    "tags": [
+      "season",
+      "cour"
+    ],
+    "source": "ANN encyclopedia — cour",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-jpeg",
+    "statement": "JPEG kompresi foto lossy dengan DCT; tidak cocok untuk teks tajam atau transparansi.",
+    "explanation": "PNG lossless lebih baik untuk diagram UI.",
+    "category": "technology",
+    "tags": [
+      "gambar",
+      "jpeg"
+    ],
+    "source": "W3C / JPEG committee",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-earth-age",
+    "statement": "Bumi diperkirakan ~4,54 miliar tahun berdasarkan dating meteorit dan model geologi.",
+    "explanation": "Estimasi dengan margin ketidakpastian kecil.",
+    "category": "science",
+    "tags": [
+      "geologi",
+      "bumi"
+    ],
+    "source": "USGS / Nature geochronology reviews",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-chess-draw",
+    "statement": "Tigafold repetition dan fifty-move rule adalah cara remis otomatis di catur turnamen.",
+    "explanation": "Pemain harus klaim atau arbitter konfirmasi sesuai FIDE.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "remis"
+    ],
+    "source": "FIDE Laws",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-anime-ova",
+    "statement": "OVA/OAV adalah episode anime rilis langsung video tanpa siaran TV dulu.",
+    "explanation": "Sering budget lebih tinggi per menit.",
+    "category": "anime",
+    "tags": [
+      "ova",
+      "rilis"
+    ],
+    "source": "ANN release types",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-tor-browser",
+    "statement": "Tor Browser mengarahkan lalu lintas melalui relay terenkripsi untuk anonimitas jaringan.",
+    "explanation": "Bukan alat ilegal; dipakai jurnalis dan aktivis di regim represif.",
+    "category": "technology",
+    "tags": [
+      "privasi",
+      "tor"
+    ],
+    "source": "torproject.org",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-magnus-carlsen",
+    "statement": "Magnus Carlsen memegang rating Elo klasik tertinggi sejarah (~2882) pada periode puncaknya.",
+    "explanation": "Angka Elo berubah dinamis; cek FIDE rating terkini.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "carlsen"
+    ],
+    "source": "FIDE ratings",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-anime-10ep",
+    "statement": "Serial anime pendek 10–13 episode makin umum untuk adaptasi ringan light novel.",
+    "explanation": "Format cocok streaming binge-watch.",
+    "category": "anime",
+    "tags": [
+      "format",
+      "streaming"
+    ],
+    "source": "Industry reports ANN",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-ssd-wear",
+    "statement": "SSD NAND punya terbatas program/erase cycles; wear leveling memperpanjang umur.",
+    "explanation": "Estimasi TBW tercantum di spesifikasi produsen.",
+    "category": "technology",
+    "tags": [
+      "ssd",
+      "hardware"
+    ],
+    "source": "Vendor datasheets",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-black-hole",
+    "statement": "Lubang hitam tidak \"hisap\" lebih kuat dari bintang sebelum collapse jika massa sama.",
+    "explanation": "Gravitasi surface tergantung massa dan jarak Schwarzschild.",
+    "category": "science",
+    "tags": [
+      "astrofisika",
+      "lubang-hitam"
+    ],
+    "source": "NASA Black Holes",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-chess-pawn-promo",
+    "statement": "Pion yang mencapai baris terakhir harus dipromosikan menjadi Q, R, B, atau N — tidak bisa tetap pion.",
+    "explanation": "Promosi ke ratu paling umum.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "promosi"
+    ],
+    "source": "FIDE Laws",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-anime-dub",
+    "statement": "Simuldub memproduksi dub bahasa Inggris hampir bersamaan rilis Jepang.",
+    "explanation": "Kualitas dub bervariasi per studio (Bang Zoom, Funimation/Crunchyroll).",
+    "category": "anime",
+    "tags": [
+      "dub",
+      "lokalization"
+    ],
+    "source": "Crunchyroll news",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-http-status",
+    "statement": "HTTP 404 artinya sumber daya tidak ditemukan di server; 503 sering maintenance/overload.",
+    "explanation": "Membantu debug API dan web.",
+    "category": "technology",
+    "tags": [
+      "http",
+      "web"
+    ],
+    "source": "RFC 9110 status codes",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-blood-types",
+    "statement": "Sistem golongan darah ABO dan Rh menentukan kompatibilitas transfusi.",
+    "explanation": "Transfusi salah bisa fatal — crossmatch wajib.",
+    "category": "science",
+    "tags": [
+      "medis",
+      "darah"
+    ],
+    "source": "Red Cross blood types",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-chess-clock",
+    "statement": "Bobby Fischer menyarankan increment waktu untuk mengurangi flagging murni.",
+    "explanation": "Fischer random chess dan increment dipakai online modern.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "waktu"
+    ],
+    "source": "FIDE / chess history texts",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-anime-key-visual",
+    "statement": "Key visual adalah poster promosi resmi season anime, sering jadi wallpaper resmi.",
+    "explanation": "Bedakan fan art vs key visual resmi dari situs anime.",
+    "category": "anime",
+    "tags": [
+      "promosi",
+      "art"
+    ],
+    "source": "Official anime sites",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-kelvin-scale",
+    "statement": "Skala Kelvin nol mutlak = 0 K; tidak negatif.",
+    "explanation": "Digunakan sains karena proporsional energi kinetik rata-rata.",
+    "category": "science",
+    "tags": [
+      "fisika",
+      "suhu"
+    ],
+    "source": "NIST SI units",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-docker-container",
+    "statement": "Container Linux memakai namespace dan cgroups; Docker mempopulerkan workflow image registry.",
+    "explanation": "Bedakan container vs VM full OS.",
+    "category": "technology",
+    "tags": [
+      "docker",
+      "devops"
+    ],
+    "source": "docker.com docs",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-anime-12-ep",
+    "statement": "Format 12 episode sering disebut \"single cour\" untuk musim semi musim gugur.",
+    "explanation": "Jadwal produksi ketat 4–5 minggu per episode.",
+    "category": "anime",
+    "tags": [
+      "produksi",
+      "jadwal"
+    ],
+    "source": "ANN production articles",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-chess-zugzwang",
+    "statement": "Zugzwang: giliran gerak memperburuk posisi sendiri; klasik di endgame king-pawn.",
+    "explanation": "Contoh terkenal di studi endgame.",
+    "category": "chess",
+    "tags": [
+      "catur",
+      "endgame"
+    ],
+    "source": "Chess endgame manuals",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-tree-co2",
+    "statement": "Pohon dewasa dapat menyerap puluhan pound CO₂ per tahun tergantung spesies dan iklim.",
+    "explanation": "Angka bervariasi; reboisasi bukan satu-satunya solusi iklim.",
+    "category": "science",
+    "tags": [
+      "iklim",
+      "hutan"
+    ],
+    "source": "US Forest Service carbon sequestration",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-git-hash",
+    "statement": "Git commit ID adalah SHA-1 (beralih ke SHA-256 di versi baru) dari snapshot + metadata.",
+    "explanation": "Hash menjamin integritas riwayat.",
+    "category": "technology",
+    "tags": [
+      "git",
+      "hash"
+    ],
+    "source": "Git documentation",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  },
+  {
+    "id": "ff-anime-filler",
+    "statement": "Episode filler anime tidak ada di manga sumber — cek daftar resmi/fandom terkurasi.",
+    "explanation": "Studio isi gap agar manga tidak terlampaui.",
+    "category": "anime",
+    "tags": [
+      "filler",
+      "adaptasi"
+    ],
+    "source": "Episode guides ANN",
+    "verified": true,
+    "publishedAt": "2026-04-01"
+  }
+]

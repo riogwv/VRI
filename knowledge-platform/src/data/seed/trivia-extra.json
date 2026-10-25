@@ -1,0 +1,610 @@
+[
+  {
+    "id": "tri-sci-01",
+    "question": "Planet manakah yang terdekat dengan Matahari?",
+    "options": [
+      "Venus",
+      "Merkurius",
+      "Mars",
+      "Bumi"
+    ],
+    "answer": 1,
+    "explanation": "Merkurius orbit paling dalam; Venus kadang terlihat lebih terang di langit.",
+    "category": "science",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-sci-02",
+    "question": "Gas apa yang paling dominan di atmosfer Bumi?",
+    "options": [
+      "Oksigen",
+      "Nitrogen",
+      "Karbon dioksida",
+      "Argon"
+    ],
+    "answer": 1,
+    "explanation": "Nitrogen ~78%, oksigen ~21%.",
+    "category": "science",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-sci-03",
+    "question": "Organel sel yang memproduksi ATP disebut?",
+    "options": [
+      "Ribosom",
+      "Mitokondria",
+      "Nukleus",
+      "Lisosom"
+    ],
+    "answer": 1,
+    "explanation": "Mitokondria \"powerhouse\" sel.",
+    "category": "science",
+    "tags": [],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-sci-04",
+    "question": "Berapa jumlah planet dalam Tata Surya (model IAU)?",
+    "options": [
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "answer": 1,
+    "explanation": "Pluto reklasifikasi dwarf planet 2006.",
+    "category": "science",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-sci-05",
+    "question": "Unsur dengan simbol Au?",
+    "options": [
+      "Perak",
+      "Emas",
+      "Aluminium",
+      "Arsen"
+    ],
+    "answer": 1,
+    "explanation": "Au dari Latin aurum.",
+    "category": "science",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-sci-06",
+    "question": "Apa nama proses tumbuhan membuat makanan dari cahaya?",
+    "options": [
+      "Respirasi",
+      "Fotosintesis",
+      "Fermentasi",
+      "Destilasi"
+    ],
+    "answer": 1,
+    "explanation": "Fotosintesis di kloroplast.",
+    "category": "science",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-sci-07",
+    "question": "Satelit alami Bumi?",
+    "options": [
+      "Titan",
+      "Bulan",
+      "Europa",
+      "Phobos"
+    ],
+    "answer": 1,
+    "explanation": "Bulan/Luna satu satelit alami utama.",
+    "category": "science",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-sci-08",
+    "question": "Suhu air mendidih pada tekanan atmosfer standar (°C)?",
+    "options": [
+      "90",
+      "100",
+      "110",
+      "120"
+    ],
+    "answer": 1,
+    "explanation": "100°C pada 1 atm; berubah dengan ketinggian.",
+    "category": "science",
+    "tags": [],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-sci-09",
+    "question": "Partikel subatom dengan muatan negatif?",
+    "options": [
+      "Proton",
+      "Neutron",
+      "Elektron",
+      "Pion"
+    ],
+    "answer": 2,
+    "explanation": "Elektron mengorbit nukleus.",
+    "category": "science",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-sci-10",
+    "question": "Lapisan ozon terutama melindungi dari?",
+    "options": [
+      "Radiasi gamma",
+      "UV matahari",
+      "Meteor",
+      "Gravitasi"
+    ],
+    "answer": 1,
+    "explanation": "UV-B/C berbahaya untuk DNA.",
+    "category": "science",
+    "tags": [],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-tech-03",
+    "question": "Bita terdiri dari berapa bit?",
+    "options": [
+      "4",
+      "8",
+      "16",
+      "32"
+    ],
+    "answer": 1,
+    "explanation": "Standar de facto byte = 8 bit.",
+    "category": "technology",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-tech-04",
+    "question": "Port default HTTPS?",
+    "options": [
+      "80",
+      "443",
+      "22",
+      "8080"
+    ],
+    "answer": 1,
+    "explanation": "HTTP 80, HTTPS 443.",
+    "category": "technology",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-tech-05",
+    "question": "Bahasa markup untuk struktur halaman web?",
+    "options": [
+      "Python",
+      "HTML",
+      "SQL",
+      "Bash"
+    ],
+    "answer": 1,
+    "explanation": "HTML bukan bahasa pemrograman Turing-complete penuh.",
+    "category": "technology",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-tech-06",
+    "question": "Linux kernel dibuat oleh?",
+    "options": [
+      "Bill Gates",
+      "Linus Torvalds",
+      "Steve Jobs",
+      "Tim Berners-Lee"
+    ],
+    "answer": 1,
+    "explanation": "Torvalds 1991.",
+    "category": "technology",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-tech-07",
+    "question": "SQL digunakan untuk?",
+    "options": [
+      "Query database",
+      "Render 3D",
+      "Kompres video",
+      "Mining Bitcoin"
+    ],
+    "answer": 0,
+    "explanation": "Structured Query Language.",
+    "category": "technology",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-tech-08",
+    "question": "IPv4 address length (bit)?",
+    "options": [
+      "32",
+      "64",
+      "128",
+      "256"
+    ],
+    "answer": 0,
+    "explanation": "IPv6 128 bit.",
+    "category": "technology",
+    "tags": [],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-tech-09",
+    "question": "Manakah storage non-volatile?",
+    "options": [
+      "RAM",
+      "Cache CPU",
+      "SSD",
+      "Register"
+    ],
+    "answer": 2,
+    "explanation": "RAM volatile.",
+    "category": "technology",
+    "tags": [],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-tech-10",
+    "question": "Git command untuk unduh repo remote?",
+    "options": [
+      "git push",
+      "git clone",
+      "git init",
+      "git fetch-only"
+    ],
+    "answer": 1,
+    "explanation": "Clone membuat salinan lokal.",
+    "category": "technology",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-chess-03",
+    "question": "Berapa langkah kuda maksimal tanpa menyerang?",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "answer": 1,
+    "explanation": "Kuda L-shape: 2+1.",
+    "category": "chess",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-chess-04",
+    "question": "Skor remis stalemate?",
+    "options": [
+      "0-1",
+      "1-0",
+      "1/2-1/2",
+      "2-0"
+    ],
+    "answer": 2,
+    "explanation": "Setengah poin masing-masing.",
+    "category": "chess",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-chess-05",
+    "question": "Pieza dengan gerak diagonal?",
+    "options": [
+      "Rook",
+      "Bishop",
+      "Knight",
+      "Pawn"
+    ],
+    "answer": 1,
+    "explanation": "Bishop diagonal; rook lurus.",
+    "category": "chess",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-chess-06",
+    "question": "En passant hanya berlaku untuk?",
+    "options": [
+      "Raja",
+      "Pion",
+      "Ratu",
+      "Kuda"
+    ],
+    "answer": 1,
+    "explanation": "Aturan khusus pion.",
+    "category": "chess",
+    "tags": [],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-chess-07",
+    "question": "Rating sistem Elo dipakai untuk?",
+    "options": [
+      "Kekuatan pemain",
+      "Warna papan",
+      "Ukuran kotak",
+      "Durasi jam"
+    ],
+    "answer": 0,
+    "explanation": "Elo perkiraan skill relatif.",
+    "category": "chess",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-chess-08",
+    "question": "Checkmate berarti?",
+    "options": [
+      "Raja terancam dan tidak bisa escape",
+      "Ratu hilang",
+      "Waktu habis",
+      "Resign"
+    ],
+    "answer": 0,
+    "explanation": "Mat = game over.",
+    "category": "chess",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-chess-09",
+    "question": "Castling melibatkan?",
+    "options": [
+      "Raja dan rook",
+      "Dua kuda",
+      "Dua ratu",
+      "Semua pion"
+    ],
+    "answer": 0,
+    "explanation": "O-O atau O-O-O.",
+    "category": "chess",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-chess-10",
+    "question": "Promosi pion biasanya menjadi?",
+    "options": [
+      "Ratu",
+      "Raja",
+      "Pion kedua",
+      "Kosong"
+    ],
+    "answer": 0,
+    "explanation": "Queen strongest.",
+    "category": "chess",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-anime-03",
+    "question": "Sutradara Spirited Away?",
+    "options": [
+      "Makoto Shinkai",
+      "Hayao Miyazaki",
+      "Satoshi Kon",
+      "Hideaki Anno"
+    ],
+    "answer": 1,
+    "explanation": "Studio Ghibli.",
+    "category": "anime",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-anime-04",
+    "question": "Manga dibaca Jepang asli arah?",
+    "options": [
+      "Atas ke bawah kiri",
+      "Kanan ke kiri",
+      "Kiri ke kanan",
+      "Acak"
+    ],
+    "answer": 1,
+    "explanation": "Edisi Barat sering mirror.",
+    "category": "anime",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-anime-05",
+    "question": "Seiyuu adalah?",
+    "options": [
+      "Pengisi suara",
+      "Animator key frame",
+      "Komposer OP",
+      "Producer"
+    ],
+    "answer": 0,
+    "explanation": "Voice actor Jepang.",
+    "category": "anime",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-anime-06",
+    "question": "Genre mecha fokus pada?",
+    "options": [
+      "Robot raksasa",
+      "Masak-masak",
+      "Idol",
+      "Horror psikologis"
+    ],
+    "answer": 0,
+    "explanation": "Gundam, Evangelion, dll.",
+    "category": "anime",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-anime-07",
+    "question": "Studio behind Attack on Titan TV (season awal)?",
+    "options": [
+      "Kyoto Animation",
+      "Wit Studio",
+      "P.A. Works",
+      "Trigger"
+    ],
+    "answer": 1,
+    "explanation": "Wit S1; MAPPA later seasons.",
+    "category": "anime",
+    "tags": [],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-anime-08",
+    "question": "OP singkatan dari?",
+    "options": [
+      "Opening theme",
+      "Original print",
+      "Offline play",
+      "Option pack"
+    ],
+    "answer": 0,
+    "explanation": "ED ending theme.",
+    "category": "anime",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-anime-09",
+    "question": "Light novel biasanya?",
+    "options": [
+      "Prosa ilustrasi sporadis",
+      "Komik hitam putih",
+      "Game engine",
+      "Live action"
+    ],
+    "answer": 0,
+    "explanation": "Sumber banyak isekai.",
+    "category": "anime",
+    "tags": [],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-anime-10",
+    "question": "Anime seasonal biasa per cour?",
+    "options": [
+      "~3 episode",
+      "~12 episode",
+      "~50 episode",
+      "~100 episode"
+    ],
+    "answer": 1,
+    "explanation": "12-13 episode cour.",
+    "category": "anime",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-sci-11",
+    "question": "Rumus kimia air?",
+    "options": [
+      "CO2",
+      "H2O",
+      "NaCl",
+      "O2"
+    ],
+    "answer": 1,
+    "explanation": "Dua hidrogen satu oksigen.",
+    "category": "science",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-tech-11",
+    "question": "CSS digunakan untuk?",
+    "options": [
+      "Gaya visual halaman",
+      "Query database",
+      "Kompilasi kernel",
+      "Enkripsi TLS"
+    ],
+    "answer": 0,
+    "explanation": "Cascading Style Sheets.",
+    "category": "technology",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  },
+  {
+    "id": "tri-chess-11",
+    "question": "Warna kotak a1?",
+    "options": [
+      "Putih",
+      "Hitam",
+      "Abu",
+      "Merah"
+    ],
+    "answer": 1,
+    "explanation": "Sudut kiri bawah (white view) gelap.",
+    "category": "chess",
+    "tags": [],
+    "difficulty": "sedang",
+    "source": "internal"
+  },
+  {
+    "id": "tri-anime-11",
+    "question": "Manga One Piece author?",
+    "options": [
+      "Eiichiro Oda",
+      "Akira Toriyama",
+      "Naoko Takeuchi",
+      "Tite Kubo"
+    ],
+    "answer": 0,
+    "explanation": "Weekly Shonen Jump.",
+    "category": "anime",
+    "tags": [],
+    "difficulty": "mudah",
+    "source": "internal"
+  }
+]
