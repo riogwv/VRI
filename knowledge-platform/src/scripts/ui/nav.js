@@ -16,9 +16,10 @@ export function initNav() {
     nav.setAttribute("aria-hidden", String(!open));
   });
 
-  // Close mobile nav when a link is clicked
+  // Close mobile nav when a link is clicked (desktop: nav is shown via CSS, not the hidden flag)
   links.forEach((link) => {
     link.addEventListener("click", () => {
+      if (!open) return;
       open = false;
       toggle.setAttribute("aria-expanded", "false");
       nav.hidden = true;

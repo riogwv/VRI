@@ -29,7 +29,7 @@ function profileSignedIn(user) {
         }, (user.email || "U").charAt(0).toUpperCase()),
         createEl("div", {}, [
           createEl("h3", { style: "margin:0" }, user.email || "Pengguna"),
-          createEl("p", { style: "color:var(--color-text-muted);font-size:var(--text-sm)" }, "Terdaftar sejak " + new Date().toLocaleDateString("id-ID")),
+          createEl("p", { style: "color:var(--color-text-muted);font-size:var(--text-sm)" }, "Terdaftar sejak " + new Date(user.created_at).toLocaleDateString("id-ID")),
         ]),
       ]),
       createEl("div", { style: "display:flex;gap:var(--space-2);flex-wrap:wrap" }, [
