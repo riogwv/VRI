@@ -17,7 +17,7 @@ function matchRoute(path) {
   for (const route of routes) {
     if (route.isRegExp) {
       const m = path.match(route.path);
-      if (m) return { route, params: m.groups || {} };
+      if (m) return { route, params: m.groups || m.slice(1) };
     } else if (route.path === path || route.path === path.replace(/\/$/, "")) {
       return { route, params: {} };
     }

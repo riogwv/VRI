@@ -15,12 +15,12 @@
   {
     "id": "cp-mate-queen-01",
     "title": "Mat Ratu Sederhana",
-    "fen": "6k1/6p1/8/8/8/8/8/5Q1K w - - 0 1",
-    "moves": ["g1g7"],
+    "fen": "k7/2K5/8/8/8/8/8/1Q6 w - - 0 1",
+    "moves": ["b1b8"],
     "prompt": "Putih mat hitam dalam satu langkah.",
     "rating": 700,
     "themes": ["mate"],
-    "explanation": "Qg7# mengecek raja di g8; pion g7 menghalangi pelarian lateral.",
+    "explanation": "Qb8# mengecek raja di a8; raja tidak bisa ke a7 (dikontrol ratu diagonal) atau b7 (dijaga raja putih c7), dan menangkap ratu gagal karena raja putih di c7 menjaganya.",
     "category": "chess",
     "source": "internal",
     "verified": true
