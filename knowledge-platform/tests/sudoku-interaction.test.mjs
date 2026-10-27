@@ -81,16 +81,14 @@ test('hint selects the filled cell and conflicting numbers explain the problem',
   vi.useFakeTimers();
   vi.stubGlobal('document', { activeElement: null, addEventListener() {}, removeEventListener() {} });
   const page = await renderSudoku();
-  const row = state.grid.findIndex(line => line.includes(0));
-  const col = state.grid[row].indexOf(0);
+  state.grid = state.solution.map(line => [...line]);
+  state.fixed[0][0] = false; state.fixed[0][1] = false;
+  state.grid[0][0] = 0; state.grid[0][1] = 0;
   page.querySelector('#sudoku-hint').handlers.click();
-  expect(page.querySelector('#sudoku-board').children[row * 9 + col].className).toContain('selected');
-  const nextCol = state.grid[row].findIndex((v, i) => v === 0 && !state.fixed[row][i]);
-  if (nextCol >= 0) {
-    const duplicate = state.grid[row].find(v => v !== 0);
-    page.querySelector('#sudoku-board').children[row * 9 + nextCol].handlers.click();
-    page.buttons[duplicate - 1].handlers.click();
-    expect(page.querySelector('#sudoku-message').textContent).toContain('bertentangan');
-  }
+  expect(page.querySelector('#sudoku-board').children[0].className).toContain('selected');
+  const duplicate = state.grid[0][0];
+  page.querySelector('#sudoku-board').children[1].handlers.click();
+  page.buttons[duplicate - 1].handlers.click();
+  expect(page.querySelector('#sudoku-message').textContent).toContain('bertentangan');
   page.dispose(); vi.useRealTimers(); vi.unstubAllGlobals();
 });
