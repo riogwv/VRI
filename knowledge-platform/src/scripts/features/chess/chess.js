@@ -42,7 +42,7 @@ export async function renderChess() {
                 style:
                   "display:grid;grid-template-columns:repeat(8,1fr);gap:0;width:100%;max-width:400px;aspect-ratio:1;margin-bottom:var(--space-4);border:2px solid var(--color-border)",
               }),
-              createEl("div", { id: "chess-status", style: "font-size:var(--text-sm);margin-bottom:var(--space-3)" }),
+              createEl("div", { id: "chess-status", role: "status", "aria-live": "polite", style: "font-size:var(--text-sm);margin-bottom:var(--space-3)" }),
               createEl("div", { style: "display:flex;gap:var(--space-2);flex-wrap:wrap" }, [
                 createEl("button", { id: "chess-hint", className: "btn btn-outline btn-sm" }, "Petunjuk"),
                 createEl("button", { id: "chess-reset", className: "btn btn-outline btn-sm" }, "Reset"),
@@ -65,11 +65,13 @@ export async function renderChess() {
     ]),
   ]);
 
-  const session = { puzzle: null, game: null, step: 0, selected: null, solved: false };
+  const session = { puzzle: null, game: null, step: 0, selected: null, solved: false, loading: true };
 
   let loadId = 0;
   async function loadRandomPuzzle() {
     const currentLoad = ++loadId;
+    session.loading = true;
+    container.querySelector("#chess-board").setAttribute("aria-busy", "true");
     setStatus(container, "Menyiapkan puzzle…");
     session.selected = null;
     session.step = 0;
@@ -88,19 +90,22 @@ export async function renderChess() {
     if (currentLoad !== loadId) return;
     if (!puzzle) {
       const seeds = content.getChessPuzzlesSeed();
-      const s = seeds[Math.floor(Math.random() * seeds.length)];
+      const choices = seeds.length > 1 ? seeds.filter((seed) => seed.id !== session.puzzle?.id) : seeds;
+      const s = choices[Math.floor(Math.random() * choices.length)];
       puzzle = normalizePuzzle(s, "seed");
     }
 
     session.puzzle = puzzle;
     session.game = new Chess(puzzle.fen);
+    session.loading = false;
+    container.querySelector("#chess-board").setAttribute("aria-busy", "false");
     paintBoard(container, session);
     renderInfo(container, puzzle);
     setStatus(container, `Giliran ${session.game.turn() === "w" ? "putih" : "hitam"}. Pilih bidak, lalu pilih kotak tujuan.`);
   }
 
   container.querySelector("#chess-reset").addEventListener("click", () => {
-    if (!session.puzzle) return;
+    if (!session.puzzle || session.loading) return;
     session.game = new Chess(session.puzzle.fen);
     session.step = 0;
     session.selected = null;
@@ -115,7 +120,7 @@ export async function renderChess() {
   container.querySelector("#chess-next").addEventListener("click", requestPuzzle);
 
   container.querySelector("#chess-hint").addEventListener("click", () => {
-    if (!session.puzzle || session.solved) return;
+    if (!session.puzzle || session.solved || session.loading) return;
     const expected = session.puzzle.moves[session.step];
     if (!expected) return;
     const from = expected.slice(0, 2);
@@ -198,17 +203,19 @@ function appendSquare(boardEl, r, c, turn, session, targets, pieceChar = null) {
 }
 
 function onSquareClick(session, sq, pageRoot) {
-  if (session.solved || session.game.isGameOver()) return;
+  if (session.loading || session.solved || session.game.isGameOver()) return;
 
   const container = pageRoot.querySelector(".container") || pageRoot;
 
   if (!session.selected) {
     const piece = session.game.get(sq);
     if (!piece || piece.color !== session.game.turn()) {
+      setStatus(pageRoot, "Pilih bidak sendiri yang sedang giliran.");
       showToast("Pilih bidak sendiri yang sedang giliran.", "info");
       return;
     }
     session.selected = sq;
+    setStatus(pageRoot, `Bidak ${sq} dipilih. Pilih salah satu kotak tujuan yang ditandai.`);
     paintBoard(container.parentElement?.closest(".chess-page") ? container.closest(".chess-page") : pageRoot, session);
     return;
   }
@@ -232,6 +239,7 @@ function onSquareClick(session, sq, pageRoot) {
   }
 
   if (!move) {
+    setStatus(pageRoot, "Langkah ilegal. Pilih bidak dan coba lagi.");
     showToast("Langkah ilegal menurut aturan catur.", "error");
     session.selected = null;
     paintBoard(pageRoot, session);
@@ -240,6 +248,7 @@ function onSquareClick(session, sq, pageRoot) {
 
   if (expected && attempt !== expected && attempt !== expected.slice(0, 4)) {
     session.game.undo();
+    setStatus(pageRoot, "Langkah legal, tetapi bukan solusi. Coba lagi.");
     showToast("Langkah legal, tapi bukan solusi puzzle. Coba lagi.", "error");
     session.selected = null;
     paintBoard(pageRoot, session);
