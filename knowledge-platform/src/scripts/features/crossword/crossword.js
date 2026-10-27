@@ -82,7 +82,7 @@ export async function renderCrossword() {
         createEl("button", { id: "cw-check", className: "btn btn-outline" }, "Periksa Jawaban"),
         createEl("button", { id: "cw-reset", className: "btn btn-outline" }, "Reset"),
       ]),
-      createEl("div", { id: "cw-message", "aria-label": "Status jawaban", style: "margin-top:var(--space-4);text-align:center;min-height:24px" }),
+      createEl("div", { id: "cw-message", role: "status", "aria-live": "polite", "aria-label": "Status jawaban", style: "margin-top:var(--space-4);text-align:center;min-height:24px" }),
     ]),
   ]);
 
@@ -129,7 +129,7 @@ function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap
   gridEl.style.display = "grid";
   gridEl.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
   gridEl.style.gap = "1px";
-  gridEl.style.width = "min(320px, 90vw)";
+  gridEl.style.width = "min(320px, 100%)";
   gridEl.style.aspectRatio = `${cols} / ${rows}`;
 
   const playable = new Set(Object.keys(answerMap));
