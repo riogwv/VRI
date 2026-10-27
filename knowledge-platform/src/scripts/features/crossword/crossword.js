@@ -56,13 +56,15 @@ export async function renderCrossword() {
   });
 
   const userAnswers = {};
+  const selection = { direction: "across", key: null };
   const container = createEl("section", { className: "page crossword-page" }, [
     createEl("div", { className: "container" }, [
       createEl("div", { className: "game-heading" }, [
         createEl("a", { className: "game-back", href: "#/games" }, "← Semua permainan"),
         createEl("h1", {}, title),
-        createEl("p", { className: "game-intro" }, "Pilih kotak dan ketik huruf sesuai petunjuk. Gunakan tombol panah untuk berpindah."),
+        createEl("p", { className: "game-intro" }, "Pilih petunjuk atau kotak, lalu ketik huruf. Gunakan tombol panah untuk berpindah dan spasi untuk mengganti arah."),
       ]),
+      createEl("p", { id: "cw-direction", className: "cw-direction", role: "status", "aria-live": "polite" }, "Pilih petunjuk untuk mulai."),
       createEl("div", { className: "crossword-layout", style: "display:flex;gap:var(--space-6);flex-wrap:wrap" }, [
         createEl("div", { className: "crossword-grid-wrap" }, [
           createEl("div", { id: "cw-grid", className: "cw-grid" }),
@@ -87,11 +89,11 @@ export async function renderCrossword() {
   ]);
 
   function paintGrid() {
-    renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap);
+    renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap, selection);
   }
 
   paintGrid();
-  renderClues(container, across, down);
+  renderClues(container, across, down, selection);
 
   container.querySelector("#cw-check").addEventListener("click", () => {
     let wrong = 0;
@@ -122,7 +124,7 @@ export async function renderCrossword() {
   return container;
 }
 
-function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap) {
+function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap, selection) {
   const gridEl = container.querySelector("#cw-grid");
   const focusedCell = gridEl.contains(document.activeElement) ? document.activeElement?.dataset.cell : null;
   gridEl.innerHTML = "";
@@ -151,6 +153,7 @@ function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap
           "background:var(--color-surface);border:1px solid var(--color-border);display:flex;align-items:center;justify-content:center;position:relative;font-weight:600;min-height:32px",
       });
 
+      cell.dataset.cell = key;
       if (info.num) {
         cell.appendChild(
           createEl("div", {
@@ -175,24 +178,32 @@ function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap
         if (v && !/^[A-Z]$/.test(v)) v = "";
         e.target.value = v;
         userAnswers[key] = v;
-        if (v) moveFocus(gridEl, key, 1, playable, rows, cols);
+        if (v) moveFocus(gridEl, key, selection.direction === "down" ? cols : 1, playable, rows, cols);
       });
 
       input.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowRight") {
+        if (e.key === " " && info.acrossId && info.downId) {
+          e.preventDefault();
+          selection.direction = selection.direction === "across" ? "down" : "across";
+          highlightSelection(container, cellMap, key, selection);
+        } else if (e.key === "ArrowRight") {
+          selection.direction = "across";
           e.preventDefault();
           moveFocus(gridEl, key, 1, playable, rows, cols);
         } else if (e.key === "ArrowLeft") {
+          selection.direction = "across";
           e.preventDefault();
           moveFocus(gridEl, key, -1, playable, rows, cols);
         } else if (e.key === "ArrowDown") {
+          selection.direction = "down";
           e.preventDefault();
           moveFocus(gridEl, key, cols, playable, rows, cols);
         } else if (e.key === "ArrowUp") {
+          selection.direction = "down";
           e.preventDefault();
           moveFocus(gridEl, key, -cols, playable, rows, cols);
         } else if (e.key === "Backspace" || e.key === "Delete") {
-          if (!e.target.value) moveFocus(gridEl, key, -1, playable, rows, cols);
+          if (!e.target.value) moveFocus(gridEl, key, selection.direction === "down" ? -cols : -1, playable, rows, cols);
           else {
             e.target.value = "";
             userAnswers[key] = "";
@@ -201,8 +212,9 @@ function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap
       });
 
       input.addEventListener("focus", () => {
-        gridEl.querySelectorAll(".cw-cell").forEach((el) => el.classList.remove("selected"));
-        cell.classList.add("selected");
+        if (!info[selection.direction + "Id"]) selection.direction = info.acrossId ? "across" : "down";
+        selection.key = key;
+        highlightSelection(container, cellMap, key, selection);
       });
 
       cell.appendChild(input);
@@ -221,28 +233,54 @@ function moveFocus(gridEl, key, delta, playable, rows, cols) {
   gridEl.querySelector(`input[data-cell="${r},${c}"]`)?.focus();
 }
 
-function renderClues(container, across, down) {
+function highlightSelection(container, cellMap, key, selection) {
+  const active = cellMap[key];
+  const id = active?.[selection.direction + "Id"];
+  container.querySelector("#cw-grid").querySelectorAll(".cw-cell").forEach((cell) => {
+    const info = cellMap[cell.dataset.cell];
+    cell.classList.toggle("selected", cell.dataset.cell === key);
+    cell.classList.toggle("word-active", id != null && info?.[selection.direction + "Id"] === id);
+  });
+  const label = selection.direction === "across" ? "Mendatar" : "Menurun";
+  container.querySelector("#cw-direction").textContent = `${label} ${id ?? ""}`;
+  container.querySelectorAll(".clue-item").forEach((clue) => {
+    const selected = clue.dataset.direction === selection.direction && clue.dataset.num === String(id);
+    clue.classList.toggle("active", selected);
+    clue.setAttribute("aria-pressed", String(selected));
+  });
+}
+
+function renderClues(container, across, down, selection) {
   const acrossEl = container.querySelector("#cw-across");
   const downEl = container.querySelector("#cw-down");
   acrossEl.innerHTML = "";
   downEl.innerHTML = "";
 
   across.forEach((clue) => {
-    acrossEl.appendChild(clueItem(clue, container));
+    acrossEl.appendChild(clueItem(clue, container, selection, "across"));
   });
   down.forEach((clue) => {
-    downEl.appendChild(clueItem(clue, container));
+    downEl.appendChild(clueItem(clue, container, selection, "down"));
   });
 }
 
-function clueItem(clue, container) {
-  return createEl("button", {
+function clueItem(clue, container, selection, direction) {
+  const button = createEl("button", {
     type: "button", className: "clue-item",
-    onClick: () => container.querySelector(`#cw-grid input[data-cell="${clue.row},${clue.col}"]`)?.focus(),
+    onClick: () => {
+      selection.direction = direction;
+      const input = container.querySelector(`#cw-grid input[data-cell="${clue.row},${clue.col}"]`);
+      if (input === document.activeElement) input?.dispatchEvent(new Event("focus"));
+      else input?.focus();
+    },
   }, [
     createEl("span", { className: "clue-number" }, `${clue.num}.`),
     createEl("span", {}, clue.clue),
   ]);
+  button.dataset.direction = direction;
+  button.dataset.num = String(clue.num);
+  button.setAttribute("aria-pressed", "false");
+  return button;
 }
 
 function setMessage(container, msg, type) {
