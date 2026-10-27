@@ -166,6 +166,7 @@ function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap
         value: val,
       });
 
+      input.dataset.cell = key;
       input.addEventListener("input", (e) => {
         let v = e.target.value.toUpperCase();
         if (v && !/^[A-Z]$/.test(v)) v = "";
@@ -210,20 +211,12 @@ function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap
 }
 
 function moveFocus(gridEl, key, delta, playable, rows, cols) {
-  const [r0, c0] = key.split(",").map(Number);
-  const keys = [];
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const k = `${r},${c}`;
-      if (playable.has(k)) keys.push(k);
-    }
-  }
-  const idx = keys.indexOf(key);
-  const next = keys[idx + delta];
-  if (!next) return;
-  const inputs = gridEl.querySelectorAll("input");
-  const nextIdx = keys.indexOf(next);
-  if (inputs[nextIdx]) inputs[nextIdx].focus();
+  let [r, c] = key.split(",").map(Number);
+  if (delta === cols) r++;
+  else if (delta === -cols) r--;
+  else c += delta;
+  if (r < 0 || r >= rows || c < 0 || c >= cols || !playable.has(`${r},${c}`)) return;
+  gridEl.querySelector(`input[data-cell="${r},${c}"]`)?.focus();
 }
 
 function renderClues(container, across, down) {
