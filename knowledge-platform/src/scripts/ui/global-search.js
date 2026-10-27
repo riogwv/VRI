@@ -6,7 +6,7 @@ import { navigate } from "../router.js";
 
 export function initSearch() {
   const input = document.getElementById("global-search");
-  const form = input.closest("form");
+  const form = input?.closest("form");
   if (!input || !form) return;
 
   let timer = null;
@@ -22,6 +22,7 @@ export function initSearch() {
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    clearTimeout(timer);
     const q = input.value.trim();
     if (!q) return;
     navigate(`/search?q=${encodeURIComponent(q)}`);
