@@ -53,3 +53,18 @@
   .chess-puzzle-card { min-width: 0 !important; }
   .news-footer { flex-wrap: wrap; }
 }
+
+.article-page .breadcrumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; color: var(--color-text-secondary); font-size: .875rem; }
+.article-reading { background: var(--discovery-card); border-radius: 20px; }
+.article-reading-body { padding: clamp(22px, 5vw, 56px); }
+.article-header, .article-content { max-width: 72ch; margin-inline: auto; }
+.article-header h1 { font-size: clamp(2rem, 4.5vw, 3.4rem); letter-spacing: -.035em; }
+.article-header > p { font-size: 1.05rem !important; line-height: 1.7; }
+.article-content { font-size: 1.05rem; line-height: 1.8; }
+.news-card { border-radius: 18px; transition: border-color .15s ease, box-shadow .15s ease; }
+.news-card:hover, .news-card:focus-within { border-color: var(--color-focus); box-shadow: 0 10px 28px rgb(15 23 42 / .1); }
+.news-card .btn-link { display: inline-flex; min-height: 44px; align-items: center; }
+.auth-status { min-height: 1.5em; margin-top: 12px; color: var(--color-text-secondary); }
+.profile-page button:disabled { opacity: .6; cursor: wait; }
+.sudoku-numpad .num-btn { min-width: 44px; min-height: 44px; }
+.sudoku-page #sudoku-message { padding: 10px; border-radius: 12px; background: var(--discovery-card); }
