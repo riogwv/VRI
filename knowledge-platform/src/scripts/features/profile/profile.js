@@ -59,57 +59,46 @@ function profileSignInForm() {
   emailInput.required = true;
   passInput.required = true;
 
+  const signInButton = createEl("button", { className: "btn btn-primary", type: "submit", style: "width:100%" }, "Masuk");
+  const signUpButton = createEl("button", { className: "btn btn-link", type: "submit", style: "width:100%;padding:0;text-align:left" }, "Daftar buat akun baru");
+  const status = createEl("p", { role: "status", "aria-live": "polite", className: "auth-status" });
   const form = createEl("form", {}, [
-    createEl("div", {}, [emailInput, passInput]),
-    createEl("button", {
-      className: "btn btn-primary",
-      style: "width:100%",
-      type: "submit",
-      onClick: async (e) => {
-        e.preventDefault();
-        if (!form.reportValidity()) return;
-        const buttons = form.querySelectorAll("button");
-        buttons.forEach((button) => { button.disabled = true; });
-        try {
-          await signInWithPassword(emailInput.value, passInput.value);
-          showToast("Berhasil masuk", "success");
-          dispatchRoute();
-        } catch (err) {
-          showToast(err.message || "Gagal masuk", "error");
-        } finally {
-          buttons.forEach((button) => { button.disabled = false; });
-        }
-      },
-    }, "Masuk"),
-    createEl("p", { style: "margin-top:var(--space-3);font-size:var(--text-sm);color:var(--color-text-muted);text-align:center" },
-      "Belum punya akun? "),
-    createEl("button", {
-      className: "btn btn-link",
-      type: "button",
-      style: "width:100%;padding:0;text-align:left",
-      onClick: async (e) => {
-        e.preventDefault();
-        if (!form.reportValidity()) return;
-        const buttons = form.querySelectorAll("button");
-        buttons.forEach((button) => { button.disabled = true; });
-        try {
-          const result = await signUp(emailInput.value, passInput.value);
-          if (result.session) {
-            showToast("Akun dibuat dan berhasil masuk.", "success");
-            dispatchRoute();
-          } else {
-            showToast("Periksa email untuk konfirmasi akun, lalu masuk.", "info");
-          }
-        } catch (err) {
-          showToast(err.message || "Gagal mendaftar", "error");
-        } finally {
-          buttons.forEach((button) => { button.disabled = false; });
-        }
-      },
-    }, "Daftar buat akun baru"),
+    createEl("div", {}, [emailInput, passInput]), signInButton,
+    createEl("p", { style: "margin-top:var(--space-3);font-size:var(--text-sm);color:var(--color-text-muted);text-align:center" }, "Belum punya akun?"),
+    signUpButton, status,
   ]);
 
-  form.addEventListener("submit", (event) => { event.preventDefault(); form.querySelector('button[type="submit"]').click(); });
+  let pending = false;
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (pending || !form.reportValidity()) return;
+    const registering = event.submitter === signUpButton;
+    pending = true;
+    signInButton.disabled = true;
+    signUpButton.disabled = true;
+    status.textContent = registering ? "Membuat akun…" : "Sedang masuk…";
+    try {
+      if (registering) {
+        const result = await signUp(emailInput.value.trim(), passInput.value);
+        if (!result.session) {
+          status.textContent = "Periksa email untuk konfirmasi akun, lalu masuk.";
+          showToast(status.textContent, "info");
+          return;
+        }
+      } else {
+        await signInWithPassword(emailInput.value.trim(), passInput.value);
+      }
+      showToast(registering ? "Akun dibuat dan berhasil masuk." : "Berhasil masuk", "success");
+      dispatchRoute();
+    } catch (err) {
+      status.textContent = err.message || (registering ? "Gagal mendaftar" : "Gagal masuk");
+      showToast(status.textContent, "error");
+    } finally {
+      pending = false;
+      signInButton.disabled = false;
+      signUpButton.disabled = false;
+    }
+  });
 
   return createEl("div", { className: "card" }, [
     createEl("div", { className: "card-body" }, [
