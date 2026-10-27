@@ -4,7 +4,6 @@
    ========================================================================== */
 
 import { fetchJson } from "../services/api.js";
-import { cacheGet, cacheSet } from "../services/cache.js";
 import { CONFIG } from "../config.js";
 
 const BASE = CONFIG.api.lichessBase;
@@ -12,19 +11,13 @@ let inFlight = null;
 
 const lichess = {
   async getPuzzle({ difficulty = "normal" } = {}) {
-    const cacheKey = `lichess:puzzle:${difficulty}`;
-    const cached = cacheGet(cacheKey);
-    if (cached) return cached;
-
     // One request at a time guard
     if (inFlight) return inFlight;
     inFlight = (async () => {
       try {
         const url = `${BASE}/puzzle/next?${buildQ({ difficulty, color: "" })}`;
         const data = await fetchJson(url);
-        const result = normalizePuzzle(data);
-        cacheSet(cacheKey, result, CONFIG.cache.ttlLichess);
-        return result;
+        return normalizePuzzle(data);
       } catch (err) {
         console.warn("[Lichess] puzzle failed:", err.message);
         return null;
