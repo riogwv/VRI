@@ -22,3 +22,15 @@ test('never turns unsafe external URLs into links', async () => {
   const footer = page.children[0].children[1].children[0].children[3];
   expect(footer.children.some(child => child.tag === 'a')).toBe(false);
 });
+
+test('retry requests news again after an error', async () => {
+  source.getNews.mockReset().mockResolvedValueOnce({ results: [], error: 'unavailable' }).mockResolvedValueOnce({ results: [] });
+  const page = await renderNews();
+  await Promise.resolve();
+  const grid = page.children[0].children[1];
+  const retry = grid.children[0].children.find(child => child.tag === 'button');
+  retry.props.onClick();
+  await Promise.resolve();
+  expect(source.getNews).toHaveBeenCalledTimes(2);
+  expect(grid.children[0].children[1].children[0]).toContain('Belum ada berita');
+});

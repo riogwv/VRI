@@ -16,12 +16,15 @@ export async function renderNews() {
     ]),
   ]);
   results.setAttribute("aria-live", "polite");
-  content.getNews({ limit: 10 }).then(({ results: items, error }) => {
+  function loadNews() {
+    results.replaceChildren(createEl("p", { className: "news-state" }, "Memuat berita teknologi…"));
+    content.getNews({ limit: 10 }).then(({ results: items, error }) => {
     results.replaceChildren();
     if (!items?.length) {
       results.appendChild(createEl("div", { className: "news-state" }, [
         createEl("h2", {}, "Berita belum tersedia"),
         createEl("p", {}, error ? "Layanan berita belum dikonfigurasi atau sedang mengalami gangguan. Coba lagi nanti." : "Belum ada berita untuk ditampilkan saat ini."),
+        error ? createEl("button", { type: "button", className: "btn btn-primary", onClick: loadNews }, "Coba lagi") : null,
         createEl("a", { className: "btn btn-outline", href: "#/explore" }, "Jelajahi artikel"),
       ]));
       return;
@@ -43,8 +46,14 @@ export async function renderNews() {
         createEl("div", { className: "news-footer" }, [createEl("span", {}, item.publishedAt ? new Date(item.publishedAt).toLocaleDateString("id-ID") : "Tanggal tidak tersedia"), link]),
       ]));
     });
-  }).catch(() => {
-    results.textContent = "Berita tidak dapat dimuat. Coba lagi nanti.";
-  });
+    }).catch(() => {
+      results.replaceChildren(createEl("div", { className: "news-state" }, [
+        createEl("h2", {}, "Berita tidak dapat dimuat"),
+        createEl("p", {}, "Periksa koneksi Anda, lalu coba lagi."),
+        createEl("button", { type: "button", className: "btn btn-primary", onClick: loadNews }, "Coba lagi"),
+      ]));
+    });
+  }
+  loadNews();
   return page;
 }

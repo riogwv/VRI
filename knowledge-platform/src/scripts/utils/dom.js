@@ -11,9 +11,9 @@ export function createEl(tag, props = {}, children = []) {
   for (const key of ["type", "placeholder", "value", "maxlength", "name", "autocomplete"]) {
     if (props[key] !== undefined) el.setAttribute(key, props[key]);
   }
-  if (props["aria-label"]) el.setAttribute("aria-label", props["aria-label"]);
-  if (props["aria-expanded"] !== undefined) el.setAttribute("aria-expanded", props["aria-expanded"]);
-  if (props["aria-hidden"] !== undefined) el.setAttribute("aria-hidden", props["aria-hidden"]);
+  for (const [key, value] of Object.entries(props)) {
+    if ((key.startsWith("aria-") || key === "role") && value != null) el.setAttribute(key, value);
+  }
   if (props.text !== undefined) el.textContent = props.text;
   if (props.html) el.innerHTML = props.html;
   if (props.onClick) el.addEventListener("click", props.onClick);
