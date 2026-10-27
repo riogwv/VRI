@@ -4,7 +4,7 @@
 
 import { content } from "../../services/content.js";
 import { renderCardGrid } from "../../components/card-grid.js";
-import { createEl } from "../../utils/dom.js";
+import { createEl, safeExternalUrl } from "../../utils/dom.js";
 
 export async function renderHome() {
   const page = createEl("section", { className: "page home-page", id: "home" });
@@ -85,10 +85,14 @@ export async function renderHome() {
       newsPreview.textContent = error ? "Berita belum tersedia saat ini." : "Belum ada berita untuk ditampilkan.";
       return;
     }
-    results.slice(0, 3).forEach((item) => newsPreview.appendChild(createEl("a", { href: "#/news", className: "home-news-item" }, [
-      createEl("span", {}, item.source || "Berita"),
-      createEl("strong", {}, item.title),
-    ])));
+    results.slice(0, 3).forEach((item) => {
+      const href = safeExternalUrl(item.url);
+      const headline = createEl(href ? "a" : "div", { ...(href ? { href } : {}), className: "home-news-item" }, [
+        createEl("span", {}, item.source || "Berita"), createEl("strong", {}, item.title),
+      ]);
+      if (href) { headline.target = "_blank"; headline.rel = "noopener noreferrer"; }
+      newsPreview.appendChild(headline);
+    });
   }).catch(() => { newsPreview.textContent = "Berita belum tersedia saat ini."; });
 
   // Category quick links
