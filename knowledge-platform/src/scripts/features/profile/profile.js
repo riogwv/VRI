@@ -56,19 +56,28 @@ function profileSignInForm() {
     style: "width:100%;padding:var(--space-3)var(--space-4);border:1px solid var(--color-border);border-radius:var(--radius);background:var(--color-surface);color:var(--color-text);margin-bottom:var(--space-4);font-size:var(--text-sm)",
   });
 
+  emailInput.required = true;
+  passInput.required = true;
+
   const form = createEl("form", {}, [
     createEl("div", {}, [emailInput, passInput]),
     createEl("button", {
       className: "btn btn-primary",
       style: "width:100%",
+      type: "submit",
       onClick: async (e) => {
         e.preventDefault();
+        if (!form.reportValidity()) return;
+        const buttons = form.querySelectorAll("button");
+        buttons.forEach((button) => { button.disabled = true; });
         try {
           await signInWithPassword(emailInput.value, passInput.value);
           showToast("Berhasil masuk", "success");
           dispatchRoute();
         } catch (err) {
           showToast(err.message || "Gagal masuk", "error");
+        } finally {
+          buttons.forEach((button) => { button.disabled = false; });
         }
       },
     }, "Masuk"),
@@ -76,9 +85,13 @@ function profileSignInForm() {
       "Belum punya akun? "),
     createEl("button", {
       className: "btn btn-link",
+      type: "button",
       style: "width:100%;padding:0;text-align:left",
       onClick: async (e) => {
         e.preventDefault();
+        if (!form.reportValidity()) return;
+        const buttons = form.querySelectorAll("button");
+        buttons.forEach((button) => { button.disabled = true; });
         try {
           const result = await signUp(emailInput.value, passInput.value);
           if (result.session) {
@@ -89,10 +102,14 @@ function profileSignInForm() {
           }
         } catch (err) {
           showToast(err.message || "Gagal mendaftar", "error");
+        } finally {
+          buttons.forEach((button) => { button.disabled = false; });
         }
       },
     }, "Daftar buat akun baru"),
   ]);
+
+  form.addEventListener("submit", (event) => { event.preventDefault(); form.querySelector('button[type="submit"]').click(); });
 
   return createEl("div", { className: "card" }, [
     createEl("div", { className: "card-body" }, [
