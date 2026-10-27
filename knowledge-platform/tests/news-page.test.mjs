@@ -1,7 +1,7 @@
 import { test, expect, vi } from 'vitest';
 const source = vi.hoisted(() => ({ getNews: vi.fn() }));
 vi.mock('../src/scripts/services/content.js', () => ({ content: source }));
-vi.mock('../src/scripts/utils/dom.js', () => ({ createEl: (tag, props = {}, children = []) => ({
+vi.mock('../src/scripts/utils/dom.js', () => ({ safeExternalUrl: (value) => { try { const u = new URL(value); return ['http:', 'https:'].includes(u.protocol) ? u.href : null; } catch { return null; } }, createEl: (tag, props = {}, children = []) => ({
   tag, props, children: Array.isArray(children) ? children.filter(Boolean) : [children],
   setAttribute() {}, replaceChildren() { this.children = []; }, appendChild(item) { this.children.push(item); },
 }) }));

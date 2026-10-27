@@ -8,23 +8,30 @@ import { fetchJson } from "../services/api.js";
 import { cacheGet, cacheSet } from "../services/cache.js";
 import { CONFIG } from "../config.js";
 
+const inFlight = new Map();
+
 const news = {
   async fetchTechNews({ limit = 10 } = {}) {
     const cacheKey = `news:tech:${limit}`;
     const cached = cacheGet(cacheKey);
     if (cached) return { results: cached, source: "gnews", fromCache: true };
 
-    const edgeUrl = CONFIG.api.edgeFunction;
-    try {
-      if (!edgeUrl) throw new Error("URL proxy berita belum dikonfigurasi.");
-      const data = await fetchJson(`${edgeUrl}?${buildQ({ category: "technology", max: limit })}`);
-      const results = normalizeNews(data.articles || data);
-      cacheSet(cacheKey, results, CONFIG.cache.ttlNews);
-      return { results, source: "gnews", fromCache: false };
-    } catch (err) {
-      console.warn("[News] GNews proxy failed:", err.message);
-      return { results: [], source: "gnews", error: err.message, fromCache: false };
-    }
+    if (inFlight.has(cacheKey)) return inFlight.get(cacheKey);
+    const request = (async () => {
+      const edgeUrl = CONFIG.api.edgeFunction;
+      try {
+        if (!edgeUrl) throw new Error("URL proxy berita belum dikonfigurasi.");
+        const data = await fetchJson(`${edgeUrl}?${buildQ({ category: "technology", max: limit })}`);
+        const results = normalizeNews(data.articles || data);
+        cacheSet(cacheKey, results, CONFIG.cache.ttlNews);
+        return { results, source: "gnews", fromCache: false };
+      } catch (err) {
+        console.warn("[News] GNews proxy failed:", err.message);
+        return { results: [], source: "gnews", error: err.message, fromCache: false };
+      }
+    })();
+    inFlight.set(cacheKey, request);
+    try { return await request; } finally { inFlight.delete(cacheKey); }
   },
 };
 

@@ -68,3 +68,28 @@
 .profile-page button:disabled { opacity: .6; cursor: wait; }
 .sudoku-numpad .num-btn { min-width: 44px; min-height: 44px; }
 .sudoku-page #sudoku-message { padding: 10px; border-radius: 12px; background: var(--discovery-card); }
+
+.games-page .card { border: 1px solid var(--color-border); transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease; }
+.games-page .card:hover, .games-page .card:focus-visible { transform: translateY(-3px); border-color: var(--color-focus); box-shadow: 0 12px 30px rgb(15 23 42 / .1); }
+.news-heading { border-bottom: 1px solid var(--color-border); padding-bottom: 24px; }
+.news-card h2 { font-size: clamp(1.2rem, 1.6vw, 1.45rem); letter-spacing: -.02em; }
+.news-state .btn + .btn { margin-left: 10px; }
+.clue-item { display: flex; width: 100%; gap: 8px; align-items: baseline; padding: 10px 8px; text-align: left; border: 0; border-radius: 8px; background: transparent; color: var(--color-text); font: inherit; cursor: pointer; }
+.clue-item:hover, .clue-item:focus-visible { background: var(--discovery-hero); outline: 2px solid var(--color-focus); outline-offset: -2px; }
+.clue-number { color: var(--color-focus); font-weight: 700; }
+@media (prefers-reduced-motion: reduce) { .games-page .card { transition: none; } }
+
+.sudoku-controls, .crossword-grid-wrap, .crossword-clues, .chess-info-panel { box-shadow: 0 8px 24px rgb(15 23 42 / .04); }
+.sudoku-board-wrapper { background: var(--discovery-hero); }
+.sudoku-cell { font-size: clamp(14px, 3vw, 20px) !important; }
+.sudoku-cell.selected { box-shadow: inset 0 0 0 3px #1d4ed8, 0 0 0 2px #fff; }
+.chess-puzzle-card .card { border-radius: 20px; overflow: hidden; }
+.chess-page #chess-status { padding: 12px 14px; border-radius: 10px; background: var(--discovery-hero); line-height: 1.5; }
+.crossword-clues { flex: 1; }
+@media (max-width: 767px) { .crossword-grid-wrap, .crossword-clues { width: 100%; min-width: 0 !important; } .crossword-grid-wrap { display: flex; justify-content: center; } }
+.cw-direction { margin: 0 0 14px; color: var(--color-text-secondary); font-weight: 600; }
+.cw-cell.word-active { background: var(--discovery-hero) !important; }
+.cw-cell.selected { background: var(--discovery-glow) !important; }
+.clue-item.active { background: var(--discovery-hero); box-shadow: inset 3px 0 var(--color-focus); }
+.home-news-item { overflow-wrap: anywhere; }
+@media (max-width: 767px) { .home-spotlight > * { min-width: 0; } .news-state .btn { margin: 8px 8px 0 0; } }
