@@ -187,19 +187,19 @@ function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap
           selection.direction = selection.direction === "across" ? "down" : "across";
           highlightSelection(container, cellMap, key, selection);
         } else if (e.key === "ArrowRight") {
-          selection.direction = "across";
+          if (info.acrossId) { selection.direction = "across"; highlightSelection(container, cellMap, key, selection); }
           e.preventDefault();
           moveFocus(gridEl, key, 1, playable, rows, cols);
         } else if (e.key === "ArrowLeft") {
-          selection.direction = "across";
+          if (info.acrossId) { selection.direction = "across"; highlightSelection(container, cellMap, key, selection); }
           e.preventDefault();
           moveFocus(gridEl, key, -1, playable, rows, cols);
         } else if (e.key === "ArrowDown") {
-          selection.direction = "down";
+          if (info.downId) { selection.direction = "down"; highlightSelection(container, cellMap, key, selection); }
           e.preventDefault();
           moveFocus(gridEl, key, cols, playable, rows, cols);
         } else if (e.key === "ArrowUp") {
-          selection.direction = "down";
+          if (info.downId) { selection.direction = "down"; highlightSelection(container, cellMap, key, selection); }
           e.preventDefault();
           moveFocus(gridEl, key, -cols, playable, rows, cols);
         } else if (e.key === "Backspace" || e.key === "Delete") {
