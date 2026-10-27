@@ -228,25 +228,21 @@ function renderClues(container, across, down) {
   downEl.innerHTML = "";
 
   across.forEach((clue) => {
-    acrossEl.appendChild(clueItem(clue.num, clue.clue));
+    acrossEl.appendChild(clueItem(clue, container));
   });
   down.forEach((clue) => {
-    downEl.appendChild(clueItem(clue.num, clue.clue));
+    downEl.appendChild(clueItem(clue, container));
   });
 }
 
-function clueItem(num, clueText) {
-  return createEl(
-    "div",
-    {
-      className: "clue-item",
-      style: "font-size:var(--text-sm);margin-bottom:var(--space-2)",
-    },
-    [
-      createEl("span", { style: "font-weight:700;color:var(--color-focus);margin-right:var(--space-1)" }, `${num}.`),
-      createEl("span", {}, clueText),
-    ]
-  );
+function clueItem(clue, container) {
+  return createEl("button", {
+    type: "button", className: "clue-item",
+    onClick: () => container.querySelector(`#cw-grid input[data-cell="${clue.row},${clue.col}"]`)?.focus(),
+  }, [
+    createEl("span", { className: "clue-number" }, `${clue.num}.`),
+    createEl("span", {}, clue.clue),
+  ]);
 }
 
 function setMessage(container, msg, type) {
