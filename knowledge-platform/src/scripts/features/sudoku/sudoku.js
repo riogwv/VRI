@@ -237,6 +237,9 @@ export async function renderSudoku(params) {
       else setCell(r, c, parseInt(e.key, 10));
       renderBoard(container);
       updateStatus(container);
+      if (state.fixed[r][c]) setMessage(container, "Kotak ini adalah angka awal dan tidak dapat diubah.", "info");
+      else if (!candidateMode && cellError(r, c)) setMessage(container, "Angka ini bertentangan dengan baris, kolom, atau blok.", "error");
+      else setMessage(container, candidateMode ? "Kandidat diperbarui." : "Angka diperbarui.", "info");
       checkCompletion(container);
       e.preventDefault();
     } else if (e.key === "Backspace" || e.key === "Delete" || e.key === "0") {
