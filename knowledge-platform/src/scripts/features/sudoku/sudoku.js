@@ -231,6 +231,7 @@ export async function renderSudoku(params) {
     if (!selectedCell || state.completed) return;
     const tag = document.activeElement?.tagName;
     if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+    if (tag === "BUTTON" && !container.querySelector("#sudoku-board").contains(document.activeElement)) return;
     const { r, c } = selectedCell;
     if (e.key >= "1" && e.key <= "9") {
       if (candidateMode) toggleCandidate(r, c, parseInt(e.key, 10));
