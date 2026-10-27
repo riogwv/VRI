@@ -186,6 +186,7 @@ export async function renderSudoku(params) {
   container.querySelector("#sudoku-hint").addEventListener("click", () => {
     const h = hint();
     if (h) {
+      selectedCell = { r: h.r, c: h.c };
       renderBoard(container);
       updateStatus(container);
       setMessage(container, `Petunjuk: kotak (${h.r + 1}, ${h.c + 1}) = ${h.val}`, "info");
@@ -287,6 +288,8 @@ export async function renderSudoku(params) {
       else setCell(r, c, parseInt(num));
       renderBoard(container);
       updateStatus(container);
+      if (!state.completed && num !== "0" && !candidateMode && cellError(r, c)) setMessage(container, "Angka ini bertentangan dengan baris, kolom, atau blok.", "error");
+      else if (!state.completed) setMessage(container, candidateMode ? "Kandidat diperbarui." : "Angka diperbarui.", "info");
       checkCompletion(container);
     });
   });
