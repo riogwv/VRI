@@ -27,6 +27,15 @@ export function initNav() {
     });
   });
 
+  nav.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || !open) return;
+    open = false;
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Buka navigasi");
+    nav.classList.remove("is-open");
+    toggle.focus();
+  });
+
   // Highlight active link on route change
   window.addEventListener("hashchange", () => updateActive(links));
   window.addEventListener("popstate", () => updateActive(links));
@@ -43,5 +52,7 @@ function updateActive(links) {
       (href !== "/" && base.startsWith(href + "/")) ||
       (base === "/" && href === "/");
     link.classList.toggle("active", isActive);
+    if (isActive) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
   });
 }
