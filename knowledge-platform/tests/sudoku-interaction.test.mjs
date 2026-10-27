@@ -76,3 +76,21 @@ test('finishing the last cell marks the puzzle complete without pressing check',
   vi.useRealTimers();
   vi.unstubAllGlobals();
 });
+
+test('hint selects the filled cell and conflicting numbers explain the problem', async () => {
+  vi.useFakeTimers();
+  vi.stubGlobal('document', { activeElement: null, addEventListener() {}, removeEventListener() {} });
+  const page = await renderSudoku();
+  const row = state.grid.findIndex(line => line.includes(0));
+  const col = state.grid[row].indexOf(0);
+  page.querySelector('#sudoku-hint').handlers.click();
+  expect(page.querySelector('#sudoku-board').children[row * 9 + col].className).toContain('selected');
+  const nextCol = state.grid[row].findIndex((v, i) => v === 0 && !state.fixed[row][i]);
+  if (nextCol >= 0) {
+    const duplicate = state.grid[row].find(v => v !== 0);
+    page.querySelector('#sudoku-board').children[row * 9 + nextCol].handlers.click();
+    page.buttons[duplicate - 1].handlers.click();
+    expect(page.querySelector('#sudoku-message').textContent).toContain('bertentangan');
+  }
+  page.dispose(); vi.useRealTimers(); vi.unstubAllGlobals();
+});
