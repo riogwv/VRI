@@ -5,10 +5,11 @@
    ========================================================================== */
 
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const GNEWS_API_KEY = Deno.env.get("GNEWS_API_KEY");
 const GNEWS_BASE = "https://gnews.io/api/v4";
+const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, OPTIONS", "Access-Control-Allow-Headers": "content-type" };
+const json = (value, status = 200) => new Response(JSON.stringify(value), { status, headers: { ...CORS, "content-type": "application/json" } });
 
 serve(async (req) => {
   // CORS
@@ -22,18 +23,19 @@ serve(async (req) => {
     });
   }
 
+  if (req.method !== "GET") return json({ error: "Method not allowed" }, 405);
+
   try {
     const url = new URL(req.url);
     const category = url.searchParams.get("category") || "technology";
-    const max = parseInt(url.searchParams.get("max") || "10", 10);
+    const maxText = url.searchParams.get("max") || "10";
+    const max = Number(maxText);
     const lang = url.searchParams.get("lang") || "id";
 
-    if (!GNEWS_API_KEY) {
-      return new Response(
-        JSON.stringify({ error: "GNews API key not configured on server" }),
-        { status: 500, headers: { "content-type": "application/json" } }
-      );
+    if (category !== "technology" || !/^\d+$/.test(maxText) || !Number.isInteger(max) || max < 1 || max > 10 || !/^[a-z]{2}$/.test(lang)) {
+      return json({ error: "Invalid parameters" }, 400);
     }
+    if (!GNEWS_API_KEY) return json({ error: "News service unavailable" }, 503);
 
     const res = await fetch(
       `${GNEWS_BASE}/top-headlines?category=${encodeURIComponent(category)}&max=${max}&lang=${encodeURIComponent(lang)}&apikey=${GNEWS_API_KEY}`
@@ -41,17 +43,8 @@ serve(async (req) => {
 
     const data = await res.json();
 
-    return new Response(JSON.stringify(data), {
-      status: res.status,
-      headers: {
-        "content-type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
-  } catch (err) {
-    return new Response(
-      JSON.stringify({ error: err.message }),
-      { status: 500, headers: { "content-type": "application/json" } }
-    );
+    return json(data, res.status);
+  } catch {
+    return json({ error: "News service unavailable" }, 502);
   }
 });

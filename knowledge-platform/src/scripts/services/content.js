@@ -15,8 +15,6 @@ const funFactsSeed = [...funFactsBase, ...funFactsExtra];
 const triviaSeed = [...triviaBase, ...triviaExtra];
 import crosswordSeed from "../../data/seed/crossword.json";
 import chessPuzzlesSeed from "../../data/seed/chess-puzzles.json";
-import fallback from "../../data/fallback/fallback.json";
-import { cacheGet, cacheSet } from "./cache.js";
 import { jikan } from "../api/jikan.js";
 import { wikidata } from "../api/wikidata.js";
 import { lichess } from "../api/lichess.js";

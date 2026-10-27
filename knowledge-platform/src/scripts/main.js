@@ -3,7 +3,6 @@
    ========================================================================== */
 
 import { initRouter, addRoute, navigate } from "./router.js";
-import { CONFIG } from "./config.js";
 import { initAuth } from "./services/auth.js";
 import { renderHome } from "./features/home/home.js";
 import { renderExplore } from "./features/explore/explore.js";
@@ -35,7 +34,12 @@ async function initApp() {
   document.getElementById("auth-btn")?.addEventListener("click", () => navigate("/profile"));
 
   // Auth (Supabase) — optional, public content works without login
-  await initAuth();
+  try {
+    await initAuth();
+  } catch (error) {
+    console.error("[KnowledgeHub] Auth initialization failed:", error);
+    showToast("Login tidak tersedia. Konten publik tetap dapat digunakan.", "error");
+  }
 
   // Routes
   addRoute("/", renderHome);
