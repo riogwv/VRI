@@ -8,32 +8,45 @@ import { createEl } from "../../utils/dom.js";
 
 export async function renderHome() {
   const page = createEl("section", { className: "page home-page", id: "home" });
+  const layout = createEl("div", { className: "container home-layout" });
+  page.appendChild(layout);
 
   // Hero: fun fact of the day
   const funFacts = content.getFunFacts({ limit: 1 });
   const ff = funFacts[0];
 
-  const hero = createEl("div", { className: "card hero" }, [
-    createEl("div", { className: "card-body", style: "padding:var(--space-6)" }, [
-      createEl("div", { className: "badge badge-tech", style: "margin-bottom:var(--space-3)" }, "Fun Fact Hari Ini"),
-      createEl("h2", {}, ff ? ff.statement : "Tidak ada fun fact tersedia saat ini."),
-      ff
-        ? createEl("p", { style: "color:var(--color-text-secondary);margin-top:var(--space-2)" }, ff.explanation)
-        : null,
+  const hero = createEl("section", { className: "home-hero" }, [
+    createEl("div", { className: "hero-copy" }, [
+      createEl("span", { className: "hero-eyebrow" }, "RUANG UNTUK RASA INGIN TAHU"),
+      createEl("h1", { className: "hero-title" }, ["Dunia lebih luas saat kamu ", createEl("span", {}, "penasaran.")]),
+      createEl("p", { className: "hero-intro" }, "Temukan cerita, ide, dan permainan yang membuat belajar terasa lebih menyenangkan."),
+      createEl("div", { className: "hero-actions" }, [
+        createEl("a", { className: "btn btn-primary", href: "#/explore" }, "Jelajahi artikel →"),
+        createEl("a", { className: "hero-secondary", href: "#/games" }, "Main permainan ↗"),
+      ]),
+    ]),
+    createEl("aside", { className: "hero-fact" }, [
+      createEl("div", { className: "fact-top" }, [
+        createEl("span", { className: "fact-label" }, "FAKTA PILIHAN"),
+        createEl("span", { className: "fact-symbol", "aria-hidden": "true" }, "✳"),
+      ]),
+      createEl("h2", {}, ff ? ff.statement : "Tidak ada fakta tersedia saat ini."),
+      ff ? createEl("p", {}, ff.explanation) : null,
+      createEl("span", { className: "fact-footer" }, "Sedikit tahu, banyak kemungkinan."),
     ]),
   ]);
 
   // Feed section
-  const feedSection = createEl("section", { className: "feed-section", style: "margin-top:var(--space-10)" }, [
+  const feedSection = createEl("section", { className: "feed-section home-section" }, [
     createEl("div", { className: "section-header" }, [
-      createEl("h2", {}, "Feed Terkini"),
+      createEl("div", {}, [createEl("span", { className: "section-kicker" }, "UNTUK KAMU"), createEl("h2", {}, "Mulai dari sini")]),
       createEl("a", { className: "view-all", href: "#/explore" }, "Lihat semua →"),
     ]),
     createEl("div", { className: "grid-feed", id: "home-feed" }),
   ]);
 
-  page.appendChild(hero);
-  page.appendChild(feedSection);
+  layout.appendChild(hero);
+  layout.appendChild(feedSection);
 
   // Populate feed
   const feedContainer = page.querySelector("#home-feed");
@@ -42,13 +55,13 @@ export async function renderHome() {
   renderCardGrid(feedContainer, feedItems);
 
   // Category quick links
-  const catsSection = createEl("section", { className: "cats-section", style: "margin-top:var(--space-10)" }, [
+  const catsSection = createEl("section", { className: "cats-section home-section" }, [
     createEl("div", { className: "section-header" }, [
-      createEl("h2", {}, "Eksplorasi Kategori"),
+      createEl("div", {}, [createEl("span", { className: "section-kicker" }, "TEMUKAN MINATMU"), createEl("h2", {}, "Jelajahi kategori")]),
     ]),
     createEl("div", { className: "grid-cats", id: "home-cats" }),
   ]);
-  page.appendChild(catsSection);
+  layout.appendChild(catsSection);
 
   const catContainer = page.querySelector("#home-cats");
   const categories = content.getCategories();
@@ -61,7 +74,7 @@ export async function renderHome() {
 
 function articleCard(a) {
   const catConf = { technology: "tech", chess: "chess", anime: "anime" }[a.category] || "tech";
-  return createEl("article", { className: "card" }, [
+  return createEl("article", { className: "card home-article" }, [
     createEl("div", { className: "card-body" }, [
       createEl("div", { className: `badge badge-${catConf}` }, a.category.charAt(0).toUpperCase() + a.category.slice(1)),
       createEl("h3", { style: "margin:var(--space-2) 0" }, a.title),
