@@ -75,3 +75,12 @@ body { background: var(--discovery-canvas); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+.hero-guest { margin-top: 18px; color: var(--color-text-secondary); font-size: .9rem; }
+.discovery-paths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 22px; }
+.discovery-path { display: flex; flex-direction: column; gap: 8px; padding: 20px; border: 1px solid var(--color-border); border-radius: 16px; background: var(--discovery-card); color: var(--color-text); text-decoration: none; }
+.discovery-path strong { color: var(--color-focus); font-size: .8rem; letter-spacing: .04em; }
+.discovery-path span { font-weight: 600; line-height: 1.4; }
+.discovery-path:hover, .discovery-path:focus-visible, .cat-chip:hover, .cat-chip:focus-visible { border-color: var(--color-focus); box-shadow: 0 8px 24px rgb(15 23 42 / .1); }
+.home-article:focus-within { outline: 2px solid var(--color-focus); outline-offset: 3px; }
+@media (max-width: 767px) { .discovery-paths { grid-template-columns: 1fr; } .discovery-path { padding: 16px; } }
