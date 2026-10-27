@@ -20,6 +20,7 @@ export async function renderHome() {
       createEl("span", { className: "hero-eyebrow" }, "RUANG UNTUK RASA INGIN TAHU"),
       createEl("h1", { className: "hero-title" }, ["Dunia lebih luas saat kamu ", createEl("span", {}, "penasaran.")]),
       createEl("p", { className: "hero-intro" }, "Temukan cerita, ide, dan permainan yang membuat belajar terasa lebih menyenangkan."),
+      createEl("p", { className: "hero-guest" }, "Baca dan bermain tanpa membuat akun."),
       createEl("div", { className: "hero-actions" }, [
         createEl("a", { className: "btn btn-primary", href: "#/explore" }, "Jelajahi artikel →"),
         createEl("a", { className: "hero-secondary", href: "#/games" }, "Main permainan ↗"),
@@ -46,6 +47,11 @@ export async function renderHome() {
   ]);
 
   layout.appendChild(hero);
+  layout.appendChild(createEl("nav", { className: "discovery-paths", "aria-label": "Mulai menjelajah" }, [
+    createEl("a", { href: "#/explore", className: "discovery-path" }, [createEl("strong", {}, "01 · Baca"), createEl("span", {}, "Jelajahi ide dan artikel →")]),
+    createEl("a", { href: "#/news", className: "discovery-path" }, [createEl("strong", {}, "02 · Ikuti"), createEl("span", {}, "Lihat berita teknologi →")]),
+    createEl("a", { href: "#/games", className: "discovery-path" }, [createEl("strong", {}, "03 · Bermain"), createEl("span", {}, "Asah pikiran dengan teka-teki →")]),
+  ]));
   layout.appendChild(feedSection);
 
   // Populate feed
