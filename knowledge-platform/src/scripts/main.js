@@ -16,6 +16,7 @@ import { renderCrossword } from "./features/crossword/crossword.js";
 import { renderChess } from "./features/chess/chess.js";
 import { renderSaved } from "./features/saved/saved.js";
 import { renderProfile } from "./features/profile/profile.js";
+import { renderInfoPage } from "./features/info/info.js";
 import { initTheme } from "./ui/theme.js";
 import { initNav } from "./ui/nav.js";
 import { initSearch } from "./ui/global-search.js";
@@ -27,6 +28,10 @@ async function initApp() {
   initTheme();
   initNav();
   initSearch();
+  document.querySelector(".skip-link")?.addEventListener("click", (event) => {
+    event.preventDefault();
+    document.getElementById("main")?.focus();
+  });
   document.getElementById("auth-btn")?.addEventListener("click", () => navigate("/profile"));
 
   // Auth (Supabase) — optional, public content works without login
@@ -44,6 +49,9 @@ async function initApp() {
   addRoute(/^\/games\/chess$/, renderChess);
   addRoute(/^\/saved$/, renderSaved);
   addRoute(/^\/profile$/, renderProfile);
+  for (const page of ["about", "sources", "privacy", "terms", "moderation"]) {
+    addRoute(`/${page}`, () => renderInfoPage(page));
+  }
 
   initRouter();
 
