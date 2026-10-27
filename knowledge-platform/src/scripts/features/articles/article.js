@@ -33,13 +33,15 @@ export async function renderArticle(params) {
 
   const page = createEl("section", { className: "page article-page" }, [
     createEl("div", { className: "container" }, [
-      createEl("div", { className: "breadcrumbs" }, [
+      createEl("nav", { className: "breadcrumbs", "aria-label": "Jejak navigasi" }, [
+        createEl("a", { href: "#/explore" }, "Eksplorasi"),
+        createEl("span", { text: " / " }),
         createEl("a", { href: `#/category/${article.category}` }, article.category.charAt(0).toUpperCase() + article.category.slice(1)),
         createEl("span", { text: " > " }),
         createEl("span", { text: article.title }),
       ]),
-      createEl("article", { className: "card" }, [
-        createEl("div", { className: "card-body", style: "padding:var(--space-6)" }, [
+      createEl("article", { className: "card article-reading" }, [
+        createEl("div", { className: "card-body article-reading-body" }, [
           createEl("div", { className: "article-header", style: "margin-bottom:var(--space-5)" }, [
             createEl("div", { className: `badge badge-${categoryColor(article.category)}` }, article.category.charAt(0).toUpperCase() + article.category.slice(1)),
             createEl("h1", { style: "margin:var(--space-3) 0;line-height:var(--leading-tight)" }, article.title),
