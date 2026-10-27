@@ -8,6 +8,9 @@ export function createEl(tag, props = {}, children = []) {
   if (props.id) el.id = props.id;
   if (props.style) el.style.cssText = props.style;
   if (props.href) el.href = props.href;
+  for (const key of ["type", "placeholder", "value", "maxlength", "name", "autocomplete"]) {
+    if (props[key] !== undefined) el.setAttribute(key, props[key]);
+  }
   if (props["aria-label"]) el.setAttribute("aria-label", props["aria-label"]);
   if (props["aria-expanded"] !== undefined) el.setAttribute("aria-expanded", props["aria-expanded"]);
   if (props["aria-hidden"] !== undefined) el.setAttribute("aria-hidden", props["aria-hidden"]);
