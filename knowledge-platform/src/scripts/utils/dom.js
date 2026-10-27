@@ -30,3 +30,9 @@ export function createEl(tag, props = {}, children = []) {
 export function html(strings, ...values) {
   return strings.reduce((acc, part, i) => acc + part + (values[i] ?? ""), "");
 }
+export function safeExternalUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:" ? url.href : null;
+  } catch { return null; }
+}
