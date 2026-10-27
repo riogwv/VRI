@@ -158,7 +158,7 @@ export async function renderSudoku(params) {
     </div>
   `;
 
-  newGame(difficulty);
+  newGame(difficulty, () => updateStatus(container));
   let ownedTimerId = state.timerId;
   renderBoard(container);
   updateStatus(container);
@@ -167,7 +167,7 @@ export async function renderSudoku(params) {
   diffSel.addEventListener("change", () => {
     const d = diffSel.value;
     clearInterval(state.timerId);
-    newGame(d);
+    newGame(d, () => updateStatus(container));
     ownedTimerId = state.timerId;
     renderBoard(container);
     updateStatus(container);
@@ -175,7 +175,7 @@ export async function renderSudoku(params) {
 
   container.querySelector("#sudoku-new").addEventListener("click", () => {
     clearInterval(state.timerId);
-    newGame(state.difficulty);
+    newGame(state.difficulty, () => updateStatus(container));
     ownedTimerId = state.timerId;
     renderBoard(container);
     updateStatus(container);
@@ -201,6 +201,7 @@ export async function renderSudoku(params) {
 
   container.querySelector("#sudoku-reset").addEventListener("click", () => {
     reset();
+    ownedTimerId = state.timerId;
     renderBoard(container);
     updateStatus(container);
     setMessage(container, "Papan direset.", "info");
@@ -229,7 +230,8 @@ export async function renderSudoku(params) {
     if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
     const { r, c } = selectedCell;
     if (e.key >= "1" && e.key <= "9") {
-      setCell(r, c, parseInt(e.key, 10));
+      if (candidateMode) toggleCandidate(r, c, parseInt(e.key, 10));
+      else setCell(r, c, parseInt(e.key, 10));
       renderBoard(container);
       updateStatus(container);
       e.preventDefault();
@@ -275,7 +277,7 @@ export async function renderSudoku(params) {
       }
       if (!selectedCell) return;
       const { r, c } = selectedCell;
-      if (candidateMode) toggleCandidate(r, c, parseInt(num));
+      if (candidateMode && num !== "0") toggleCandidate(r, c, parseInt(num, 10));
       else setCell(r, c, parseInt(num));
       renderBoard(container);
       updateStatus(container);
@@ -373,8 +375,15 @@ let state = {
 };
 
 let selectedCell = null;
+let onTimerTick = null;
 
-function newGame(difficulty) {
+function startTimer() {
+  clearInterval(state.timerId);
+  state.timerId = setInterval(() => { state.seconds++; onTimerTick?.(); }, 1000);
+}
+
+function newGame(difficulty, onTick = null) {
+  onTimerTick = onTick;
   state.difficulty = difficulty;
   const { puzzle, solution } = generatePuzzle(difficulty);
   state.puzzle = puzzle;
@@ -387,8 +396,8 @@ function newGame(difficulty) {
   state.seconds = 0;
   state.history = [];
   state.completed = false;
-  if (state.timerId) clearInterval(state.timerId);
-  state.timerId = setInterval(() => { state.seconds++; }, 1000);
+  selectedCell = null;
+  startTimer();
 }
 
 function setCell(r, c, val) {
@@ -409,11 +418,16 @@ function reset() {
   state.grid = state.puzzle.map((row) => row.slice());
   state.candidates = {};
   state.mistakes = 0;
+  state.hintsUsed = 0;
+  state.seconds = 0;
+  state.completed = false;
   state.history = [];
+  selectedCell = null;
+  startTimer();
 }
 
 function toggleCandidate(r, c, n) {
-  if (state.fixed[r][c]) return;
+  if (state.fixed[r][c] || state.completed || state.grid[r][c] !== 0 || n < 1 || n > 9) return;
   const key = `${r},${c}`;
   if (!state.candidates[key]) state.candidates[key] = [];
   const idx = state.candidates[key].indexOf(n);
