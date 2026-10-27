@@ -92,3 +92,17 @@ test('hint selects the filled cell and conflicting numbers explain the problem',
   expect(page.querySelector('#sudoku-message').textContent).toContain('bertentangan');
   page.dispose(); vi.useRealTimers(); vi.unstubAllGlobals();
 });
+
+test('keyboard entry reports a conflict', async () => {
+  vi.useFakeTimers();
+  const handlers = {};
+  vi.stubGlobal('document', { activeElement: null, addEventListener(name, fn) { handlers[name] = fn; }, removeEventListener() {} });
+  const page = await renderSudoku();
+  state.grid = state.solution.map(line => [...line]);
+  state.fixed[0][1] = false;
+  state.grid[0][1] = 0;
+  page.querySelector('#sudoku-board').children[1].handlers.click();
+  handlers.keydown({ key: String(state.grid[0][0]), preventDefault() {} });
+  expect(page.querySelector('#sudoku-message').textContent).toContain('bertentangan');
+  page.dispose(); vi.useRealTimers(); vi.unstubAllGlobals();
+});
