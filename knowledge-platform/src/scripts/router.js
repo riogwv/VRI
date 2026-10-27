@@ -5,6 +5,8 @@
 const routes = []; // { path: string|RegExp, handler: (params) => Promise<HTMLElement|void> }
 
 let currentRoute = null;
+let navigationId = 0;
+let activePage = null;
 
 export function addRoute(path, handler) {
   const isRegExp = path instanceof RegExp;
@@ -43,7 +45,9 @@ export function dispatchRoute() {
   const main = document.getElementById("main");
   if (!main) return;
 
-  // Clear previous content
+  const id = ++navigationId;
+  activePage?.dispose?.();
+  activePage = null;
   main.innerHTML = "";
 
   if (!match) {
@@ -54,11 +58,22 @@ export function dispatchRoute() {
   }
 
   currentRoute = { ...match, path };
-  match.route.handler(match.params).then((el) => {
+  Promise.resolve().then(() => match.route.handler(match.params)).then((el) => {
+    if (id !== navigationId) {
+      el?.dispose?.();
+      return;
+    }
     if (el) {
+      activePage = el;
       main.appendChild(el);
     }
     window.scrollTo(0, 0);
+  }).catch((error) => {
+    if (id !== navigationId) return;
+    console.error("[router] Failed to render route:", error);
+    const message = document.createElement("p");
+    message.textContent = "Halaman gagal dimuat. Silakan coba lagi.";
+    main.appendChild(message);
   });
 }
 

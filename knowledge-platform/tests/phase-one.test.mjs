@@ -1,4 +1,4 @@
-import test from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { createEl } from '../src/scripts/utils/dom.js';
 import { initNav } from '../src/scripts/ui/nav.js';
