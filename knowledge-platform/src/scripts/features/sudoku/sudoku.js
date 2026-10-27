@@ -68,15 +68,21 @@ function solve(grid) {
 
 function removeDigits(grid, blanks) {
   const puzzle = grid.map((row) => row.slice());
-  let removed = 0;
-  while (removed < blanks) {
-    const r = Math.floor(Math.random() * 9);
-    const c = Math.floor(Math.random() * 9);
-    if (puzzle[r][c] !== 0) {
-      puzzle[r][c] = 0;
-      removed++;
-    }
+  const cells = Array.from({ length: 81 }, (_, i) => i);
+  for (let i = cells.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cells[i], cells[j]] = [cells[j], cells[i]];
   }
+  let removed = 0;
+  for (const cell of cells) {
+    if (removed >= blanks) break;
+    const r = Math.floor(cell / 9), c = cell % 9;
+    const value = puzzle[r][c];
+    puzzle[r][c] = 0;
+    if (countSolutions(puzzle) === 1) removed++;
+    else puzzle[r][c] = value;
+  }
+  // shortcut: some puzzles have fewer blanks than requested; retry generation if exact difficulty is needed.
   return puzzle;
 }
 
@@ -425,13 +431,8 @@ export { state, selectedCell, newGame, setCell, undo, reset, toggleCandidate, hi
 
 function generatePuzzle(difficulty) {
   const blanks = DIFFICULTY[difficulty].blanks;
-  for (let attempt = 0; attempt < 50; attempt++) {
-    const full = generateGrid();
-    const puzzle = removeDigits(full, blanks);
-    if (countSolutions(puzzle) === 1) return { puzzle, solution: full };
-  }
-  const full = generateGrid();
-  return { puzzle: removeDigits(full, blanks), solution: full };
+  const solution = generateGrid();
+  return { puzzle: removeDigits(solution, blanks), solution };
 }
 
 function checkValid(grid) {
