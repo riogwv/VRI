@@ -32,6 +32,10 @@ test('input attributes retain password masking and crossword state', () => {
   const letter = createEl('input', { type: 'text', maxlength: 1, value: 'A' });
   assert.equal(letter.attributes.maxlength, '1');
   assert.equal(letter.attributes.value, 'A');
+  const status = createEl('div', { role: 'status', 'aria-live': 'polite', 'aria-pressed': false });
+  assert.equal(status.attributes.role, 'status');
+  assert.equal(status.attributes['aria-live'], 'polite');
+  assert.equal(status.attributes['aria-pressed'], 'false');
 });
 
 test('mobile navigation opens, closes on selection, and does not hide desktop nav', () => {
