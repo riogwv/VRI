@@ -15,50 +15,34 @@ export class ApiError extends Error {
 }
 
 export async function fetchJson(url, { method = "GET", headers = {}, body, signal, timeout = DEFAULT_TIMEOUT, retries = MAX_RETRIES } = {}) {
-  const controller = new AbortController();
-  const tid = setTimeout(() => controller.abort(), timeout);
+  const requestHeaders = { Accept: "application/json", ...headers };
+  if (body) requestHeaders["Content-Type"] = "application/json";
 
-  const opts = {
-    method,
-    headers: { Accept: "application/json", ...headers },
-    signal: controller.signal,
-  };
-  if (body) {
-    opts.headers["Content-Type"] = "application/json";
-    opts.body = JSON.stringify(body);
-  }
-
-  let lastErr;
   for (let attempt = 0; attempt <= retries; attempt++) {
+    if (signal?.aborted) throw signal.reason || new DOMException("Aborted", "AbortError");
+    const controller = new AbortController();
+    let timedOut = false;
+    const abort = () => controller.abort(signal.reason);
+    signal?.addEventListener("abort", abort, { once: true });
+    const timer = setTimeout(() => { timedOut = true; controller.abort(); }, timeout);
     try {
-      const res = await fetch(url, opts);
-      clearTimeout(tid);
-
-      if (!res.ok) {
-        throw new ApiError(
-          res.statusText || "Request gagal",
-          res.status,
-          url
-        );
-      }
+      const res = await fetch(url, {
+        method, headers: requestHeaders, signal: controller.signal,
+        ...(body ? { body: JSON.stringify(body) } : {}),
+      });
+      if (!res.ok) throw new ApiError(res.statusText || "Request gagal", res.status, url);
       const ct = res.headers.get("content-type") || "";
-      if (ct.includes("application/json")) {
-        return await res.json();
-      }
-      return await res.text();
+      return ct.includes("application/json") ? await res.json() : await res.text();
     } catch (err) {
-      lastErr = err;
-      if (err.name === "AbortError") {
-        throw new ApiError("Waktu habis (timeout)", 408, url);
-      }
-      if (attempt < retries && err instanceof ApiError && err.status >= 500) {
-        await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
-        continue;
-      }
-      throw err;
+      if (timedOut) throw new ApiError("Waktu habis (timeout)", 408, url);
+      if (signal?.aborted) throw signal.reason || err;
+      if (!(attempt < retries && err instanceof ApiError && err.status >= 500)) throw err;
+    } finally {
+      clearTimeout(timer);
+      signal?.removeEventListener("abort", abort);
     }
+    await new Promise((resolve) => setTimeout(resolve, 500 * (attempt + 1)));
   }
-  throw lastErr;
 }
 
 export function buildQuery(params) {
