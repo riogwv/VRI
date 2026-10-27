@@ -16,7 +16,7 @@ const lichess = {
     inFlight = (async () => {
       try {
         const url = `${BASE}/puzzle/next?${buildQ({ difficulty, color: "" })}`;
-        const data = await fetchJson(url);
+        const data = await fetchJson(url, { cache: "no-store" });
         return normalizePuzzle(data);
       } catch (err) {
         console.warn("[Lichess] puzzle failed:", err.message);
