@@ -42,11 +42,15 @@ function profileSignedIn(user) {
 function profileSignInForm() {
   const emailInput = createEl("input", {
     type: "email",
+    "aria-label": "Email",
+    autocomplete: "email",
     placeholder: "Email",
     style: "width:100%;padding:var(--space-3)var(--space-4);border:1px solid var(--color-border);border-radius:var(--radius);background:var(--color-surface);color:var(--color-text);margin-bottom:var(--space-3);font-size:var(--text-sm)",
   });
   const passInput = createEl("input", {
     type: "password",
+    "aria-label": "Kata sandi",
+    autocomplete: "current-password",
     placeholder: "Kata sandi",
     style: "width:100%;padding:var(--space-3)var(--space-4);border:1px solid var(--color-border);border-radius:var(--radius);background:var(--color-surface);color:var(--color-text);margin-bottom:var(--space-4);font-size:var(--text-sm)",
   });

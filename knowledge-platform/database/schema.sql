@@ -1,7 +1,7 @@
 -- ============================================================================
-  Knowledge Platform — Database Schema (Supabase / PostgreSQL)
-  Run this in the Supabase SQL Editor.
-  ============================================================================
+-- Knowledge Platform — Database Schema (Supabase / PostgreSQL)
+-- Run this in the Supabase SQL Editor.
+-- ============================================================================
 
 -- Enable extensions
 create extension if not exists "pgcrypto";
@@ -116,8 +116,7 @@ create policy "Users can update own comments" on public.comments
 create policy "Users can delete own comments" on public.comments
   for delete using (auth.uid() = user_id);
 
--- Reports: authenticated can insert, admins/staff manage
+-- Reports: authenticated users can insert; reading requires privileged access.
 create policy "Authenticated users can insert reports" on public.reports
   for insert with check (auth.uid() = user_id);
-create policy "Reports are viewable by staff" on public.reports
-  for select using (auth.uid() is not null);
+-- No public read policy: add staff access only after defining trusted staff roles.

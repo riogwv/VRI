@@ -10,6 +10,7 @@
   .main-nav {
     display: block;
     border: none;
+    overflow-x: auto;
   }
   .main-nav .nav-list {
     padding: 0;
@@ -27,10 +28,14 @@
 }
 
 @media (max-width: 767px) {
-  .header-inner { height: 56px; }
-
-  .search-bar { max-width: 260px; display: none; }
-  /* search opens on small screens via toggle — handled by JS */
+  .header-inner { height: auto; min-height: 56px; flex-wrap: wrap; padding-top: var(--space-2); padding-bottom: var(--space-2); }
+  .nav-toggle { display: block; flex-shrink: 0; }
+  .main-nav.is-open { display: block; }
+  .main-nav .nav-list { flex-direction: column; }
+  .main-nav .nav-link { display: block; }
+  .search-bar { display: flex; order: 3; flex: 1 0 100%; max-width: none; }
+  .header-actions { gap: var(--space-1); }
+  .header-actions .btn-primary { width: auto; }
 
   .theme-toggle span, .theme-toggle svg { width: 24px; height: 24px; }
 
@@ -45,6 +50,7 @@
 }
 
 @media (max-width: 480px) {
+  .brand-text { display: none; }
   h1 { font-size: var(--text-2xl); }
   h2 { font-size: var(--text-xl); }
   .container { padding: 0 var(--space-4); }
