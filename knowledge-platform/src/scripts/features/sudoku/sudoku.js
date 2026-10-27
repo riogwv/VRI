@@ -4,7 +4,6 @@
    ========================================================================== */
 
 import { createEl } from "../../utils/dom.js";
-import { showToast } from "../../ui/toast.js";
 
 const DIFFICULTY = {
   easy: { blanks: 35, label: "Mudah" },

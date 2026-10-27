@@ -25,7 +25,8 @@ export async function initAuth() {
   if (!sb) return null;
 
   // Restore existing session
-  const { data } = await sb.auth.getSession();
+  const { data, error } = await sb.auth.getSession();
+  if (error) throw error;
   currentUser = data.session?.user ?? null;
   notify();
 

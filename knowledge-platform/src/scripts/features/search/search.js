@@ -6,7 +6,7 @@ import { content } from "../../services/content.js";
 import { createEl } from "../../utils/dom.js";
 import { setSearchQuery } from "../../ui/global-search.js";
 
-export async function renderSearch(params) {
+export async function renderSearch() {
   const urlParams = new URLSearchParams(window.location.hash.split("?")[1] || "");
   const q = urlParams.get("q") || "";
 
@@ -63,7 +63,7 @@ function searchResultItem(r) {
         item.summary || item.explanation || ""),
       createEl("div", { style: "display:flex;gap:var(--space-2)" }, [
         createEl("span", { style: "font-size:var(--text-xs);color:var(--color-text-muted)" }, r.type === "article" ? "Artikel" : r.type === "fun-fact" ? "Fun Fact" : "Trivia"),
-        createEl("a", { className: "btn-link", href: r.type === "article" ? `#/article/${item.id}` : "#" }, "Lihat →"),
+        r.type === "article" ? createEl("a", { className: "btn-link", href: `#/article/${item.id}` }, "Lihat →") : null,
       ]),
     ]),
   ]);
