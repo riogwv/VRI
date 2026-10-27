@@ -4,6 +4,7 @@
 
 import { createEl } from "../../utils/dom.js";
 import { isAuthenticated, getUser, signInWithPassword, signUp, signOut } from "../../services/auth.js";
+import { dispatchRoute } from "../../router.js";
 import { showToast } from "../../ui/toast.js";
 
 export async function renderProfile() {
@@ -33,7 +34,7 @@ function profileSignedIn(user) {
         ]),
       ]),
       createEl("div", { style: "display:flex;gap:var(--space-2);flex-wrap:wrap" }, [
-        createEl("button", { className: "btn btn-outline", onClick: () => { signOut(); showToast("Berhasil keluar", "success"); window.location.hash = "#/"; } }, "Keluar"),
+        createEl("button", { className: "btn btn-outline", onClick: async () => { try { await signOut(); showToast("Berhasil keluar", "success"); window.location.hash = "#/"; } catch (err) { showToast(err.message || "Gagal keluar", "error"); } } }, "Keluar"),
       ]),
     ]),
   ]);
@@ -65,7 +66,7 @@ function profileSignInForm() {
         try {
           await signInWithPassword(emailInput.value, passInput.value);
           showToast("Berhasil masuk", "success");
-          window.location.hash = "#/profile";
+          dispatchRoute();
         } catch (err) {
           showToast(err.message || "Gagal masuk", "error");
         }
@@ -79,8 +80,13 @@ function profileSignInForm() {
       onClick: async (e) => {
         e.preventDefault();
         try {
-          await signUp(emailInput.value, passInput.value);
-          showToast("Akun dibuat. Silakan masuk.", "success");
+          const result = await signUp(emailInput.value, passInput.value);
+          if (result.session) {
+            showToast("Akun dibuat dan berhasil masuk.", "success");
+            dispatchRoute();
+          } else {
+            showToast("Periksa email untuk konfirmasi akun, lalu masuk.", "info");
+          }
         } catch (err) {
           showToast(err.message || "Gagal mendaftar", "error");
         }
@@ -91,7 +97,7 @@ function profileSignInForm() {
   return createEl("div", { className: "card" }, [
     createEl("div", { className: "card-body" }, [
       createEl("p", { style: "color:var(--color-text-secondary);margin-bottom:var(--space-4)" },
-        "Masuk untuk menyimpan bookmark, memberi reaksi, dan menulis komentar lintas perangkat."),
+        "Masuk ke akun Anda. Artikel yang disimpan saat ini hanya tersedia di browser ini."),
       form,
     ]),
   ]);

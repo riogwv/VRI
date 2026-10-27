@@ -2,7 +2,7 @@
    Auth wrapper — Supabase Auth (optional; public content works without login)
    ========================================================================== */
 
-import { getSupabase, supabaseReady } from "./supabase.js";
+import { getSupabase } from "./supabase.js";
 
 let currentUser = null;
 const listeners = new Set();
@@ -34,7 +34,7 @@ export async function initAuth() {
     currentUser = session?.user ?? null;
     notify();
     const btn = document.getElementById("auth-btn");
-    if (btn) btn.textContent = currentUser ? "Keluar" : "Masuk";
+    if (btn) btn.textContent = currentUser ? "Profil" : "Masuk";
   });
 
   return currentUser;
@@ -45,7 +45,7 @@ export async function signInWithPassword(email, password) {
   if (!sb) throw new Error("Supabase tidak dikonfigurasi.");
   const { data, error } = await sb.auth.signInWithPassword({ email, password });
   if (error) throw error;
-  currentUser = data.user;
+  currentUser = data.session?.user ?? null;
   notify();
   return data;
 }
@@ -55,7 +55,7 @@ export async function signUp(email, password) {
   if (!sb) throw new Error("Supabase tidak dikonfigurasi.");
   const { data, error } = await sb.auth.signUp({ email, password });
   if (error) throw error;
-  currentUser = data.user;
+  currentUser = data.session?.user ?? null;
   notify();
   return data;
 }
@@ -63,7 +63,8 @@ export async function signUp(email, password) {
 export async function signOut() {
   const sb = getSupabase();
   if (!sb) return;
-  await sb.auth.signOut();
+  const { error } = await sb.auth.signOut();
+  if (error) throw error;
   currentUser = null;
   notify();
 }

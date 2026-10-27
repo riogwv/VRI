@@ -27,6 +27,7 @@ async function initApp() {
   initTheme();
   initNav();
   initSearch();
+  document.getElementById("auth-btn")?.addEventListener("click", () => navigate("/profile"));
 
   // Auth (Supabase) — optional, public content works without login
   await initAuth();
