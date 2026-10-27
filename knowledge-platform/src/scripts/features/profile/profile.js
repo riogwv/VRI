@@ -97,7 +97,7 @@ function profileSignInForm() {
   return createEl("div", { className: "card" }, [
     createEl("div", { className: "card-body" }, [
       createEl("p", { style: "color:var(--color-text-secondary);margin-bottom:var(--space-4)" },
-        "Masuk ke akun Anda. Artikel yang disimpan saat ini hanya tersedia di browser ini."),
+        "Anda dapat membaca artikel dan bermain tanpa masuk. Artikel yang disimpan saat ini hanya tersedia di browser ini."),
       form,
     ]),
   ]);
