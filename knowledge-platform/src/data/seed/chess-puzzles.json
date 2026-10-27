@@ -43,10 +43,10 @@
     "title": "Skewer Benteng",
     "fen": "4r1k1/8/8/8/8/8/8/4R1K1 w - - 0 1",
     "moves": ["e1e8"],
-    "prompt": "Putih menang material dengan skewer.",
+    "prompt": "Putih menangkap benteng hitam sambil memberi skak.",
     "rating": 1000,
     "themes": ["skewer"],
-    "explanation": "Re8+ mengecek raja; setelah raja minggat, benteng hitam di e8 tertangkap (skewer absolut).",
+    "explanation": "Rxe8+ menangkap benteng di e8 sekaligus memberi skak kepada raja hitam.",
     "category": "chess",
     "source": "internal",
     "verified": true

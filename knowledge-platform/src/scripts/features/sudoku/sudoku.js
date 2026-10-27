@@ -110,14 +110,14 @@ function countSolutions(grid, limit = 2) {
 }
 export async function renderSudoku(params) {
   const difficulty = (params && params.diff) || "medium";
-  const container = createEl("div", { className: "sudoku-page" });
+  const container = createEl("div", { className: "page sudoku-page" });
 
   container.innerHTML = `
     <div class="container">
       <div class="section-header" style="margin-bottom:var(--space-6)">
-        <h2>Sudoku</h2>
+        <div><a class="game-back" href="#/games">← Semua permainan</a><h1>Sudoku</h1><p class="game-intro">Pilih kotak, lalu isi angka 1–9. Setiap baris, kolom, dan blok harus berisi angka yang berbeda.</p></div>
         <div style="display:flex;gap:var(--space-2);align-items:center">
-          <label style="font-size:var(--text-sm);color:var(--color-text-secondary)">Tingkat:</label>
+          <label for="sudoku-diff" style="font-size:var(--text-sm);color:var(--color-text-secondary)">Tingkat:</label>
           <select id="sudoku-diff" style="padding:var(--space-2)var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius);background:var(--color-surface);color:var(--color-text);font-size:var(--text-sm)">
             <option value="easy">Mudah</option>
             <option value="medium" selected>Sedang</option>
@@ -150,10 +150,10 @@ export async function renderSudoku(params) {
       <div class="sudoku-numpad" style="display:flex;justify-content:center;gap:var(--space-2);margin-top:var(--space-6);flex-wrap:wrap">
         ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<button class="num-btn" data-num="${n}">${n}</button>`).join("")}
         <button class="num-btn num-clear" data-num="0">Hapus</button>
-        <button class="num-btn num-candidate" data-mode="candidate">Mode Kandidat</button>
+        <button class="num-btn num-candidate" data-mode="candidate" aria-pressed="false">Mode Kandidat</button>
       </div>
 
-      <div id="sudoku-message" style="margin-top:var(--space-4);text-align:center;min-height:24px"></div>
+      <div id="sudoku-message" role="status" aria-live="polite" style="margin-top:var(--space-4);text-align:center;min-height:24px"></div>
     </div>
   `;
 
@@ -161,8 +161,10 @@ export async function renderSudoku(params) {
   let ownedTimerId = state.timerId;
   renderBoard(container);
   updateStatus(container);
+  setMessage(container, "Pilih kotak untuk mulai mengisi.", "info");
 
   const diffSel = container.querySelector("#sudoku-diff");
+  diffSel.value = difficulty;
   diffSel.addEventListener("change", () => {
     const d = diffSel.value;
     clearInterval(state.timerId);
@@ -187,6 +189,7 @@ export async function renderSudoku(params) {
       renderBoard(container);
       updateStatus(container);
       setMessage(container, `Petunjuk: kotak (${h.r + 1}, ${h.c + 1}) = ${h.val}`, "info");
+      checkCompletion(container);
     } else {
       setMessage(container, "Semua kotak sudah terisi.", "info");
     }
@@ -233,6 +236,7 @@ export async function renderSudoku(params) {
       else setCell(r, c, parseInt(e.key, 10));
       renderBoard(container);
       updateStatus(container);
+      checkCompletion(container);
       e.preventDefault();
     } else if (e.key === "Backspace" || e.key === "Delete" || e.key === "0") {
       setCell(r, c, 0);
@@ -270,16 +274,20 @@ export async function renderSudoku(params) {
       if (mode === "candidate") {
         candidateMode = !candidateMode;
         btn.classList.toggle("active", candidateMode);
+        btn.setAttribute("aria-pressed", String(candidateMode));
+        setMessage(container, candidateMode ? "Mode kandidat aktif: angka akan menjadi catatan kecil." : "Mode angka aktif.", "info");
         btn.style.background = candidateMode ? "var(--color-focus)" : "";
         btn.style.color = candidateMode ? "#fff" : "";
         return;
       }
-      if (!selectedCell) return;
+      if (!selectedCell) { setMessage(container, "Pilih kotak terlebih dahulu.", "info"); return; }
       const { r, c } = selectedCell;
+      if (state.fixed[r][c]) { setMessage(container, "Kotak ini adalah angka awal dan tidak dapat diubah.", "info"); return; }
       if (candidateMode && num !== "0") toggleCandidate(r, c, parseInt(num, 10));
       else setCell(r, c, parseInt(num));
       renderBoard(container);
       updateStatus(container);
+      checkCompletion(container);
     });
   });
 
@@ -305,10 +313,11 @@ function cellError(r, c) {
 
 function renderBoard(container) {
   const board = container.querySelector("#sudoku-board");
+  const restoreFocus = board.contains(document.activeElement);
   board.innerHTML = "";
   board.style.display = "grid";
   board.style.gridTemplateColumns = "repeat(9, 1fr)";
-  board.style.width = "min(420px, 95vw)";
+  board.style.width = "min(420px, 100%)";
   board.style.aspectRatio = "1";
 
   for (let r = 0; r < 9; r++) {
@@ -316,14 +325,20 @@ function renderBoard(container) {
       const fixed = state.fixed[r][c];
       const val = state.grid[r][c];
       const isSelected = selectedCell && selectedCell.r === r && selectedCell.c === c;
+      const isPeer = selectedCell && (selectedCell.r === r || selectedCell.c === c || (Math.floor(selectedCell.r / 3) === Math.floor(r / 3) && Math.floor(selectedCell.c / 3) === Math.floor(c / 3)));
+      const isSame = selectedCell && val !== 0 && val === state.grid[selectedCell.r][selectedCell.c];
       const cand = state.candidates[`${r},${c}`] || [];
 
       const cell = createEl("button", {
-        className: `sudoku-cell ${fixed ? "fixed" : ""} ${val === 0 ? "empty" : ""} ${isSelected ? "selected" : ""} ${cellError(r, c) ? "error" : ""}`,
-        style: "padding:0;font-size:16px;font-weight:600;background:var(--color-surface);border:1px solid var(--color-border);color:var(--color-text)",
+        className: `sudoku-cell ${fixed ? "fixed" : ""} ${val === 0 ? "empty" : ""} ${isSelected ? "selected" : ""} ${isPeer ? "peer" : ""} ${isSame ? "same-value" : ""} ${cellError(r, c) ? "error" : ""}`,
+        "aria-label": `Baris ${r + 1}, kolom ${c + 1}, ${val || "kosong"}${fixed ? ", angka awal" : ""}`,
+        style: "padding:0;font-size:16px;font-weight:600;border:1px solid var(--color-border);color:var(--color-text)",
         onClick: () => { selectedCell = { r, c }; renderBoard(container); },
       });
 
+      cell.dataset.row = r;
+      cell.dataset.col = c;
+      cell.setAttribute("aria-pressed", String(!!isSelected));
       if (c % 3 === 0) cell.style.borderLeftWidth = "2px";
       if (r % 3 === 0) cell.style.borderTopWidth = "2px";
       if (c === 8) cell.style.borderRightWidth = "2px";
@@ -349,6 +364,15 @@ function renderBoard(container) {
 
       board.appendChild(cell);
     }
+  }
+  if (restoreFocus && selectedCell) board.querySelector(`[data-row="${selectedCell.r}"][data-col="${selectedCell.c}"]`)?.focus();
+}
+
+function checkCompletion(container) {
+  if (!state.completed && isComplete(state.grid, state.solution)) {
+    clearInterval(state.timerId);
+    state.completed = true;
+    setMessage(container, `Selamat! Puzzle selesai dalam ${formatTime(state.seconds)} (${state.hintsUsed} petunjuk).`, "success");
   }
 }
 
@@ -402,6 +426,7 @@ function newGame(difficulty, onTick = null) {
 function setCell(r, c, val) {
   if (state.fixed[r][c] || state.completed) return;
   const old = state.grid[r][c];
+  if (old === val) return;
   state.grid[r][c] = val;
   state.history.push({ r, c, old });
   delete state.candidates[`${r},${c}`];
@@ -439,7 +464,9 @@ function hint() {
   for (let r = 0; r < 9; r++) {
     for (let c = 0; c < 9; c++) {
       if (state.grid[r][c] === 0) {
+        state.history.push({ r, c, old: 0 });
         state.grid[r][c] = state.solution[r][c];
+        delete state.candidates[`${r},${c}`];
         state.hintsUsed++;
         return { r, c, val: state.solution[r][c] };
       }

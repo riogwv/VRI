@@ -17,7 +17,7 @@
     { "num": 4, "clue": "Memori utama komputer (3)", "answer": "RAM", "row": 5, "col": 1, "dir": "across" }
   ],
   "down": [
-    { "num": 1, "clue": "Minuman buah (3)", "answer": "SAT", "row": 1, "col": 1, "dir": "down" },
+    { "num": 1, "clue": "Tes masuk perguruan tinggi di Amerika Serikat (3)", "answer": "SAT", "row": 1, "col": 1, "dir": "down" },
     { "num": 2, "clue": "Konjungsi \"namun\" dalam bahasa Indonesia (4)", "answer": "TAPI", "row": 1, "col": 3, "dir": "down" }
   ],
   "note": "Setiap persilangan huruf mendatar dan menurun konsisten."

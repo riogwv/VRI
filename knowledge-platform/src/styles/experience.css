@@ -1,0 +1,55 @@
+/* Games and news: clear feedback, comfortable surfaces and readable states. */
+.game-heading { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: var(--space-8); }
+.game-heading h1, .news-heading h1 { font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.045em; }
+.game-back { color: var(--color-focus); font-size: .875rem; font-weight: 700; }
+.game-intro { color: var(--color-text-secondary); max-width: 650px; line-height: 1.65; }
+.game-icon { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 16px; font-size: 28px; background: #e7f5ef; color: #065f46; margin-bottom: 18px; }
+.game-icon-crossword { background: #fff2db; color: #8a4b08; }
+.game-icon-chess { background: #eee8ff; color: #5420ad; }
+.games-page .card { background: var(--discovery-card); border-radius: 18px; }
+.sudoku-page .section-header { gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+.sudoku-page .section-header h1 { font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.045em; margin: 8px 0; }
+.sudoku-page .sudoku-controls { padding: 16px; border: 1px solid var(--color-border); border-radius: 16px; background: var(--discovery-card); }
+.sudoku-page .sudoku-controls > div { flex-wrap: wrap; }
+.sudoku-board-wrapper { padding: 16px; border-radius: 20px; border: 1px solid var(--color-border); background: var(--discovery-card); }
+.sudoku-board { overflow: hidden; border-radius: 8px; }
+.sudoku-cell { min-width: 0; background: var(--color-surface); transition: background .12s ease, box-shadow .12s ease; }
+.sudoku-cell.fixed { font-weight: 700; }
+.sudoku-cell.peer { background: #e7efff; }
+.sudoku-cell.same-value { background: #c6d9ff; }
+.sudoku-cell.selected { background: #82adff; box-shadow: inset 0 0 0 3px #1d4ed8; position: relative; z-index: 1; }
+.sudoku-cell.error { color: #a31919 !important; background: #fee2e2; }
+.sudoku-cell.selected.error { box-shadow: inset 0 0 0 3px #b91c1c; }
+[data-theme="dark"] .sudoku-cell.peer { background: #253d60; }
+[data-theme="dark"] .sudoku-cell.same-value { background: #355782; }
+[data-theme="dark"] .sudoku-cell.selected { background: #527cb0; box-shadow: inset 0 0 0 3px #bfdbfe; }
+[data-theme="dark"] .sudoku-cell.error { background: #713038; color: #fff !important; }
+.sudoku-cell:focus-visible, .chess-cell:focus-visible { outline: 3px solid var(--color-focus); outline-offset: -3px; position: relative; z-index: 2; }
+.num-btn { min-width: 42px; min-height: 42px; padding: 8px 12px; border: 1px solid var(--color-border); border-radius: 12px; background: var(--discovery-card); font-weight: 700; }
+.num-btn:hover { border-color: var(--color-focus); color: var(--color-focus); }
+.num-btn.active { background: var(--color-focus); color: #fff; }
+.crossword-grid-wrap, .crossword-clues, .chess-info-panel { padding: 20px; border: 1px solid var(--color-border); border-radius: 18px; background: var(--discovery-card); }
+.cw-cell.selected { box-shadow: inset 0 0 0 3px var(--color-focus); z-index: 1; }
+.cw-cell input:focus-visible { box-shadow: none; }
+.clue-group h3 { margin-bottom: 12px; }
+.chess-cell { position: relative; }
+.chess-cell.selected { box-shadow: inset 0 0 0 4px #2563eb; }
+.chess-cell.legal-target::after { content: ""; position: absolute; width: 23%; height: 23%; border-radius: 50%; background: rgb(20 41 73 / .4); pointer-events: none; }
+.chess-cell.legal-target:not(:empty)::after { width: 84%; height: 84%; background: transparent; border: 4px solid rgb(20 41 73 / .45); }
+.news-heading { margin-bottom: 32px; }
+.news-heading h1 { margin: 8px 0; }
+.news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: 18px; }
+.news-card { display: flex; flex-direction: column; gap: 16px; padding: 24px; background: var(--discovery-card); }
+.news-card h2 { font-size: 1.2rem; line-height: 1.35; }
+.news-card p { color: var(--color-text-secondary); line-height: 1.65; flex: 1; }
+.news-meta, .news-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--color-text-muted); font-size: .8rem; }
+.news-footer { padding-top: 16px; border-top: 1px solid var(--color-border); }
+.news-state { grid-column: 1 / -1; padding: clamp(24px, 6vw, 60px); border: 1px solid var(--color-border); border-radius: 18px; background: var(--discovery-card); }
+.news-state p { margin: 12px 0 20px; color: var(--color-text-secondary); }
+@media (max-width: 767px) {
+  .sudoku-page .sudoku-controls > div { width: 100%; }
+  .sudoku-board-wrapper { padding: 8px; }
+  .crossword-grid-wrap, .crossword-clues, .chess-info-panel { max-width: 100%; padding: 14px; }
+  .chess-puzzle-card { min-width: 0 !important; }
+  .news-footer { flex-wrap: wrap; }
+}

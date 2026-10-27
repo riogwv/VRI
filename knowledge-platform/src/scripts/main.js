@@ -10,6 +10,7 @@ import { renderCategory } from "./features/category/category.js";
 import { renderArticle } from "./features/articles/article.js";
 import { renderSearch } from "./features/search/search.js";
 import { renderGames } from "./features/games/games.js";
+import { renderNews } from "./features/news/news.js";
 import { renderSudoku } from "./features/sudoku/sudoku.js";
 import { renderCrossword } from "./features/crossword/crossword.js";
 import { renderChess } from "./features/chess/chess.js";
@@ -48,6 +49,7 @@ async function initApp() {
   addRoute(/^\/article\/([a-z0-9-]+)$/, renderArticle);
   addRoute(/^\/search$/, renderSearch);
   addRoute(/^\/games$/, renderGames);
+  addRoute(/^\/news$/, renderNews);
   addRoute(/^\/games\/sudoku$/, renderSudoku);
   addRoute(/^\/games\/crossword$/, renderCrossword);
   addRoute(/^\/games\/chess$/, renderChess);

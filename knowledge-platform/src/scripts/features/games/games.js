@@ -31,7 +31,11 @@ const GAMES = [
 export async function renderGames() {
   const page = createEl("section", { className: "page games-page" }, [
     createEl("div", { className: "container" }, [
-      createEl("h2", { style: "margin-bottom:var(--space-6)" }, "Permainan Asah Otak"),
+      createEl("div", { className: "game-heading" }, [
+        createEl("span", { className: "section-kicker" }, "WAKTUNYA BERMAIN"),
+        createEl("h1", {}, "Asah otak, santai saja."),
+        createEl("p", { className: "game-intro" }, "Pilih permainan dan nikmati tantangan kecil hari ini."),
+      ]),
       createEl("div", { className: "grid-feed", id: "games-grid" }),
     ]),
   ]);
@@ -51,7 +55,8 @@ function gameCard(g) {
     style: "text-decoration:none;display:flex;flex-direction:column;height:100%",
   }, [
     createEl("div", { className: "card-body", style: "flex:1;display:flex;flex-direction:column" }, [
-      createEl("div", { className: `badge badge-${g.color}` }, g.title),
+      createEl("div", { className: `game-icon game-icon-${g.key}`, "aria-hidden": "true" }, { sudoku: "▦", crossword: "✎", chess: "♞" }[g.key]),
+      createEl("div", { className: `badge badge-${g.color}` }, "Permainan"),
       createEl("h3", { style: "margin:var(--space-2) 0 0" }, g.title),
       createEl("p", { style: "color:var(--color-text-secondary);font-size:var(--text-sm);line-height:var(--leading-relaxed);flex:1" }, g.desc),
     ]),
