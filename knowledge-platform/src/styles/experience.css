@@ -93,3 +93,15 @@
 .clue-item.active { background: var(--discovery-hero); box-shadow: inset 3px 0 var(--color-focus); }
 .home-news-item { overflow-wrap: anywhere; }
 @media (max-width: 767px) { .home-spotlight > * { min-width: 0; } .news-state .btn { margin: 8px 8px 0 0; } }
+.chess-page #chess-board[aria-busy="true"] { opacity: .55; }
+.chess-page #chess-status { min-height: 3em; }
+.chess-page .btn-sm, .sudoku-page .btn-sm { min-height: 44px; }
+@media (max-width: 767px) { .sudoku-page .sudoku-controls > div { justify-content: center; } }
+
+/* Small screens keep the game controls in the available line without turning a single action into a full-width bar. */
+@media (max-width: 767px) {
+  .sudoku-page #sudoku-new { width: auto; min-height: 44px; }
+  .sudoku-page .section-header > div:last-child { width: 100%; flex-wrap: wrap; }
+  .sudoku-page .section-header select { min-height: 44px; }
+  .chess-page #chess-board { max-width: min(400px, 100%); }
+}

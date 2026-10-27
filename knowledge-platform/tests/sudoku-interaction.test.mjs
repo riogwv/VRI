@@ -106,3 +106,20 @@ test('keyboard entry reports a conflict', async () => {
   expect(page.querySelector('#sudoku-message').textContent).toContain('bertentangan');
   page.dispose(); vi.useRealTimers(); vi.unstubAllGlobals();
 });
+
+test('keyboard shortcuts do not hijack other focused controls', async () => {
+  vi.useFakeTimers();
+  const handlers = {};
+  vi.stubGlobal('document', { activeElement: null, addEventListener(name, fn) { handlers[name] = fn; }, removeEventListener() {} });
+  const page = await renderSudoku();
+  const row = state.fixed.findIndex(line => line.includes(false));
+  const col = state.fixed[row].indexOf(false);
+  page.querySelector('#sudoku-board').children[row * 9 + col].handlers.click();
+  document.activeElement = page.querySelector('#sudoku-new');
+  document.activeElement.tagName = 'BUTTON';
+  const before = state.grid[row][col]; const event = { key: '1', preventDefault: vi.fn() };
+  handlers.keydown(event);
+  expect(state.grid[row][col]).toBe(before);
+  expect(event.preventDefault).not.toHaveBeenCalled();
+  page.dispose(); vi.useRealTimers(); vi.unstubAllGlobals();
+});

@@ -11,6 +11,8 @@ test("consecutive completed requests fetch the next puzzle", async () => {
   const first = await lichess.getPuzzle();
   const second = await lichess.getPuzzle();
   expect(fetchJson).toHaveBeenCalledTimes(2);
+  expect(fetchJson).toHaveBeenNthCalledWith(1, expect.any(String), { cache: "no-store" });
+  expect(fetchJson).toHaveBeenNthCalledWith(2, expect.any(String), { cache: "no-store" });
   expect([first.id, second.id]).toEqual(["lichess:first", "lichess:second"]);
 });
 

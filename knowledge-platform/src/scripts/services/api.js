@@ -14,7 +14,7 @@ export class ApiError extends Error {
   }
 }
 
-export async function fetchJson(url, { method = "GET", headers = {}, body, signal, timeout = DEFAULT_TIMEOUT, retries = MAX_RETRIES } = {}) {
+export async function fetchJson(url, { method = "GET", headers = {}, body, signal, timeout = DEFAULT_TIMEOUT, retries = MAX_RETRIES, cache } = {}) {
   const requestHeaders = { Accept: "application/json", ...headers };
   if (body) requestHeaders["Content-Type"] = "application/json";
 
@@ -28,6 +28,7 @@ export async function fetchJson(url, { method = "GET", headers = {}, body, signa
     try {
       const res = await fetch(url, {
         method, headers: requestHeaders, signal: controller.signal,
+        ...(cache ? { cache } : {}),
         ...(body ? { body: JSON.stringify(body) } : {}),
       });
       if (!res.ok) throw new ApiError(res.statusText || "Request gagal", res.status, url);
