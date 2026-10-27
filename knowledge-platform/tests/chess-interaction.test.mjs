@@ -14,7 +14,7 @@ vi.mock('../src/scripts/utils/dom.js', () => {
     contains(el) { return !!this.find(x => x === el); }
     find(fn) { if (fn(this)) return this; for (const child of this.children) { const result = child?.find?.(fn); if (result) return result; } return null; }
     querySelector(selector) { const sq = selector.match(/\[data-sq="([^"]+)"\]/); if (sq) return this.find(x => x.dataset.sq === sq[1]); if (selector.startsWith('#')) return this.find(x => x.props.id === selector.slice(1)); if (selector === '.container') return this.find(x => x.props.className === 'container'); return null; }
-    querySelectorAll() { return []; }
+    querySelectorAll(selector) { return selector.includes("#chess-") ? ["chess-hint", "chess-reset", "chess-next"].map(id => this.querySelector(`#${id}`)) : []; }
     closest(selector) { let el = this; while (el) { if (selector === '.chess-page' && el.classList.contains('chess-page')) return el; el = el.parentElement; } return null; }
     focus() { document.activeElement = this; }
   }
@@ -51,9 +51,11 @@ test('next puzzle blocks old board while loading and picks a different local puz
   page.querySelector('#chess-next').handlers.click();
   board.querySelector('[data-sq="a1"]').props.onClick();
   expect(board['aria-busy']).toBe('true');
+  expect(page.querySelector('#chess-next').disabled).toBe(true);
   expect(page.querySelector('#chess-status').textContent).toContain('Menyiapkan');
   resolve(null); await flush();
   expect(board['aria-busy']).toBe('false');
+  expect(page.querySelector('#chess-next').disabled).toBe(false);
   expect(board.querySelector('[data-sq="b1"]').textContent).toBe('♕');
   vi.restoreAllMocks(); vi.unstubAllGlobals();
 });
