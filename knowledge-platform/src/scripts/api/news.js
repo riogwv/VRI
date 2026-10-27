@@ -12,10 +12,11 @@ const news = {
   async fetchTechNews({ limit = 10 } = {}) {
     const cacheKey = `news:tech:${limit}`;
     const cached = cacheGet(cacheKey);
-    if (cached) return cached;
+    if (cached) return { results: cached, source: "gnews", fromCache: true };
 
     const edgeUrl = CONFIG.api.edgeFunction;
     try {
+      if (!edgeUrl) throw new Error("URL proxy berita belum dikonfigurasi.");
       const data = await fetchJson(`${edgeUrl}?${buildQ({ category: "technology", max: limit })}`);
       const results = normalizeNews(data.articles || data);
       cacheSet(cacheKey, results, CONFIG.cache.ttlNews);
