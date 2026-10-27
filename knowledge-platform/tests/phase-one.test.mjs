@@ -15,6 +15,8 @@ function element() {
       contains(name) { return classes.has(name); },
     },
     setAttribute(key, value) { attributes[key] = String(value); },
+    removeAttribute(key) { delete attributes[key]; },
+    focus() { this.focused = true; },
     getAttribute(key) { return attributes[key]; },
     addEventListener(name, handler) { handlers[name] = handler; },
     appendChild() {},
@@ -42,6 +44,7 @@ test('mobile navigation opens, closes on selection, and does not hide desktop na
   globalThis.window = { location: { hash: '' }, addEventListener() {} };
   initNav();
   assert.equal(home.classList.contains('active'), true);
+  assert.equal(home.attributes['aria-current'], 'page');
   toggle.handlers.click();
   assert.equal(toggle.attributes['aria-expanded'], 'true');
   assert.equal(nav.classList.contains('is-open'), true);
@@ -50,4 +53,8 @@ test('mobile navigation opens, closes on selection, and does not hide desktop na
   assert.equal(nav.classList.contains('is-open'), false);
   assert.equal('hidden' in nav, false);
   assert.equal('aria-hidden' in nav.attributes, false);
+  toggle.handlers.click();
+  nav.handlers.keydown({ key: 'Escape' });
+  assert.equal(toggle.attributes['aria-expanded'], 'false');
+  assert.equal(toggle.focused, true);
 });
