@@ -277,9 +277,21 @@ function highlightHint(pageRoot, from, to) {
 
 function renderInfo(container, puzzle) {
   const infoEl = container.querySelector("#chess-info");
-  infoEl.innerHTML = `
-    <div style="margin-bottom:var(--space-2)"><strong>Sumber:</strong> ${puzzle.source === "lichess" ? "Lichess API" : "Koleksi lokal (seed)"}</div>
-    <div style="margin-bottom:var(--space-2)"><strong>Rating:</strong> ${puzzle.rating || "—"} | <strong>Tema:</strong> ${(puzzle.themes || []).join(", ") || "—"}</div>
-    ${puzzle.url ? `<a href="${puzzle.url}" target="_blank" rel="noopener" class="btn-link">Buka referensi eksternal →</a>` : ""}
-  `;
+  infoEl.replaceChildren();
+  const source = createEl("div", { style: "margin-bottom:var(--space-2)" },
+    `Sumber: ${puzzle.source === "lichess" ? "Lichess API" : "Koleksi lokal (seed)"}`);
+  const details = createEl("div", { style: "margin-bottom:var(--space-2)" },
+    `Rating: ${puzzle.rating || "—"} | Tema: ${(puzzle.themes || []).join(", ") || "—"}`);
+  infoEl.append(source, details);
+  try {
+    const url = new URL(puzzle.url);
+    if (url.protocol === "https:" || url.protocol === "http:") {
+      const link = createEl("a", { className: "btn-link", href: url.href }, "Buka referensi eksternal →");
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      infoEl.appendChild(link);
+    }
+  } catch {
+    // Invalid or missing URLs are not rendered as links.
+  }
 }
