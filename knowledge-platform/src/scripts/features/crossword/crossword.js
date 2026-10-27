@@ -58,8 +58,10 @@ export async function renderCrossword() {
   const userAnswers = {};
   const container = createEl("section", { className: "page crossword-page" }, [
     createEl("div", { className: "container" }, [
-      createEl("div", { className: "section-header", style: "margin-bottom:var(--space-6)" }, [
-        createEl("h2", {}, title),
+      createEl("div", { className: "game-heading" }, [
+        createEl("a", { className: "game-back", href: "#/games" }, "← Semua permainan"),
+        createEl("h1", {}, title),
+        createEl("p", { className: "game-intro" }, "Pilih kotak dan ketik huruf sesuai petunjuk. Gunakan tombol panah untuk berpindah."),
       ]),
       createEl("div", { className: "crossword-layout", style: "display:flex;gap:var(--space-6);flex-wrap:wrap" }, [
         createEl("div", { className: "crossword-grid-wrap" }, [
@@ -80,7 +82,7 @@ export async function renderCrossword() {
         createEl("button", { id: "cw-check", className: "btn btn-outline" }, "Periksa Jawaban"),
         createEl("button", { id: "cw-reset", className: "btn btn-outline" }, "Reset"),
       ]),
-      createEl("div", { id: "cw-message", style: "margin-top:var(--space-4);text-align:center;min-height:24px" }),
+      createEl("div", { id: "cw-message", "aria-label": "Status jawaban", style: "margin-top:var(--space-4);text-align:center;min-height:24px" }),
     ]),
   ]);
 
@@ -122,6 +124,7 @@ export async function renderCrossword() {
 
 function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap) {
   const gridEl = container.querySelector("#cw-grid");
+  const focusedCell = gridEl.contains(document.activeElement) ? document.activeElement?.dataset.cell : null;
   gridEl.innerHTML = "";
   gridEl.style.display = "grid";
   gridEl.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
@@ -198,16 +201,15 @@ function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap
       });
 
       input.addEventListener("focus", () => {
-        document.querySelectorAll(".cw-cell").forEach((el) => {
-          el.style.background = "var(--color-surface)";
-        });
-        cell.style.background = "rgba(37, 99, 235, 0.15)";
+        gridEl.querySelectorAll(".cw-cell").forEach((el) => el.classList.remove("selected"));
+        cell.classList.add("selected");
       });
 
       cell.appendChild(input);
       gridEl.appendChild(cell);
     }
   }
+  if (focusedCell) gridEl.querySelector(`input[data-cell="${focusedCell}"]`)?.focus();
 }
 
 function moveFocus(gridEl, key, delta, playable, rows, cols) {

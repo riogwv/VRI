@@ -26,8 +26,9 @@ const PIECE_UNICODE = {
 export async function renderChess() {
   const container = createEl("section", { className: "page chess-page" }, [
     createEl("div", { className: "container" }, [
-      createEl("div", { className: "section-header", style: "margin-bottom:var(--space-6)" }, [
-        createEl("h2", {}, "Puzzle Catur"),
+      createEl("div", { className: "game-heading" }, [
+        createEl("a", { className: "game-back", href: "#/games" }, "← Semua permainan"),
+        createEl("h1", {}, "Puzzle Catur"),
         createEl("p", { style: "color:var(--color-text-muted)" },
           "Latih taktik dengan puzzle lokal. Pilih kotak asal lalu tujuan; hanya langkah legal yang diterima."),
       ]),
@@ -54,10 +55,10 @@ export async function renderChess() {
         createEl("div", { className: "chess-info-panel", style: "flex:0.6;min-width:260px" }, [
           createEl("h3", {}, "Taktik Catur"),
           createEl("ul", { style: "padding-left:var(--space-4);color:var(--color-text-secondary);font-size:var(--text-sm)" }, [
-            createEl("li", { style: "margin-bottom:var(--space-2)" }, "Fork: satu pieza menyerang dua atau lebih lawan."),
-            createEl("li", { style: "margin-bottom:var(--space-2)" }, "Pin: pieza tidak bisa gerak tanpa mengancam pieza lebih berharga."),
-            createEl("li", { style: "margin-bottom:var(--space-2)" }, "Skewer: serangan pieza berharga di depan."),
-            createEl("li", { style: "margin-bottom:var(--space-2)" }, "Klik pieza sendiri, lalu kotak tujuan."),
+            createEl("li", { style: "margin-bottom:var(--space-2)" }, "Fork: satu bidak menyerang dua atau lebih lawan."),
+            createEl("li", { style: "margin-bottom:var(--space-2)" }, "Pin: bidak tidak bisa gerak tanpa mengancam bidak lebih berharga."),
+            createEl("li", { style: "margin-bottom:var(--space-2)" }, "Skewer: serangan bidak berharga di depan."),
+            createEl("li", { style: "margin-bottom:var(--space-2)" }, "Klik bidak sendiri, lalu kotak tujuan."),
           ]),
         ]),
       ]),
@@ -66,7 +67,10 @@ export async function renderChess() {
 
   const session = { puzzle: null, game: null, step: 0, selected: null, solved: false };
 
+  let loadId = 0;
   async function loadRandomPuzzle() {
+    const currentLoad = ++loadId;
+    setStatus(container, "Menyiapkan puzzle…");
     session.selected = null;
     session.step = 0;
     session.solved = false;
@@ -81,6 +85,7 @@ export async function renderChess() {
       console.warn("[chess] lichess failed:", err.message);
     }
 
+    if (currentLoad !== loadId) return;
     if (!puzzle) {
       const seeds = content.getChessPuzzlesSeed();
       const s = seeds[Math.floor(Math.random() * seeds.length)];
@@ -91,7 +96,7 @@ export async function renderChess() {
     session.game = new Chess(puzzle.fen);
     paintBoard(container, session);
     renderInfo(container, puzzle);
-    setStatus(container, "Giliran putih. Cari langkah terbaik.");
+    setStatus(container, `Giliran ${session.game.turn() === "w" ? "putih" : "hitam"}. Pilih bidak, lalu pilih kotak tujuan.`);
   }
 
   container.querySelector("#chess-reset").addEventListener("click", () => {
@@ -104,7 +109,10 @@ export async function renderChess() {
     setStatus(container, "Puzzle direset.");
   });
 
-  container.querySelector("#chess-next").addEventListener("click", () => loadRandomPuzzle());
+  const requestPuzzle = () => {
+    loadRandomPuzzle().catch(() => setStatus(container, "Puzzle tidak dapat dimuat. Coba puzzle berikutnya."));
+  };
+  container.querySelector("#chess-next").addEventListener("click", requestPuzzle);
 
   container.querySelector("#chess-hint").addEventListener("click", () => {
     if (!session.puzzle || session.solved) return;
@@ -116,7 +124,7 @@ export async function renderChess() {
     highlightHint(container, from, to);
   });
 
-  await loadRandomPuzzle();
+  requestPuzzle();
   return container;
 }
 
@@ -142,7 +150,9 @@ function paintBoard(container, session) {
   const promptEl = container.querySelector("#chess-prompt");
   promptEl.textContent = session.puzzle.prompt;
 
+  const focusedSquare = boardEl.contains(document.activeElement) ? document.activeElement?.dataset.sq : null;
   boardEl.innerHTML = "";
+  const targets = new Set(session.selected ? session.game.moves({ square: session.selected, verbose: true }).map((move) => move.to) : []);
   const fen = session.game.fen();
   const rows = fen.split(" ")[0].split("/");
   const turn = session.game.turn();
@@ -153,30 +163,35 @@ function paintBoard(container, session) {
       if (/[1-8]/.test(ch)) {
         const n = parseInt(ch, 10);
         for (let i = 0; i < n; i++) {
-          appendSquare(boardEl, r, c, turn, session);
+          appendSquare(boardEl, r, c, turn, session, targets);
           c++;
         }
         continue;
       }
-      appendSquare(boardEl, r, c, turn, session, ch);
+      appendSquare(boardEl, r, c, turn, session, targets, ch);
       c++;
     }
   }
+  if (focusedSquare) boardEl.querySelector(`[data-sq="${focusedSquare}"]`)?.focus();
 }
 
-function appendSquare(boardEl, r, c, turn, session, pieceChar = null) {
+function appendSquare(boardEl, r, c, turn, session, targets, pieceChar = null) {
   const sq = String.fromCharCode(97 + c) + (8 - r);
   const light = (r + c) % 2 === 0;
   const isSelected = session.selected === sq;
+  const isLegalTarget = targets.has(sq);
+  const piece = session.game.get(sq);
+  const names = { p: "pion", n: "kuda", b: "gajah", r: "benteng", q: "menteri", k: "raja" };
 
   const cell = createEl("button", {
     type: "button",
-    className: "chess-cell",
-    "aria-label": `Kotak ${sq}`,
-    style: `width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:clamp(20px,5vw,32px);background:${light ? "#f0d9b5" : "#b58863"};border:none;cursor:pointer;color:#111;outline:${isSelected ? "3px solid var(--color-focus)" : "none"}`,
+    className: `chess-cell ${isSelected ? "selected" : ""} ${isLegalTarget ? "legal-target" : ""}`,
+    "aria-label": `Kotak ${sq}, ${piece ? `${names[piece.type]} ${piece.color === "w" ? "putih" : "hitam"}` : "kosong"}${isLegalTarget ? ", langkah legal" : ""}`,
+    style: `width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:clamp(20px,5vw,32px);background:${light ? "#f0d9b5" : "#b58863"};border:none;cursor:pointer;color:#111;outline:${isSelected ? "3px solid var(--color-focus)" : ""}`,
     onClick: () => onSquareClick(session, sq, boardEl.closest(".chess-page")),
   });
 
+  cell.setAttribute("aria-pressed", String(isSelected));
   if (pieceChar) cell.textContent = PIECE_UNICODE[pieceChar] || "";
   cell.dataset.sq = sq;
   boardEl.appendChild(cell);
@@ -190,7 +205,7 @@ function onSquareClick(session, sq, pageRoot) {
   if (!session.selected) {
     const piece = session.game.get(sq);
     if (!piece || piece.color !== session.game.turn()) {
-      showToast("Pilih pieza sendiri yang sedang giliran.", "info");
+      showToast("Pilih bidak sendiri yang sedang giliran.", "info");
       return;
     }
     session.selected = sq;
