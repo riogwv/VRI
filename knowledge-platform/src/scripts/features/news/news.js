@@ -1,5 +1,5 @@
 import { content } from "../../services/content.js";
-import { createEl } from "../../utils/dom.js";
+import { createEl, safeExternalUrl } from "../../utils/dom.js";
 
 export async function renderNews() {
   const results = createEl("div", { className: "news-grid" }, [
@@ -30,15 +30,9 @@ export async function renderNews() {
       return;
     }
     items.forEach((item) => {
-      let link = null;
-      try {
-        const url = new URL(item.url);
-        if (url.protocol === "https:" || url.protocol === "http:") {
-          link = createEl("a", { className: "btn-link", href: url.href }, "Baca di sumber ↗");
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-        }
-      } catch { /* Invalid external URLs are not displayed. */ }
+      const href = safeExternalUrl(item.url);
+      const link = href ? createEl("a", { className: "btn-link", href }, "Baca di sumber ↗") : null;
+      if (link) { link.target = "_blank"; link.rel = "noopener noreferrer"; }
       results.appendChild(createEl("article", { className: "news-card card" }, [
         createEl("div", { className: "news-meta" }, [createEl("span", { className: "badge badge-news" }, "Berita"), createEl("span", {}, item.source || "Sumber tidak diketahui")]),
         createEl("h2", {}, item.title),
