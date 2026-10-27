@@ -55,10 +55,10 @@
 }
 
 .btn-primary {
-  background: var(--color-text);
-  color: #fff;
+  background: var(--color-button-primary);
+  color: var(--color-button-primary-text);
 }
-.btn-primary:hover { background: var(--color-text-secondary); }
+.btn-primary:hover { background: var(--color-button-primary-hover); }
 
 .btn-outline {
   background: transparent;
