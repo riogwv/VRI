@@ -87,3 +87,9 @@
 .chess-page #chess-status { padding: 12px 14px; border-radius: 10px; background: var(--discovery-hero); line-height: 1.5; }
 .crossword-clues { flex: 1; }
 @media (max-width: 767px) { .crossword-grid-wrap, .crossword-clues { width: 100%; min-width: 0 !important; } .crossword-grid-wrap { display: flex; justify-content: center; } }
+.cw-direction { margin: 0 0 14px; color: var(--color-text-secondary); font-weight: 600; }
+.cw-cell.word-active { background: var(--discovery-hero) !important; }
+.cw-cell.selected { background: var(--discovery-glow) !important; }
+.clue-item.active { background: var(--discovery-hero); box-shadow: inset 3px 0 var(--color-focus); }
+.home-news-item { overflow-wrap: anywhere; }
+@media (max-width: 767px) { .home-spotlight > * { min-width: 0; } .news-state .btn { margin: 8px 8px 0 0; } }
