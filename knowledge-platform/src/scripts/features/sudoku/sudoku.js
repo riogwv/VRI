@@ -159,6 +159,7 @@ export async function renderSudoku(params) {
   `;
 
   newGame(difficulty);
+  let ownedTimerId = state.timerId;
   renderBoard(container);
   updateStatus(container);
 
@@ -167,6 +168,7 @@ export async function renderSudoku(params) {
     const d = diffSel.value;
     clearInterval(state.timerId);
     newGame(d);
+    ownedTimerId = state.timerId;
     renderBoard(container);
     updateStatus(container);
   });
@@ -174,6 +176,7 @@ export async function renderSudoku(params) {
   container.querySelector("#sudoku-new").addEventListener("click", () => {
     clearInterval(state.timerId);
     newGame(state.difficulty);
+    ownedTimerId = state.timerId;
     renderBoard(container);
     updateStatus(container);
     setMessage(container, "Puzzle baru dibuat.", "info");
@@ -219,7 +222,7 @@ export async function renderSudoku(params) {
   });
 
   let candidateMode = false;
-  document.addEventListener("keydown", (e) => {
+  const onKeydown = (e) => {
     if (!container.isConnected) return;
     if (!selectedCell || state.completed) return;
     const tag = document.activeElement?.tagName;
@@ -252,7 +255,12 @@ export async function renderSudoku(params) {
       renderBoard(container);
       e.preventDefault();
     }
-  });
+  };
+  document.addEventListener("keydown", onKeydown);
+  container.dispose = () => {
+    clearInterval(ownedTimerId);
+    document.removeEventListener("keydown", onKeydown);
+  };
 
   container.querySelectorAll(".num-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
