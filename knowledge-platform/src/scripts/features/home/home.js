@@ -60,6 +60,37 @@ export async function renderHome() {
   const feedItems = articles.map((a) => articleCard(a));
   renderCardGrid(feedContainer, feedItems);
 
+  const spotlight = createEl("section", { className: "home-spotlight", "aria-label": "Berita dan permainan" }, [
+    createEl("div", { className: "spotlight-news" }, [
+      createEl("span", { className: "section-kicker" }, "JENDELA INFORMASI"),
+      createEl("h2", {}, "Kabar terbaru, untuk rasa ingin tahu."),
+      createEl("p", {}, "Ikuti perkembangan teknologi dari sumber berita eksternal."),
+      createEl("div", { id: "home-news", className: "home-news-list", "aria-live": "polite" }, "Memuat berita…"),
+      createEl("a", { href: "#/news", className: "spotlight-link" }, "Semua berita →"),
+    ]),
+    createEl("div", { className: "spotlight-games" }, [
+      createEl("span", { className: "section-kicker" }, "JEDA SEJENAK"),
+      createEl("h2", {}, "Bermain sambil berpikir."),
+      createEl("p", {}, "Pilih tantangan kecil untuk hari ini."),
+      createEl("a", { href: "#/games/sudoku", className: "game-preview" }, [createEl("strong", {}, "▦  Sudoku"), createEl("span", {}, "Logika angka →")]),
+      createEl("a", { href: "#/games/crossword", className: "game-preview" }, [createEl("strong", {}, "✎  Teka-teki silang"), createEl("span", {}, "Main kata →")]),
+      createEl("a", { href: "#/games/chess", className: "game-preview" }, [createEl("strong", {}, "♞  Puzzle catur"), createEl("span", {}, "Latih taktik →")]),
+    ]),
+  ]);
+  layout.appendChild(spotlight);
+  const newsPreview = spotlight.querySelector("#home-news");
+  content.getNews({ limit: 10 }).then(({ results, error }) => {
+    newsPreview.replaceChildren();
+    if (!results?.length) {
+      newsPreview.textContent = error ? "Berita belum tersedia saat ini." : "Belum ada berita untuk ditampilkan.";
+      return;
+    }
+    results.slice(0, 3).forEach((item) => newsPreview.appendChild(createEl("a", { href: "#/news", className: "home-news-item" }, [
+      createEl("span", {}, item.source || "Berita"),
+      createEl("strong", {}, item.title),
+    ])));
+  }).catch(() => { newsPreview.textContent = "Berita belum tersedia saat ini."; });
+
   // Category quick links
   const catsSection = createEl("section", { className: "cats-section home-section" }, [
     createEl("div", { className: "section-header" }, [
