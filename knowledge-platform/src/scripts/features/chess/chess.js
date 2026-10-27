@@ -72,6 +72,7 @@ export async function renderChess() {
     const currentLoad = ++loadId;
     session.loading = true;
     container.querySelector("#chess-board").setAttribute("aria-busy", "true");
+    setControlsDisabled(container, true);
     setStatus(container, "Menyiapkan puzzle…");
     session.selected = null;
     session.step = 0;
@@ -99,6 +100,7 @@ export async function renderChess() {
     session.game = new Chess(puzzle.fen);
     session.loading = false;
     container.querySelector("#chess-board").setAttribute("aria-busy", "false");
+    setControlsDisabled(container, false);
     paintBoard(container, session);
     renderInfo(container, puzzle);
     setStatus(container, `Giliran ${session.game.turn() === "w" ? "putih" : "hitam"}. Pilih bidak, lalu pilih kotak tujuan.`);
@@ -283,6 +285,12 @@ function applyAutoReply(session, pageRoot) {
     session.solved = true;
     setStatus(pageRoot, session.puzzle.explanation || "Benar! Puzzle selesai.");
   }
+}
+
+function setControlsDisabled(container, disabled) {
+  container.querySelectorAll("#chess-hint, #chess-reset, #chess-next").forEach((button) => {
+    button.disabled = disabled;
+  });
 }
 
 function setStatus(containerOrPage, text) {
