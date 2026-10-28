@@ -25,7 +25,7 @@ export async function renderCategory(params) {
   const page = createEl("section", { className: "page category-page" }, [
     createEl("div", { className: "container" }, [
       createEl("div", { className: "section-header", style: "margin-bottom:var(--space-6)" }, [
-        createEl("h2", {}, label),
+        createEl("h1", {}, label),
         createEl("p", { style: "color:var(--color-text-muted)" }, "Konten terpilih dalam kategori " + label + "."),
       ]),
       createEl("div", { className: "grid-articles", id: "category-grid" }),
