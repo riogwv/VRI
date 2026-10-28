@@ -1,5 +1,6 @@
 import { content } from "../../services/content.js";
 import { createEl, safeExternalUrl } from "../../utils/dom.js";
+import { hasViewedNews, recordNewsView } from "../../services/player-progress.js";
 
 export async function renderNews() {
   const results = createEl("div", { className: "news-grid" }, [
@@ -29,12 +30,16 @@ export async function renderNews() {
       ]));
       return;
     }
+    const shown = new Set();
     items.forEach((item) => {
       const href = safeExternalUrl(item.url);
-      const link = href ? createEl("a", { className: "btn-link", href }, "Baca di sumber ↗") : null;
+      const identity = href || `${item.source || ""}:${item.title || ""}`;
+      if (shown.has(identity)) return;
+      shown.add(identity);
+      const link = href ? createEl("a", { className: "btn-link", href, onClick: () => recordNewsView({ ...item, url: href }) }, "Baca di sumber ↗") : null;
       if (link) { link.target = "_blank"; link.rel = "noopener noreferrer"; }
       results.appendChild(createEl("article", { className: "news-card card" }, [
-        createEl("div", { className: "news-meta" }, [createEl("span", { className: "badge badge-news" }, "Berita"), createEl("span", {}, item.source || "Sumber tidak diketahui")]),
+        createEl("div", { className: "news-meta" }, [createEl("span", { className: "badge badge-news" }, "Berita"), createEl("span", {}, `${item.source || "Sumber tidak diketahui"}${hasViewedNews(href) ? " · Dibaca" : ""}`)]),
         createEl("h2", {}, item.title),
         createEl("p", {}, item.summary || "Tidak ada ringkasan tersedia."),
         createEl("div", { className: "news-footer" }, [createEl("span", {}, item.publishedAt ? new Date(item.publishedAt).toLocaleDateString("id-ID") : "Tanggal tidak tersedia"), link]),

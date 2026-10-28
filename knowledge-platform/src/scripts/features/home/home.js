@@ -5,6 +5,7 @@
 import { content } from "../../services/content.js";
 import { renderCardGrid } from "../../components/card-grid.js";
 import { createEl, safeExternalUrl } from "../../utils/dom.js";
+import { getPlayerProgress, getRecommendedArticles, hasViewedNews, recordNewsView } from "../../services/player-progress.js";
 
 export async function renderHome() {
   const page = createEl("section", { className: "page home-page", id: "home" });
@@ -37,10 +38,18 @@ export async function renderHome() {
     ]),
   ]);
 
+  const progress = getPlayerProgress();
+  const allArticles = content.getArticles({ limit: 100 });
+  const recentArticles = progress.recentContent
+    .map((entry) => allArticles.find((article) => article.id === entry.id))
+    .filter(Boolean)
+    .slice(0, 3);
+  const hasHistory = recentArticles.length > 0 || Object.keys(progress.categoryAffinity).length > 0;
+
   // Feed section
   const feedSection = createEl("section", { className: "feed-section home-section" }, [
     createEl("div", { className: "section-header" }, [
-      createEl("div", {}, [createEl("span", { className: "section-kicker" }, "UNTUK KAMU"), createEl("h2", {}, "Mulai dari sini")]),
+      createEl("div", {}, [createEl("span", { className: "section-kicker" }, hasHistory ? "UNTUK KAMU" : "PILIHAN EDITOR"), createEl("h2", {}, hasHistory ? "Temukan hal berikutnya" : "Mulai dari sini")]),
       createEl("a", { className: "view-all", href: "#/explore" }, "Lihat semua →"),
     ]),
     createEl("div", { className: "grid-feed", id: "home-feed" }),
@@ -52,11 +61,12 @@ export async function renderHome() {
     createEl("a", { href: "#/news", className: "discovery-path" }, [createEl("strong", {}, "02 · Ikuti"), createEl("span", {}, "Lihat berita teknologi →")]),
     createEl("a", { href: "#/games", className: "discovery-path" }, [createEl("strong", {}, "03 · Bermain"), createEl("span", {}, "Asah pikiran dengan teka-teki →")]),
   ]));
+  if (recentArticles.length) layout.appendChild(continueSection(recentArticles));
   layout.appendChild(feedSection);
 
-  // Populate feed
+  // Keep familiar topics near the top, while avoiding immediate repeats when alternatives exist.
   const feedContainer = page.querySelector("#home-feed");
-  const articles = content.getArticles({ limit: 8 });
+  const articles = getRecommendedArticles(allArticles, 8);
   const feedItems = articles.map((a) => articleCard(a));
   renderCardGrid(feedContainer, feedItems);
 
@@ -72,6 +82,7 @@ export async function renderHome() {
       createEl("span", { className: "section-kicker" }, "JEDA SEJENAK"),
       createEl("h2", {}, "Bermain sambil berpikir."),
       createEl("p", {}, "Pilih tantangan kecil untuk hari ini."),
+      progressSummary(progress),
       createEl("a", { href: "#/games/sudoku", className: "game-preview" }, [createEl("strong", {}, "▦  Sudoku"), createEl("span", {}, "Logika angka →")]),
       createEl("a", { href: "#/games/crossword", className: "game-preview" }, [createEl("strong", {}, "✎  Teka-teki silang"), createEl("span", {}, "Main kata →")]),
       createEl("a", { href: "#/games/chess", className: "game-preview" }, [createEl("strong", {}, "♞  Puzzle catur"), createEl("span", {}, "Latih taktik →")]),
@@ -87,8 +98,12 @@ export async function renderHome() {
     }
     results.slice(0, 3).forEach((item) => {
       const href = safeExternalUrl(item.url);
-      const headline = createEl(href ? "a" : "div", { ...(href ? { href } : {}), className: "home-news-item" }, [
-        createEl("span", {}, item.source || "Berita"), createEl("strong", {}, item.title),
+      const headline = createEl(href ? "a" : "div", {
+        ...(href ? { href } : {}),
+        className: "home-news-item",
+        ...(href ? { onClick: () => recordNewsView({ ...item, url: href }) } : {}),
+      }, [
+        createEl("span", {}, `${item.source || "Berita"}${hasViewedNews(href) ? " · Dibaca" : ""}`), createEl("strong", {}, item.title),
       ]);
       if (href) { headline.target = "_blank"; headline.rel = "noopener noreferrer"; }
       newsPreview.appendChild(headline);
@@ -139,5 +154,25 @@ function categoryChip(c) {
     createEl("div", { className: `badge badge-${color}`, style: "align-self:start" }, c.label),
     createEl("h3", { style: "margin:0" }, c.label),
     createEl("p", { style: "color:var(--color-text-muted);font-size:var(--text-sm);margin:0" }, c.count + " artikel"),
+  ]);
+}
+function continueSection(articles) {
+  return createEl("section", { className: "continue-section home-section", "aria-label": "Lanjutkan membaca" }, [
+    createEl("div", { className: "section-header" }, [
+      createEl("div", {}, [createEl("span", { className: "section-kicker" }, "LANJUTKAN MENJELAJAH"), createEl("h2", {}, "Kembali ke yang kamu baca")]),
+      createEl("a", { className: "view-all", href: "#/explore" }, "Temukan lebih banyak →"),
+    ]),
+    createEl("div", { className: "grid-feed" }, articles.map((article) => articleCard(article))),
+  ]);
+}
+
+function progressSummary(progress) {
+  const completed = Object.values(progress.games).reduce((total, game) => total + game.completed, 0);
+  if (!progress.streak.current && !completed) return null;
+  return createEl("div", { className: "player-summary", "aria-label": "Ringkasan aktivitas permainan" }, [
+    createEl("strong", {}, "Aktivitasmu"),
+    createEl("span", {}, `🔥 ${progress.streak.current} hari`),
+    createEl("span", {}, `🏆 terbaik ${progress.streak.longest}`),
+    createEl("span", {}, `🎮 ${completed} selesai`),
   ]);
 }

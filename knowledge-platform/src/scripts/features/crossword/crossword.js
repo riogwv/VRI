@@ -4,6 +4,7 @@
 
 import { createEl } from "../../utils/dom.js";
 import { content } from "../../services/content.js";
+import { recordGameCompletion, recordGameStart } from "../../services/player-progress.js";
 
 export async function renderCrossword() {
   const data = content.getCrossword();
@@ -57,6 +58,8 @@ export async function renderCrossword() {
 
   const userAnswers = {};
   const selection = { direction: "across", key: null };
+  let activityId = recordGameStart("crossword");
+  let completed = false;
   const container = createEl("section", { className: "page crossword-page" }, [
     createEl("div", { className: "container" }, [
       createEl("div", { className: "game-heading" }, [
@@ -106,6 +109,8 @@ export async function renderCrossword() {
     }
     const total = Object.keys(answerMap).length;
     if (wrong === 0 && filled === total) {
+      if (!completed) recordGameCompletion("crossword", activityId);
+      completed = true;
       setMessage(container, "Selamat! Semua jawaban benar.", "success");
     } else if (wrong > 0) {
       setMessage(container, `Ada ${wrong} huruf yang salah.`, "error");
@@ -117,6 +122,8 @@ export async function renderCrossword() {
 
   container.querySelector("#cw-reset").addEventListener("click", () => {
     Object.keys(userAnswers).forEach((k) => delete userAnswers[k]);
+    activityId = recordGameStart("crossword");
+    completed = false;
     paintGrid();
     setMessage(container, "Papan direset.", "info");
   });

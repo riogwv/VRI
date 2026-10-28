@@ -105,3 +105,25 @@
   .sudoku-page .section-header select { min-height: 44px; }
   .chess-page #chess-board { max-width: min(400px, 100%); }
 }
+
+.player-summary, .game-progress {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin: 20px 0;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--color-surface) 88%, var(--color-focus) 12%);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+.player-summary strong, .game-progress strong { color: var(--color-text); }
+.game-progress { margin: 0 0 var(--space-6); }
+.local-activity-card { margin-top: var(--space-5); }
+.local-activity-card h2 { font-size: var(--text-lg); }
+.local-activity-stats { color: var(--color-text-secondary); font-size: var(--text-sm); }
+@media (max-width: 480px) {
+  .player-summary, .game-progress { align-items: flex-start; flex-direction: column; gap: 6px; }
+}

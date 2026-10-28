@@ -7,6 +7,7 @@ import { Chess } from "chess.js";
 import { createEl } from "../../utils/dom.js";
 import { content } from "../../services/content.js";
 import { showToast } from "../../ui/toast.js";
+import { recordGameCompletion, recordGameStart } from "../../services/player-progress.js";
 
 const PIECE_UNICODE = {
   r: "♜",
@@ -65,7 +66,7 @@ export async function renderChess() {
     ]),
   ]);
 
-  const session = { puzzle: null, game: null, step: 0, selected: null, solved: false, loading: true };
+  const session = { puzzle: null, game: null, step: 0, selected: null, solved: false, loading: true, activityId: null };
 
   let loadId = 0;
   async function loadRandomPuzzle() {
@@ -97,6 +98,7 @@ export async function renderChess() {
     }
 
     session.puzzle = puzzle;
+    session.activityId = recordGameStart("chess");
     session.game = new Chess(puzzle.fen);
     session.loading = false;
     container.querySelector("#chess-board").setAttribute("aria-busy", "false");
@@ -262,6 +264,7 @@ function onSquareClick(session, sq, pageRoot) {
 
   if (session.step >= session.puzzle.moves.length) {
     session.solved = true;
+    recordGameCompletion("chess", session.activityId);
     setStatus(pageRoot, session.puzzle.explanation || "Benar! Puzzle selesai.");
     showToast("Puzzle selesai!", "success");
   } else {
@@ -283,6 +286,7 @@ function applyAutoReply(session, pageRoot) {
   }
   if (session.step >= session.puzzle.moves.length) {
     session.solved = true;
+    recordGameCompletion("chess", session.activityId);
     setStatus(pageRoot, session.puzzle.explanation || "Benar! Puzzle selesai.");
   }
 }
