@@ -15,7 +15,7 @@ export async function renderSearch() {
   const page = createEl("section", { className: "page search-page" }, [
     createEl("div", { className: "container" }, [
       createEl("div", { className: "section-header", style: "margin-bottom:var(--space-6)" }, [
-        createEl("h2", {}, "Hasil Pencarian"),
+        createEl("h1", {}, "Hasil Pencarian"),
         createEl("span", { style: "font-size:var(--text-sm);color:var(--color-text-muted);margin-left:auto" }, q ? `"${q}"` : ""),
       ]),
       createEl("div", { className: "search-results", id: "search-results" }),
