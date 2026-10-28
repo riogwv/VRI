@@ -13,7 +13,7 @@ export async function renderExplore() {
   const page = createEl("section", { className: "page explore-page" }, [
     createEl("div", { className: "container" }, [
       createEl("div", { className: "section-header", style: "margin-bottom:var(--space-5)" }, [
-        createEl("h2", {}, "Eksplorasi Konten"),
+        createEl("h1", {}, "Eksplorasi Konten"),
       ]),
       createEl("div", { className: "filter-bar", style: "display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-6)" }, [
         createFilterButton("all", "Semua", category === "all"),
