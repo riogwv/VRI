@@ -7,7 +7,7 @@ import { Chess } from "chess.js";
 import { createEl } from "../../utils/dom.js";
 import { content } from "../../services/content.js";
 import { showToast } from "../../ui/toast.js";
-import { recordGameCompletion, recordGameStart } from "../../services/player-progress.js";
+import { beginGame, clearGameSession, completeGame, dailyChallenge, getGameSession, saveGameSession } from "../../services/game-progress.js";
 
 const PIECE_UNICODE = {
   r: "♜",
@@ -66,7 +66,14 @@ export async function renderChess() {
     ]),
   ]);
 
-  const session = { puzzle: null, game: null, step: 0, selected: null, solved: false, loading: true, activityId: null };
+  const requestedDay = typeof window === "undefined" ? null : new URLSearchParams(window.location.hash.split("?")[1] || "").get("daily");
+  const daily = requestedDay ? dailyChallenge("chess", content.getChessPuzzlesSeed(), requestedDay) : null;
+  let saved = getGameSession("chess");
+  if (saved && daily && saved.dailyDate !== daily.day) {
+    clearGameSession("chess", saved.dailyDate);
+    saved = null;
+  }
+  const session = { puzzle: null, game: null, step: 0, selected: null, solved: false, loading: true, activityId: null, dailyDate: daily?.day || null };
 
   let loadId = 0;
   async function loadRandomPuzzle() {
@@ -78,38 +85,51 @@ export async function renderChess() {
     session.selected = null;
     session.step = 0;
     session.solved = false;
+    session.game = null;
 
-    let puzzle = null;
-    try {
-      const lichessPuzzle = await content.getChessPuzzle("normal");
-      if (lichessPuzzle && lichessPuzzle.fen) {
-        puzzle = normalizePuzzle(lichessPuzzle, "lichess");
+    if (saved) {
+      try {
+        session.puzzle = normalizePuzzle(saved.puzzle, saved.puzzle.source || "saved");
+        session.game = new Chess(saved.fen);
+        session.step = saved.step;
+        session.activityId = saved.activityId;
+        session.dailyDate = saved.dailyDate || null;
+      } catch {
+        clearGameSession("chess", saved.dailyDate);
       }
-    } catch (err) {
-      console.warn("[chess] lichess failed:", err.message);
+      saved = null;
     }
-
+    if (!session.game) {
+      let puzzle = daily ? normalizePuzzle(daily.value, "daily") : null;
+      if (!puzzle) {
+        try {
+          const lichessPuzzle = await content.getChessPuzzle("normal");
+          if (lichessPuzzle && lichessPuzzle.fen) puzzle = normalizePuzzle(lichessPuzzle, "lichess");
+        } catch (err) { console.warn("[chess] lichess failed:", err.message); }
+      }
+      if (currentLoad !== loadId) return;
+      if (!puzzle) {
+        const seeds = content.getChessPuzzlesSeed();
+        const choices = seeds.length > 1 ? seeds.filter((seed) => seed.id !== session.puzzle?.id) : seeds;
+        puzzle = normalizePuzzle(choices[Math.floor(Math.random() * choices.length)], "seed");
+      }
+      session.puzzle = puzzle;
+      session.activityId = beginGame("chess");
+      session.game = new Chess(puzzle.fen);
+    }
     if (currentLoad !== loadId) return;
-    if (!puzzle) {
-      const seeds = content.getChessPuzzlesSeed();
-      const choices = seeds.length > 1 ? seeds.filter((seed) => seed.id !== session.puzzle?.id) : seeds;
-      const s = choices[Math.floor(Math.random() * choices.length)];
-      puzzle = normalizePuzzle(s, "seed");
-    }
-
-    session.puzzle = puzzle;
-    session.activityId = recordGameStart("chess");
-    session.game = new Chess(puzzle.fen);
     session.loading = false;
     container.querySelector("#chess-board").setAttribute("aria-busy", "false");
     setControlsDisabled(container, false);
     paintBoard(container, session);
-    renderInfo(container, puzzle);
-    setStatus(container, `Giliran ${session.game.turn() === "w" ? "putih" : "hitam"}. Pilih bidak, lalu pilih kotak tujuan.`);
+    renderInfo(container, session.puzzle);
+    setStatus(container, session.step ? "Puzzle dipulihkan. Lanjutkan langkah berikutnya." : `Giliran ${session.game.turn() === "w" ? "putih" : "hitam"}. Pilih bidak, lalu pilih kotak tujuan.`);
   }
 
   container.querySelector("#chess-reset").addEventListener("click", () => {
     if (!session.puzzle || session.loading) return;
+    clearGameSession("chess", session.dailyDate);
+    session.activityId = beginGame("chess");
     session.game = new Chess(session.puzzle.fen);
     session.step = 0;
     session.selected = null;
@@ -119,6 +139,9 @@ export async function renderChess() {
   });
 
   const requestPuzzle = () => {
+    clearGameSession("chess", session.dailyDate);
+    saved = null;
+    session.dailyDate = daily?.day || null;
     loadRandomPuzzle().catch(() => setStatus(container, "Puzzle tidak dapat dimuat. Coba puzzle berikutnya."));
   };
   container.querySelector("#chess-next").addEventListener("click", requestPuzzle);
@@ -133,7 +156,7 @@ export async function renderChess() {
     highlightHint(container, from, to);
   });
 
-  requestPuzzle();
+  loadRandomPuzzle().catch(() => setStatus(container, "Puzzle tidak dapat dimuat. Coba puzzle berikutnya."));
   return container;
 }
 
@@ -264,12 +287,13 @@ function onSquareClick(session, sq, pageRoot) {
 
   if (session.step >= session.puzzle.moves.length) {
     session.solved = true;
-    recordGameCompletion("chess", session.activityId);
-    setStatus(pageRoot, session.puzzle.explanation || "Benar! Puzzle selesai.");
+    const result = completeGame("chess", { activityId: session.activityId, dailyDate: session.dailyDate });
+    setStatus(pageRoot, `${session.puzzle.explanation || "Benar! Puzzle selesai."}${result.dailyCompleted ? " Tantangan harian selesai!" : ""}`);
     showToast("Puzzle selesai!", "success");
   } else {
     setStatus(pageRoot, "Bagus! Lanjutkan jika ada langkah balasan otomatis dari puzzle.");
     applyAutoReply(session, pageRoot);
+    if (!session.solved) saveGameSession("chess", { puzzle: session.puzzle, fen: session.game.fen(), step: session.step, activityId: session.activityId, dailyDate: session.dailyDate });
   }
 
   paintBoard(pageRoot, session);
@@ -286,8 +310,8 @@ function applyAutoReply(session, pageRoot) {
   }
   if (session.step >= session.puzzle.moves.length) {
     session.solved = true;
-    recordGameCompletion("chess", session.activityId);
-    setStatus(pageRoot, session.puzzle.explanation || "Benar! Puzzle selesai.");
+    const result = completeGame("chess", { activityId: session.activityId, dailyDate: session.dailyDate });
+    setStatus(pageRoot, `${session.puzzle.explanation || "Benar! Puzzle selesai."}${result.dailyCompleted ? " Tantangan harian selesai!" : ""}`);
   }
 }
 

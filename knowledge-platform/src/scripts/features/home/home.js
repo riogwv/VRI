@@ -5,7 +5,8 @@
 import { content } from "../../services/content.js";
 import { renderCardGrid } from "../../components/card-grid.js";
 import { createEl, safeExternalUrl } from "../../utils/dom.js";
-import { getPlayerProgress, hasViewedNews, recordNewsView } from "../../services/player-progress.js";
+import { calendarDay, getPlayerProgress, hasViewedNews, recordNewsView } from "../../services/player-progress.js";
+import { getContinuePlaying, getDailyStatus } from "../../services/game-progress.js";
 import { discoverArticles } from "../../services/discovery.js";
 
 export async function renderHome() {
@@ -62,6 +63,7 @@ export async function renderHome() {
   });
 
   layout.appendChild(hero);
+  layout.appendChild(gameLoopCard());
   layout.appendChild(createEl("nav", { className: "discovery-paths", "aria-label": "Mulai menjelajah" }, [
     createEl("a", { href: "#/explore", className: "discovery-path" }, [createEl("strong", {}, "01 · Baca"), createEl("span", {}, "Jelajahi ide dan artikel →")]),
     createEl("a", { href: "#/news", className: "discovery-path" }, [createEl("strong", {}, "02 · Ikuti"), createEl("span", {}, "Lihat berita teknologi →")]),
@@ -135,6 +137,28 @@ export async function renderHome() {
   });
 
   return page;
+}
+
+function gameLoopCard() {
+  const day = calendarDay();
+  const sessions = getContinuePlaying();
+  const challenges = [
+    { game: "sudoku", title: "Sudoku", route: "#/games/sudoku" },
+    { game: "crossword", title: "Teka-teki silang", route: "#/games/crossword" },
+    { game: "chess", title: "Puzzle catur", route: "#/games/chess" },
+  ];
+  return createEl("section", { className: "player-summary home-game-loop", "aria-label": "Tantangan dan permainan" }, [
+    createEl("div", {}, [
+      createEl("span", { className: "section-kicker" }, "TANTANGAN HARI INI"),
+      createEl("strong", {}, sessions.length ? "Lanjutkan permainanmu atau pilih tantangan hari ini." : "Satu tantangan kecil untuk hari ini."),
+    ]),
+    ...challenges.map((challenge) => {
+      const status = getDailyStatus(challenge.game, day);
+      const label = status === "completed" ? "Selesai ✓" : status === "in-progress" ? "Lanjutkan" : "Mulai";
+      return createEl("a", { className: "btn btn-outline btn-sm", href: `${challenge.route}?daily=${day}` }, `${challenge.title}: ${label}`);
+    }),
+    ...(sessions.length ? [createEl("a", { className: "btn btn-primary btn-sm", href: "#/games" }, "Lanjutkan bermain →")] : []),
+  ]);
 }
 
 function articleCard(a, reason) {
