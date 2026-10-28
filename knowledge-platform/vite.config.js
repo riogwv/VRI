@@ -1,9 +1,9 @@
 import { defineConfig } from "vite";
 
 export function resolveBasePath(value) {
-  const path = value?.trim();
-  if (!path || path === "/") return "/";
-  return `/${path.replace(/^\/+|\/+$/g, "")}/`;
+  const path = value?.trim().replace(/^\/+|\/+$/g, "");
+  if (!path || !/^[A-Za-z0-9._~-]+(?:\/[A-Za-z0-9._~-]+)*$/.test(path)) return "/";
+  return `/${path}/`;
 }
 
 export default defineConfig({
