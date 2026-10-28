@@ -53,6 +53,7 @@ export function dispatchRoute() {
   if (!match) {
     const tpl = document.getElementById("route-not-found");
     if (tpl) main.appendChild(tpl.content.cloneNode(true));
+    main.focus?.({ preventScroll: true });
     currentRoute = null;
     return;
   }
@@ -67,6 +68,7 @@ export function dispatchRoute() {
       activePage = el;
       main.appendChild(el);
     }
+    main.focus?.({ preventScroll: true });
     window.scrollTo(0, 0);
   }).catch((error) => {
     if (id !== navigationId) return;
@@ -74,6 +76,7 @@ export function dispatchRoute() {
     const message = document.createElement("p");
     message.textContent = "Halaman gagal dimuat. Silakan coba lagi.";
     main.appendChild(message);
+    main.focus?.({ preventScroll: true });
   });
 }
 

@@ -10,7 +10,7 @@ export async function renderSaved() {
   const page = createEl("section", { className: "page saved-page" }, [
     createEl("div", { className: "container" }, [
       createEl("div", { className: "section-header", style: "margin-bottom:var(--space-6)" }, [
-        createEl("h2", {}, "Disimpan"),
+        createEl("h1", {}, "Disimpan"),
       ]),
       createEl("p", { style: "color:var(--color-text-muted);margin-bottom:var(--space-4)" }, "Simpanan tersedia di perangkat dan browser ini."),
       createEl("div", { className: "saved-list", id: "saved-list" }),

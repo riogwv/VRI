@@ -13,7 +13,7 @@ export async function renderProfile() {
 
   const page = createEl("section", { className: "page profile-page" }, [
     createEl("div", { className: "container" }, [
-      createEl("h2", { style: "margin-bottom:var(--space-6)" }, authed ? "Profil Saya" : "Masuk / Daftar"),
+      createEl("h1", { style: "margin-bottom:var(--space-6)" }, authed ? "Profil Saya" : "Masuk / Daftar"),
       authed ? profileSignedIn(user) : profileSignInForm(),
     ]),
   ]);
