@@ -5,7 +5,8 @@ test('ignores stale routes and disposes their resources', async () => {
   let resolveSlow;
   const dispose = vi.fn();
   const nodes = [];
-  const main = { set innerHTML(value) { nodes.length = 0; }, appendChild(node) { nodes.push(node); } };
+  const focus = vi.fn();
+  const main = { set innerHTML(value) { nodes.length = 0; }, appendChild(node) { nodes.push(node); }, focus };
   globalThis.document = { getElementById: id => id === 'main' ? main : null };
   globalThis.window = { location: { hash: '#/slow' }, scrollTo() {} };
   addRoute('/slow', () => new Promise(resolve => { resolveSlow = resolve; }));
@@ -19,6 +20,7 @@ test('ignores stale routes and disposes their resources', async () => {
   await new Promise(resolve => setTimeout(resolve, 0));
   expect(nodes.map(node => node.name)).toEqual(['fast']);
   expect(dispose).toHaveBeenCalledOnce();
+  expect(focus).toHaveBeenCalledWith({ preventScroll: true });
 });
 
 test('failed routes show an error instead of leaving the page empty', async () => {
