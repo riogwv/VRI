@@ -30,7 +30,7 @@ export async function renderArticle(params) {
       const saved = toggleArticleBookmark(article);
       bookmarkButton.textContent = saved ? "Hapus dari simpanan" : "Simpan artikel";
       bookmarkButton.setAttribute("aria-pressed", String(saved));
-      showToast(saved ? "Artikel disimpan di perangkat ini." : "Artikel dihapus dari simpanan.", "info");
+      showToast(saved ? "Artikel disimpan. Akan disinkronkan saat akun tersedia." : "Artikel dihapus dari simpanan.", "info");
     } catch { showToast("Tidak dapat mengubah simpanan di perangkat ini.", "error"); }
   } }, getBookmarks().some((item) => item.id === article.id) ? "Hapus dari simpanan" : "Simpan artikel");
   bookmarkButton.setAttribute("aria-pressed", String(getBookmarks().some((item) => item.id === article.id)));

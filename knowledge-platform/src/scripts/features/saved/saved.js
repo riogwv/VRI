@@ -12,7 +12,7 @@ export async function renderSaved() {
       createEl("div", { className: "section-header", style: "margin-bottom:var(--space-6)" }, [
         createEl("h1", {}, "Disimpan"),
       ]),
-      createEl("p", { style: "color:var(--color-text-muted);margin-bottom:var(--space-4)" }, "Simpanan tersedia di perangkat dan browser ini."),
+      createEl("p", { style: "color:var(--color-text-muted);margin-bottom:var(--space-4)" }, "Simpanan tetap tersedia di perangkat ini dan disinkronkan ke akun saat Anda masuk."),
       createEl("div", { className: "saved-list", id: "saved-list" }),
     ]),
   ]);

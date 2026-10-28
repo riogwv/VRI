@@ -3,6 +3,7 @@ import { test, expect, vi, beforeEach } from "vitest";
 const mocks = vi.hoisted(() => ({ signIn: vi.fn(), signUp: vi.fn(), toast: vi.fn(), route: vi.fn() }));
 vi.mock("../src/scripts/services/auth.js", () => ({ isAuthenticated: () => false, getUser: () => null, signInWithPassword: mocks.signIn, signUp: mocks.signUp, signOut: vi.fn() }));
 vi.mock("../src/scripts/router.js", () => ({ dispatchRoute: mocks.route }));
+vi.mock("../src/scripts/services/cloud-sync.js", () => ({ getProfile: vi.fn(async () => null), saveProfile: vi.fn(), syncAccount: vi.fn(async () => true) }));
 vi.mock("../src/scripts/ui/toast.js", () => ({ showToast: mocks.toast }));
 vi.mock("../src/scripts/utils/dom.js", () => ({ createEl: (tag, props = {}, children = []) => ({
   tag, props, children: Array.isArray(children) ? children.filter(Boolean) : [children],
