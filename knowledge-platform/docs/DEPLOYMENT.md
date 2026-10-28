@@ -32,12 +32,12 @@
 
 ## 3. Build dan Deploy
 
-### Vercel (disarankan)
+### Vercel (preview atau hosting alternatif)
 
-1. Push kode ke GitHub.
-2. Import project di [vercel.com](https://vercel.com).
+1. Import **satu** project Vercel dari repository ini, dengan Root Directory `knowledge-platform`.
+2. Biarkan `VITE_BASE_PATH` kosong agar build berjalan dari `/`.
 3. Set environment variables di Vercel project settings.
-4. Deploy otomatis pada setiap push.
+4. Gunakan preview deployment untuk branch/PR. GitHub Pages tetap produksi utama.
 
 ### Cloudflare Pages
 
@@ -46,10 +46,14 @@
 3. Build command: `npm run build`, build output: `dist`.
 4. Set environment variables.
 
-### GitHub Pages
+### GitHub Pages (produksi utama)
 
-1. Build: `npm run build` → hasil di `dist/`.
-2. Deploy isi `dist/` ke branch `gh-pages`.
+Workflow `.github/workflows/deploy-pages.yml` menjalankan test, lint, dan build dari `knowledge-platform/` lalu menerbitkan `dist/`. Workflow tersebut menetapkan `VITE_BASE_PATH=/VRI/` agar asset bekerja di `https://riogwv.github.io/VRI/`.
+
+Untuk build Pages secara lokal:
+```
+VITE_BASE_PATH=/VRI/ npm run build
+```
 
 ## 4. Variabel Lingkungan (Production)
 
@@ -61,6 +65,7 @@
 | VITE_JIKAN_API_BASE | https://api.jikan.moe/v4 | Tidak |
 | VITE_WIKIDATA_API_BASE | https://www.wikidata.org/w/rest.php/wikibase/v1 | Tidak |
 | VITE_LICHESS_API_BASE | https://lichess.org/api | Tidak |
+| VITE_BASE_PATH | `/VRI/` hanya untuk GitHub Pages | Tidak |
 
 ## Peringatan
 
