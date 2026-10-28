@@ -26,7 +26,7 @@ An interactive knowledge social platform combining an encyclopedia, social feed,
 | Chess | Lichess API + chess.js (MIT) |
 | Sudoku | sudoku.js (MIT) |
 | Crossword | Local curated validated puzzle set |
-| Hosting | Vercel / Cloudflare Pages (free) |
+| Hosting | GitHub Pages (produksi) + satu Vercel project opsional untuk preview |
 
 ## Prerequisites
 
@@ -73,7 +73,7 @@ Open `http://localhost:5173`.
 npm run build
 ```
 
-Output goes to `dist/`, ready for static hosting (Vercel, Cloudflare Pages, GitHub Pages).
+Output goes to `dist/`. GitHub Pages sets `VITE_BASE_PATH=/VRI/` in its workflow; local and Vercel builds use `/`.
 
 ## Project structure
 
