@@ -6,6 +6,7 @@ import { content } from "../../services/content.js";
 import { createEl } from "../../utils/dom.js";
 import { getBookmarks, toggleArticleBookmark } from "../../services/bookmarks.js";
 import { showToast } from "../../ui/toast.js";
+import { recordContentView } from "../../services/player-progress.js";
 
 export async function renderArticle(params) {
   const id = params[0] || params.id;
@@ -20,6 +21,8 @@ export async function renderArticle(params) {
       ]),
     ]);
   }
+
+  recordContentView(article);
 
   const bookmarkButton = createEl("button", { className: "btn btn-outline", onClick: () => {
     try {

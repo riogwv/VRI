@@ -3,6 +3,7 @@
    ========================================================================== */
 
 import { createEl } from "../../utils/dom.js";
+import { getPlayerProgress } from "../../services/player-progress.js";
 
 const GAMES = [
   {
@@ -29,6 +30,7 @@ const GAMES = [
 ];
 
 export async function renderGames() {
+  const progress = getPlayerProgress();
   const page = createEl("section", { className: "page games-page" }, [
     createEl("div", { className: "container" }, [
       createEl("div", { className: "game-heading" }, [
@@ -36,6 +38,7 @@ export async function renderGames() {
         createEl("h1", {}, "Asah otak, santai saja."),
         createEl("p", { className: "game-intro" }, "Pilih permainan dan nikmati tantangan kecil hari ini."),
       ]),
+      gameProgress(progress),
       createEl("div", { className: "grid-feed", id: "games-grid" }),
     ]),
   ]);
@@ -63,5 +66,16 @@ function gameCard(g) {
     createEl("div", { style: "padding:var(--space-5);border-top:1px solid var(--color-border)" }, [
       createEl("span", { style: "font-size:var(--text-xs);color:var(--color-focus);font-weight:600" }, "Mulai Bermain →"),
     ]),
+  ]);
+}
+function gameProgress(progress) {
+  const played = Object.values(progress.games).reduce((total, game) => total + game.played, 0);
+  const completed = Object.values(progress.games).reduce((total, game) => total + game.completed, 0);
+  if (!played) return null;
+  return createEl("section", { className: "game-progress", "aria-label": "Statistik permainan lokal" }, [
+    createEl("strong", {}, "Aktivitas permainanmu"),
+    createEl("span", {}, `🔥 ${progress.streak.current} hari berturut-turut`),
+    createEl("span", {}, `🏆 Rekor ${progress.streak.longest} hari`),
+    createEl("span", {}, `🎮 ${completed} selesai dari ${played} permainan`),
   ]);
 }

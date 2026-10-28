@@ -6,6 +6,7 @@ import { createEl } from "../../utils/dom.js";
 import { isAuthenticated, getUser, signInWithPassword, signUp, signOut } from "../../services/auth.js";
 import { dispatchRoute } from "../../router.js";
 import { showToast } from "../../ui/toast.js";
+import { clearPlayerProgress, getPlayerProgress } from "../../services/player-progress.js";
 
 export async function renderProfile() {
   const authed = isAuthenticated();
@@ -15,6 +16,7 @@ export async function renderProfile() {
     createEl("div", { className: "container" }, [
       createEl("h1", { style: "margin-bottom:var(--space-6)" }, authed ? "Profil Saya" : "Masuk / Daftar"),
       authed ? profileSignedIn(user) : profileSignInForm(),
+      localActivityCard(),
     ]),
   ]);
 
@@ -107,4 +109,22 @@ function profileSignInForm() {
       form,
     ]),
   ]);
+}
+
+function localActivityCard() {
+  const progress = getPlayerProgress();
+  const completed = Object.values(progress.games).reduce((total, game) => total + game.completed, 0);
+  const card = createEl("section", { className: "card local-activity-card" }, [
+    createEl("div", { className: "card-body" }, [
+      createEl("h2", {}, "Aktivitas di perangkat ini"),
+      createEl("p", { style: "color:var(--color-text-secondary)" }, "VRI menyimpan riwayat bacaan, minat, dan statistik permainan hanya di browser ini. Informasi ini tidak tersinkron ke perangkat lain."),
+      createEl("p", { className: "local-activity-stats" }, `🔥 ${progress.streak.current} hari · 🏆 terbaik ${progress.streak.longest} · 🎮 ${completed} permainan selesai`),
+      createEl("button", { className: "btn btn-outline", type: "button", onClick: () => {
+        clearPlayerProgress();
+        showToast("Aktivitas lokal telah dihapus.", "success");
+        dispatchRoute();
+      } }, "Hapus aktivitas lokal"),
+    ]),
+  ]);
+  return card;
 }

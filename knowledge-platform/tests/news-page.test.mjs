@@ -34,3 +34,15 @@ test('retry requests news again after an error', async () => {
   expect(source.getNews).toHaveBeenCalledTimes(2);
   expect(grid.children[0].children[1].children[0]).toContain('Belum ada berita');
 });
+
+
+test('suppresses duplicate news items from a single response', async () => {
+  source.getNews.mockResolvedValue({ results: [
+    { title: 'Same', source: 'Example', url: 'https://example.test/story' },
+    { title: 'Same', source: 'Example', url: 'https://example.test/story' },
+  ] });
+  const page = await renderNews();
+  await Promise.resolve();
+  const grid = page.children[0].children[1];
+  expect(grid.children).toHaveLength(1);
+});

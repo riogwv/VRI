@@ -4,6 +4,7 @@
    ========================================================================== */
 
 import { createEl } from "../../utils/dom.js";
+import { recordGameCompletion, recordGameStart } from "../../services/player-progress.js";
 
 const DIFFICULTY = {
   easy: { blanks: 35, label: "Mudah" },
@@ -217,6 +218,7 @@ export async function renderSudoku(params) {
     } else if (isComplete(state.grid, state.solution)) {
       clearInterval(state.timerId);
       state.completed = true;
+      recordGameCompletion("sudoku", state.activityId);
       setMessage(container, `Selamat! Puzzle selesai dalam ${formatTime(state.seconds)} (${state.hintsUsed} petunjuk).`, "success");
     } else {
       setMessage(container, "Saat ini masih valid. Lanjutkan!", "success");
@@ -379,6 +381,7 @@ function checkCompletion(container) {
   if (!state.completed && isComplete(state.grid, state.solution)) {
     clearInterval(state.timerId);
     state.completed = true;
+    recordGameCompletion("sudoku", state.activityId);
     setMessage(container, `Selamat! Puzzle selesai dalam ${formatTime(state.seconds)} (${state.hintsUsed} petunjuk).`, "success");
   }
 }
@@ -401,7 +404,7 @@ function setMessage(container, msg, type) {
 let state = {
   puzzle: [], solution: [], grid: [], fixed: [],
   candidates: {}, mistakes: 0, hintsUsed: 0, seconds: 0,
-  timerId: null, difficulty: "medium", history: [], completed: false,
+  timerId: null, difficulty: "medium", history: [], completed: false, activityId: null,
 };
 
 let selectedCell = null;
@@ -426,6 +429,7 @@ function newGame(difficulty, onTick = null) {
   state.seconds = 0;
   state.history = [];
   state.completed = false;
+  state.activityId = recordGameStart("sudoku");
   selectedCell = null;
   startTimer();
 }
