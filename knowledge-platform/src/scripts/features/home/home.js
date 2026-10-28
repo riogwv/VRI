@@ -5,7 +5,8 @@
 import { content } from "../../services/content.js";
 import { renderCardGrid } from "../../components/card-grid.js";
 import { createEl, safeExternalUrl } from "../../utils/dom.js";
-import { getPlayerProgress, getRecommendedArticles, hasViewedNews, recordNewsView } from "../../services/player-progress.js";
+import { getPlayerProgress, hasViewedNews, recordNewsView } from "../../services/player-progress.js";
+import { discoverArticles } from "../../services/discovery.js";
 
 export async function renderHome() {
   const page = createEl("section", { className: "page home-page", id: "home" });
@@ -39,21 +40,26 @@ export async function renderHome() {
   ]);
 
   const progress = getPlayerProgress();
-  const allArticles = content.getArticles({ limit: 100 });
+  const allArticles = content.getArticles({ limit: 100 }) || [];
   const recentArticles = progress.recentContent
     .map((entry) => allArticles.find((article) => article.id === entry.id))
     .filter(Boolean)
     .slice(0, 3);
   const hasHistory = recentArticles.length > 0 || Object.keys(progress.categoryAffinity).length > 0;
 
-  // Feed section
-  const feedSection = createEl("section", { className: "feed-section home-section" }, [
-    createEl("div", { className: "section-header" }, [
-      createEl("div", {}, [createEl("span", { className: "section-kicker" }, hasHistory ? "UNTUK KAMU" : "PILIHAN EDITOR"), createEl("h2", {}, hasHistory ? "Temukan hal berikutnya" : "Mulai dari sini")]),
-      createEl("a", { className: "view-all", href: "#/explore" }, "Lihat semua →"),
-    ]),
-    createEl("div", { className: "grid-feed", id: "home-feed" }),
-  ]);
+  const continuationIds = recentArticles.map((article) => article.id);
+  const forYou = discoverArticles(allArticles, { limit: 4, excludeIds: continuationIds });
+  const discovery = discoverArticles(allArticles, {
+    limit: 4,
+    mode: "explore",
+    excludeIds: [...continuationIds, ...forYou.map((item) => item.article.id)],
+  });
+  const feedSection = discoverySection({
+    id: "home-feed",
+    kicker: hasHistory ? "UNTUK KAMU" : "PILIHAN EDITOR",
+    title: hasHistory ? "Temukan hal berikutnya" : "Mulai dari sini",
+    items: forYou,
+  });
 
   layout.appendChild(hero);
   layout.appendChild(createEl("nav", { className: "discovery-paths", "aria-label": "Mulai menjelajah" }, [
@@ -64,11 +70,14 @@ export async function renderHome() {
   if (recentArticles.length) layout.appendChild(continueSection(recentArticles));
   layout.appendChild(feedSection);
 
-  // Keep familiar topics near the top, while avoiding immediate repeats when alternatives exist.
   const feedContainer = page.querySelector("#home-feed");
-  const articles = getRecommendedArticles(allArticles, 8);
-  const feedItems = articles.map((a) => articleCard(a));
-  renderCardGrid(feedContainer, feedItems);
+  renderCardGrid(feedContainer, forYou.map((item) => articleCard(item.article, item.reason)));
+  if (discovery.length) layout.appendChild(discoverySection({
+    id: "home-discover",
+    kicker: "TEMUKAN SESUATU BARU",
+    title: "Keluar dari kebiasaanmu",
+    items: discovery,
+  }));
 
   const spotlight = createEl("section", { className: "home-spotlight", "aria-label": "Berita dan permainan" }, [
     createEl("div", { className: "spotlight-news" }, [
@@ -128,7 +137,7 @@ export async function renderHome() {
   return page;
 }
 
-function articleCard(a) {
+function articleCard(a, reason) {
   const catConf = { technology: "tech", chess: "chess", anime: "anime" }[a.category] || "tech";
   return createEl("article", { className: "card home-article" }, [
     createEl("div", { className: "card-body" }, [
@@ -136,7 +145,7 @@ function articleCard(a) {
       createEl("h3", { style: "margin:var(--space-2) 0" }, a.title),
       createEl("p", { style: "color:var(--color-text-secondary);font-size:var(--text-sm);line-height:var(--leading-relaxed)" }, a.summary),
       createEl("div", { className: "card-meta", style: "margin-top:var(--space-4);display:flex;justify-content:space-between;align-items:center;gap:var(--space-2)" }, [
-        createEl("span", { style: "font-size:var(--text-xs);color:var(--color-text-muted)" }, a.readTime + " baca"),
+        createEl("span", { style: "font-size:var(--text-xs);color:var(--color-text-muted)" }, reason || a.readTime + " baca"),
         createEl("a", { className: "btn-link", href: `#/article/${a.id}` }, "Baca selengkapnya →"),
       ]),
     ]),
@@ -156,6 +165,16 @@ function categoryChip(c) {
     createEl("p", { style: "color:var(--color-text-muted);font-size:var(--text-sm);margin:0" }, c.count + " artikel"),
   ]);
 }
+function discoverySection({ id, kicker, title, items }) {
+  return createEl("section", { className: "home-section" }, [
+    createEl("div", { className: "section-header" }, [
+      createEl("div", {}, [createEl("span", { className: "section-kicker" }, kicker), createEl("h2", {}, title)]),
+      createEl("a", { className: "view-all", href: "#/explore" }, "Lihat semua →"),
+    ]),
+    createEl("div", { className: "grid-feed", id }, items.map((item) => articleCard(item.article, item.reason))),
+  ]);
+}
+
 function continueSection(articles) {
   return createEl("section", { className: "continue-section home-section", "aria-label": "Lanjutkan membaca" }, [
     createEl("div", { className: "section-header" }, [

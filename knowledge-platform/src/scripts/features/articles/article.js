@@ -7,6 +7,7 @@ import { createEl } from "../../utils/dom.js";
 import { getBookmarks, toggleArticleBookmark } from "../../services/bookmarks.js";
 import { showToast } from "../../ui/toast.js";
 import { recordContentView } from "../../services/player-progress.js";
+import { discoverArticles } from "../../services/discovery.js";
 
 export async function renderArticle(params) {
   const id = params[0] || params.id;
@@ -74,9 +75,9 @@ export async function renderArticle(params) {
 
   // Related
   const relatedEl = page.querySelector("#article-related");
-  const related = content.getRelated(article.related, 4);
-  related.forEach((r) => {
-    relatedEl.appendChild(relatedCard(r));
+  const related = discoverArticles(content.getArticles({ limit: Infinity }), { context: article, limit: 4 });
+  related.forEach((item) => {
+    relatedEl.appendChild(relatedCard(item.article, item.reason));
   });
 
   return page;
@@ -97,10 +98,11 @@ function renderBlock(block) {
   return createEl("p", {}, block.text || "");
 }
 
-function relatedCard(a) {
+function relatedCard(a, reason) {
   return createEl("article", { className: "card", style: "height:100%" }, [
     createEl("div", { className: "card-body" }, [
       createEl("h4", { style: "margin:0 0 var(--space-2)" }, a.title),
+      createEl("p", { style: "margin:0 0 var(--space-3);font-size:var(--text-xs);color:var(--color-text-muted)" }, reason),
       createEl("a", { className: "btn-link", href: `#/article/${a.id}` }, "Baca →"),
     ]),
   ]);
