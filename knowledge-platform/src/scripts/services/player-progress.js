@@ -106,6 +106,19 @@ export function getPlayerProgress() {
   return read();
 }
 
+export function replacePlayerProgress(value) {
+  const next = defaults();
+  next.recentContent = sanitizeRecent(value?.recentContent, "id");
+  next.recentNews = sanitizeRecent(value?.recentNews, "url");
+  next.categoryAffinity = sanitizeAffinity(value?.categoryAffinity);
+  next.streak = sanitizeStreak(value?.streak);
+  GAMES.forEach((game) => {
+    const source = value?.games?.[game];
+    next.games[game] = { played: safeCount(source?.played), completed: safeCount(source?.completed), lastCompletionSession: typeof source?.lastCompletionSession === "string" ? source.lastCompletionSession : null };
+  });
+  return write(next);
+}
+
 export function recordContentView(article, date = new Date()) {
   if (!article?.id || !article?.title) return read();
   const state = read();
@@ -133,6 +146,7 @@ export function recordGameStart(game, date = new Date()) {
   recordDay(state, calendarDay(date));
   state.games[game].played++;
   write(state);
+  import("./cloud-sync.js").then(({ queueAccountSync }) => queueAccountSync()).catch(() => {});
   return `${game}:${state.games[game].played}:${state.streak.lastActiveDay}`;
 }
 
@@ -145,6 +159,7 @@ export function recordGameCompletion(game, session, date = new Date()) {
   gameState.completed++;
   gameState.lastCompletionSession = session;
   write(state);
+  import("./cloud-sync.js").then(({ queueAccountSync }) => queueAccountSync()).catch(() => {});
   return true;
 }
 

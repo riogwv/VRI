@@ -130,7 +130,14 @@ export function completeGame(game, { activityId, dailyDate = null, difficulty = 
     }
   }
   write(state);
+  import("./cloud-sync.js").then(({ queueAccountSync }) => queueAccountSync()).catch(() => {});
   return { recorded: true, newBest, dailyCompleted: validDay(dailyDate) };
+}
+
+export function replaceGameProgress(value) {
+  const state = read();
+  const next = { ...state, daily: sanitizeDaily(value?.daily), sudokuBest: { ...state.sudokuBest, ...(value?.sudokuBest || {}) } };
+  return write(next);
 }
 
 export function getGameProgress() {

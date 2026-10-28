@@ -3,6 +3,7 @@
    ========================================================================== */
 
 import { getSupabase } from "./supabase.js";
+import { queueAccountSync } from "./cloud-sync.js";
 
 let currentUser = null;
 const listeners = new Set();
@@ -29,11 +30,13 @@ export async function initAuth() {
   if (error) throw error;
   currentUser = data.session?.user ?? null;
   notify();
+  if (currentUser) queueAccountSync(currentUser);
 
   // Listen for auth changes
   sb.auth.onAuthStateChange((event, session) => {
     currentUser = session?.user ?? null;
     notify();
+    if (currentUser) queueAccountSync(currentUser);
     const btn = document.getElementById("auth-btn");
     if (btn) btn.textContent = currentUser ? "Profil" : "Masuk";
   });
@@ -48,6 +51,7 @@ export async function signInWithPassword(email, password) {
   if (error) throw error;
   currentUser = data.session?.user ?? null;
   notify();
+  if (currentUser) queueAccountSync(currentUser);
   return data;
 }
 
@@ -58,6 +62,7 @@ export async function signUp(email, password) {
   if (error) throw error;
   currentUser = data.session?.user ?? null;
   notify();
+  if (currentUser) queueAccountSync(currentUser);
   return data;
 }
 
