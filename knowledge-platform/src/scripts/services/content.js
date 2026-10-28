@@ -42,10 +42,6 @@ export const content = {
     return articlesById[id] || null;
   },
 
-  getRelated(ids, limit = 4) {
-    return ids.map((id) => articlesById[id]).filter(Boolean).slice(0, limit);
-  },
-
   getCategories() {
     const labels = {
       technology: "Teknologi",

@@ -148,16 +148,6 @@ export function recordGameCompletion(game, session, date = new Date()) {
   return true;
 }
 
-export function getRecommendedArticles(articles, limit = 8) {
-  if (!Array.isArray(articles)) return [];
-  const state = read();
-  const seen = new Set(state.recentContent.map((item) => item.id));
-  const affinity = state.categoryAffinity;
-  const ranked = [...articles].sort((a, b) => (affinity[b.category] || 0) - (affinity[a.category] || 0));
-  const unseen = ranked.filter((article) => !seen.has(article.id));
-  return (unseen.length ? unseen : ranked).slice(0, limit);
-}
-
 export function hasViewedNews(url) {
   return typeof url === "string" && read().recentNews.some((item) => item.url === url);
 }

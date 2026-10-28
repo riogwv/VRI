@@ -3,7 +3,6 @@ import {
   calendarDay,
   clearPlayerProgress,
   getPlayerProgress,
-  getRecommendedArticles,
   recordContentView,
   recordGameCompletion,
   recordGameStart,
@@ -29,16 +28,6 @@ test("uses safe defaults for corrupt local data and bounds recent content", () =
   expect(state.recentContent).toHaveLength(12);
   expect(state.recentContent[0].id).toBe("article-13");
   expect(state.categoryAffinity.chess).toBe(14);
-});
-
-test("scores unseen content by local category affinity", () => {
-  recordContentView({ id: "chess-old", title: "Chess", category: "chess" }, day("2026-10-01"));
-  const articles = [
-    { id: "tech", category: "technology" },
-    { id: "chess-new", category: "chess" },
-    { id: "chess-old", category: "chess" },
-  ];
-  expect(getRecommendedArticles(articles, 2).map((item) => item.id)).toEqual(["chess-new", "tech"]);
 });
 
 test("tracks first, same-day, next-day, missed-day, and duplicate completion activity", () => {
