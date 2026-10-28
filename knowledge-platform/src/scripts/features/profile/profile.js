@@ -7,6 +7,7 @@ import { isAuthenticated, getUser, signInWithPassword, signUp, signOut } from ".
 import { dispatchRoute } from "../../router.js";
 import { showToast } from "../../ui/toast.js";
 import { clearPlayerProgress, getPlayerProgress } from "../../services/player-progress.js";
+import { clearGameProgress } from "../../services/game-progress.js";
 
 export async function renderProfile() {
   const authed = isAuthenticated();
@@ -121,6 +122,7 @@ function localActivityCard() {
       createEl("p", { className: "local-activity-stats" }, `🔥 ${progress.streak.current} hari · 🏆 terbaik ${progress.streak.longest} · 🎮 ${completed} permainan selesai`),
       createEl("button", { className: "btn btn-outline", type: "button", onClick: () => {
         clearPlayerProgress();
+        clearGameProgress();
         showToast("Aktivitas lokal telah dihapus.", "success");
         dispatchRoute();
       } }, "Hapus aktivitas lokal"),

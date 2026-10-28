@@ -4,7 +4,7 @@
 
 import { createEl } from "../../utils/dom.js";
 import { content } from "../../services/content.js";
-import { recordGameCompletion, recordGameStart } from "../../services/player-progress.js";
+import { beginGame, clearGameSession, completeGame, dailyChallenge, getGameSession, saveGameSession } from "../../services/game-progress.js";
 
 export async function renderCrossword() {
   const data = content.getCrossword();
@@ -17,6 +17,9 @@ export async function renderCrossword() {
     ]);
   }
 
+  const requestedDay = typeof window === "undefined" ? null : new URLSearchParams(window.location.hash.split("?")[1] || "").get("daily");
+  const daily = requestedDay ? dailyChallenge("crossword", [data], requestedDay) : null;
+  const saved = getGameSession("crossword");
   const { grid, across, down, size, title } = data;
   const rows = size.rows;
   const cols = size.cols;
@@ -56,10 +59,17 @@ export async function renderCrossword() {
     }
   });
 
-  const userAnswers = {};
+  const canRestore = saved && (!daily || saved.dailyDate === daily.day) && saved.puzzleId === data.id;
+  if (saved && !canRestore) clearGameSession("crossword", saved.dailyDate);
+  const userAnswers = canRestore ? { ...saved.answers } : {};
   const selection = { direction: "across", key: null };
-  let activityId = recordGameStart("crossword");
+  let activityId = canRestore ? saved.activityId : null;
   let completed = false;
+  const dailyDate = daily?.day || null;
+  const persist = () => {
+    if (!activityId) activityId = beginGame("crossword");
+    saveGameSession("crossword", { puzzleId: data.id, answers: userAnswers, activityId, dailyDate });
+  };
   const container = createEl("section", { className: "page crossword-page" }, [
     createEl("div", { className: "container" }, [
       createEl("div", { className: "game-heading" }, [
@@ -92,11 +102,12 @@ export async function renderCrossword() {
   ]);
 
   function paintGrid() {
-    renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap, selection);
+    renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap, selection, persist);
   }
 
   paintGrid();
   renderClues(container, across, down, selection);
+  if (activityId) setMessage(container, "Permainan sebelumnya dipulihkan.", "info");
 
   container.querySelector("#cw-check").addEventListener("click", () => {
     let wrong = 0;
@@ -109,9 +120,9 @@ export async function renderCrossword() {
     }
     const total = Object.keys(answerMap).length;
     if (wrong === 0 && filled === total) {
-      if (!completed) recordGameCompletion("crossword", activityId);
+      const result = !completed ? completeGame("crossword", { activityId, dailyDate }) : { recorded: false };
       completed = true;
-      setMessage(container, "Selamat! Semua jawaban benar.", "success");
+      setMessage(container, `Selamat! Semua jawaban benar.${result.dailyCompleted ? " Tantangan harian selesai!" : ""}`, "success");
     } else if (wrong > 0) {
       setMessage(container, `Ada ${wrong} huruf yang salah.`, "error");
     } else {
@@ -122,7 +133,8 @@ export async function renderCrossword() {
 
   container.querySelector("#cw-reset").addEventListener("click", () => {
     Object.keys(userAnswers).forEach((k) => delete userAnswers[k]);
-    activityId = recordGameStart("crossword");
+    clearGameSession("crossword", dailyDate);
+    activityId = null;
     completed = false;
     paintGrid();
     setMessage(container, "Papan direset.", "info");
@@ -131,7 +143,7 @@ export async function renderCrossword() {
   return container;
 }
 
-function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap, selection) {
+function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap, selection, onProgress) {
   const gridEl = container.querySelector("#cw-grid");
   const focusedCell = gridEl.contains(document.activeElement) ? document.activeElement?.dataset.cell : null;
   gridEl.innerHTML = "";
@@ -185,6 +197,7 @@ function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap
         if (v && !/^[A-Z]$/.test(v)) v = "";
         e.target.value = v;
         userAnswers[key] = v;
+        onProgress();
         if (v) moveFocus(gridEl, key, selection.direction === "down" ? cols : 1, playable, rows, cols);
       });
 
@@ -214,6 +227,7 @@ function renderGrid(container, grid, cellMap, rows, cols, userAnswers, answerMap
           else {
             e.target.value = "";
             userAnswers[key] = "";
+            onProgress();
           }
         }
       });

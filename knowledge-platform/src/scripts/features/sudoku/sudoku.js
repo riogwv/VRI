@@ -4,7 +4,7 @@
    ========================================================================== */
 
 import { createEl } from "../../utils/dom.js";
-import { recordGameCompletion, recordGameStart } from "../../services/player-progress.js";
+import { beginGame, clearGameSession, completeGame, dailyChallenge, getGameSession, saveGameSession, seededRandom } from "../../services/game-progress.js";
 
 const DIFFICULTY = {
   easy: { blanks: 35, label: "Mudah" },
@@ -12,22 +12,22 @@ const DIFFICULTY = {
   hard: { blanks: 55, label: "Sulit" },
 };
 
-function generateGrid() {
+function generateGrid(random = Math.random) {
   const grid = Array(9).fill(null).map(() => Array(9).fill(0));
-  fillDiagonal(grid);
+  fillDiagonal(grid, random);
   solve(grid);
   return grid;
 }
 
-function fillDiagonal(grid) {
-  for (let i = 0; i < 9; i += 3) fillBox(grid, i, i);
+function fillDiagonal(grid, random) {
+  for (let i = 0; i < 9; i += 3) fillBox(grid, i, i, random);
 }
 
-function fillBox(grid, row, col) {
+function fillBox(grid, row, col, random = Math.random) {
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
       let n;
-      do { n = Math.floor(Math.random() * 9) + 1; } while (!isSafe(grid, row + i, col + j, n));
+      do { n = Math.floor(random() * 9) + 1; } while (!isSafe(grid, row + i, col + j, n));
       grid[row + i][col + j] = n;
     }
   }
@@ -66,11 +66,11 @@ function solve(grid) {
   return true;
 }
 
-function removeDigits(grid, blanks) {
+function removeDigits(grid, blanks, random = Math.random) {
   const puzzle = grid.map((row) => row.slice());
   const cells = Array.from({ length: 81 }, (_, i) => i);
   for (let i = cells.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(random() * (i + 1));
     [cells[i], cells[j]] = [cells[j], cells[i]];
   }
   let removed = 0;
@@ -110,7 +110,10 @@ function countSolutions(grid, limit = 2) {
   return count;
 }
 export async function renderSudoku(params) {
-  const difficulty = (params && params.diff) || "medium";
+  const requestedDay = typeof window === "undefined" ? null : new URLSearchParams(window.location.hash.split("?")[1] || "").get("daily");
+  const daily = requestedDay ? dailyChallenge("sudoku", ["easy", "medium", "hard"], requestedDay) : null;
+  const difficulty = daily?.value || (params && params.diff) || "medium";
+  const saved = getGameSession("sudoku");
   const container = createEl("div", { className: "page sudoku-page" });
 
   container.innerHTML = `
@@ -158,17 +161,22 @@ export async function renderSudoku(params) {
     </div>
   `;
 
-  newGame(difficulty, () => updateStatus(container));
+  if (saved && (!daily || saved.dailyDate === daily.day)) restoreGame(saved, () => updateStatus(container));
+  else {
+    if (saved) clearGameSession("sudoku", saved.dailyDate);
+    newGame(difficulty, () => updateStatus(container), daily ? seededRandom(`sudoku:${daily.day}`) : Math.random, daily?.day || null);
+  }
   let ownedTimerId = state.timerId;
   renderBoard(container);
   updateStatus(container);
-  setMessage(container, "Pilih kotak untuk mulai mengisi.", "info");
+  setMessage(container, saved ? "Permainan sebelumnya dipulihkan." : daily ? "Tantangan harian siap dimainkan." : "Pilih kotak untuk mulai mengisi.", "info");
 
   const diffSel = container.querySelector("#sudoku-diff");
   diffSel.value = difficulty;
   diffSel.addEventListener("change", () => {
     const d = diffSel.value;
     clearInterval(state.timerId);
+    clearGameSession("sudoku", state.dailyDate);
     newGame(d, () => updateStatus(container));
     ownedTimerId = state.timerId;
     renderBoard(container);
@@ -177,6 +185,7 @@ export async function renderSudoku(params) {
 
   container.querySelector("#sudoku-new").addEventListener("click", () => {
     clearInterval(state.timerId);
+    clearGameSession("sudoku", state.dailyDate);
     newGame(state.difficulty, () => updateStatus(container));
     ownedTimerId = state.timerId;
     renderBoard(container);
@@ -192,6 +201,7 @@ export async function renderSudoku(params) {
       updateStatus(container);
       setMessage(container, `Petunjuk: kotak (${h.r + 1}, ${h.c + 1}) = ${h.val}`, "info");
       checkCompletion(container);
+      persistSudoku();
     } else {
       setMessage(container, "Semua kotak sudah terisi.", "info");
     }
@@ -201,6 +211,7 @@ export async function renderSudoku(params) {
     undo();
     renderBoard(container);
     updateStatus(container);
+    persistSudoku();
   });
 
   container.querySelector("#sudoku-reset").addEventListener("click", () => {
@@ -218,13 +229,14 @@ export async function renderSudoku(params) {
     } else if (isComplete(state.grid, state.solution)) {
       clearInterval(state.timerId);
       state.completed = true;
-      recordGameCompletion("sudoku", state.activityId);
-      setMessage(container, `Selamat! Puzzle selesai dalam ${formatTime(state.seconds)} (${state.hintsUsed} petunjuk).`, "success");
+      const result = completeGame("sudoku", { activityId: state.activityId, dailyDate: state.dailyDate, difficulty: state.difficulty, seconds: state.seconds });
+      setMessage(container, `Selamat! Puzzle selesai dalam ${formatTime(state.seconds)} (${state.hintsUsed} petunjuk).${result.newBest ? " Rekor pribadi baru!" : ""}`, "success");
     } else {
       setMessage(container, "Saat ini masih valid. Lanjutkan!", "success");
     }
     updateStatus(container);
     renderBoard(container);
+    if (!state.completed) persistSudoku();
   });
 
   let candidateMode = false;
@@ -244,11 +256,13 @@ export async function renderSudoku(params) {
       else if (!candidateMode && cellError(r, c)) setMessage(container, "Angka ini bertentangan dengan baris, kolom, atau blok.", "error");
       else setMessage(container, candidateMode ? "Kandidat diperbarui." : "Angka diperbarui.", "info");
       checkCompletion(container);
+      persistSudoku();
       e.preventDefault();
     } else if (e.key === "Backspace" || e.key === "Delete" || e.key === "0") {
       setCell(r, c, 0);
       renderBoard(container);
       updateStatus(container);
+      persistSudoku();
       e.preventDefault();
     } else if (e.key === "ArrowUp" && r > 0) {
       selectedCell = { r: r - 1, c };
@@ -270,6 +284,7 @@ export async function renderSudoku(params) {
   };
   document.addEventListener("keydown", onKeydown);
   container.dispose = () => {
+    persistSudoku();
     clearInterval(ownedTimerId);
     document.removeEventListener("keydown", onKeydown);
   };
@@ -297,6 +312,7 @@ export async function renderSudoku(params) {
       if (!state.completed && num !== "0" && !candidateMode && cellError(r, c)) setMessage(container, "Angka ini bertentangan dengan baris, kolom, atau blok.", "error");
       else if (!state.completed) setMessage(container, candidateMode ? "Kandidat diperbarui." : "Angka diperbarui.", "info");
       checkCompletion(container);
+      persistSudoku();
     });
   });
 
@@ -381,8 +397,8 @@ function checkCompletion(container) {
   if (!state.completed && isComplete(state.grid, state.solution)) {
     clearInterval(state.timerId);
     state.completed = true;
-    recordGameCompletion("sudoku", state.activityId);
-    setMessage(container, `Selamat! Puzzle selesai dalam ${formatTime(state.seconds)} (${state.hintsUsed} petunjuk).`, "success");
+    const result = completeGame("sudoku", { activityId: state.activityId, dailyDate: state.dailyDate, difficulty: state.difficulty, seconds: state.seconds });
+    setMessage(container, `Selamat! Puzzle selesai dalam ${formatTime(state.seconds)} (${state.hintsUsed} petunjuk).${result.newBest ? " Rekor pribadi baru!" : ""}`, "success");
   }
 }
 
@@ -404,7 +420,7 @@ function setMessage(container, msg, type) {
 let state = {
   puzzle: [], solution: [], grid: [], fixed: [],
   candidates: {}, mistakes: 0, hintsUsed: 0, seconds: 0,
-  timerId: null, difficulty: "medium", history: [], completed: false, activityId: null,
+  timerId: null, difficulty: "medium", history: [], completed: false, activityId: null, dailyDate: null,
 };
 
 let selectedCell = null;
@@ -415,10 +431,10 @@ function startTimer() {
   state.timerId = setInterval(() => { state.seconds++; onTimerTick?.(); }, 1000);
 }
 
-function newGame(difficulty, onTick = null) {
+function newGame(difficulty, onTick = null, random = Math.random, dailyDate = null) {
   onTimerTick = onTick;
   state.difficulty = difficulty;
-  const { puzzle, solution } = generatePuzzle(difficulty);
+  const { puzzle, solution } = generatePuzzle(difficulty, random);
   state.puzzle = puzzle;
   state.solution = solution;
   state.grid = puzzle.map((row) => row.slice());
@@ -429,7 +445,8 @@ function newGame(difficulty, onTick = null) {
   state.seconds = 0;
   state.history = [];
   state.completed = false;
-  state.activityId = recordGameStart("sudoku");
+  state.activityId = beginGame("sudoku");
+  state.dailyDate = dailyDate;
   selectedCell = null;
   startTimer();
 }
@@ -449,6 +466,21 @@ function undo() {
   state.grid[last.r][last.c] = last.old;
 }
 
+function restoreGame(saved, onTick = null) {
+  onTimerTick = onTick;
+  state = { ...state, ...saved, fixed: saved.puzzle.map((row) => row.map((value) => value !== 0)), history: [], completed: false, timerId: null };
+  state.seconds += Math.max(0, Math.floor((Date.now() - (saved.savedAt || Date.now())) / 1000));
+  selectedCell = null;
+  startTimer();
+}
+
+function persistSudoku() {
+  if (state.completed || !state.activityId) return;
+  const changed = state.grid.some((row, r) => row.some((value, c) => value !== state.puzzle[r][c])) || state.hintsUsed || Object.keys(state.candidates).length;
+  if (!changed) return;
+  saveGameSession("sudoku", { puzzle: state.puzzle, solution: state.solution, grid: state.grid, difficulty: state.difficulty, candidates: state.candidates, mistakes: state.mistakes, hintsUsed: state.hintsUsed, seconds: state.seconds, activityId: state.activityId, dailyDate: state.dailyDate, savedAt: Date.now() });
+}
+
 function reset() {
   state.grid = state.puzzle.map((row) => row.slice());
   state.candidates = {};
@@ -458,6 +490,8 @@ function reset() {
   state.completed = false;
   state.history = [];
   selectedCell = null;
+  clearGameSession("sudoku", state.dailyDate);
+  state.activityId = beginGame("sudoku");
   startTimer();
 }
 
@@ -486,12 +520,12 @@ function hint() {
   return null;
 }
 
-export { state, selectedCell, newGame, setCell, undo, reset, toggleCandidate, hint };
+export { state, selectedCell, newGame, restoreGame, setCell, undo, reset, toggleCandidate, hint };
 
-function generatePuzzle(difficulty) {
+function generatePuzzle(difficulty, random = Math.random) {
   const blanks = DIFFICULTY[difficulty].blanks;
-  const solution = generateGrid();
-  return { puzzle: removeDigits(solution, blanks), solution };
+  const solution = generateGrid(random);
+  return { puzzle: removeDigits(solution, blanks, random), solution };
 }
 
 function checkValid(grid) {
