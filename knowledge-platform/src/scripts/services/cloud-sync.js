@@ -47,7 +47,7 @@ function mergeHistory(a, b, key) {
   return [...(Array.isArray(a) ? a : []), ...(Array.isArray(b) ? b : [])].filter((item) => item?.[key] && !seen.has(item[key]) && seen.add(item[key])).slice(0, 12);
 }
 function mergeAffinity(a = {}, b = {}) {
-  return Object.fromEntries(new Set([...Object.keys(a), ...Object.keys(b)]).values().map((key) => [key, Math.min(20, Math.max(count(a[key]), count(b[key])))]).filter(([, value]) => value));
+  return Object.fromEntries([...new Set([...Object.keys(a), ...Object.keys(b)])].map((key) => [key, Math.min(20, Math.max(count(a[key]), count(b[key])))]).filter(([, value]) => value));
 }
 
 export function mergeGameProgress(local = {}, cloud = {}) {
