@@ -58,7 +58,9 @@ export async function signInWithPassword(email, password) {
 export async function signUp(email, password) {
   const sb = getSupabase();
   if (!sb) throw new Error("Supabase tidak dikonfigurasi.");
-  const emailRedirectTo = new URL(import.meta.env.BASE_URL, window.location.origin).href;
+  const baseUrl = import.meta.env.BASE_URL || "/";
+  const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost";
+  const emailRedirectTo = new URL(baseUrl, origin).href;
   const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo } });
   if (error) throw error;
   currentUser = data.session?.user ?? null;
